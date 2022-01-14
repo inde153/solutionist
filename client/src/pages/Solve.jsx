@@ -26,7 +26,7 @@ const Title = styled.div`
   font-size: 2rem;
   font-family: 'GongGothicMedium', sans-serif;
   word-wrap: break-word;
-  word-break: break-word;
+  word-break: keep-all;
 
   @media all and (max-width: 1023px) {
     width: 60%;
@@ -42,12 +42,12 @@ const Desc = styled.div`
   display: flex;
   align-items: center;
   width: 50%;
-  margin: 0.5rem 25%;
+  margin: 0.5rem 25% 1rem;
   line-height: 120%;
   font-size: 1.25rem;
   font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
-  word-break: break-word;
+  word-break: keep-all;
   resize: none;
 
   @media all and (max-width: 1023px) {
@@ -121,9 +121,9 @@ const Question = styled.div`
   height: auto;
   line-height: 125%;
   word-wrap: break-word;
-  word-break: break-word;
+  word-break: keep-all;
   font-size: 1.25rem;
-  font-family: 'GongGothicMedium', sans-serif;
+  font-family: 'GowunDodum-Regular', sans-serif;
   @media all and (max-width: 767px) {
     font-size: 1rem;
   }
@@ -230,11 +230,19 @@ const ChartIcon = styled.div`
 `;
 const ChartContainer = styled.div`
   grid-area: stats;
-  display: ${(props) => (props.isStat ? 'grid' : 'none')};
-  grid-template-columns: auto 1fr auto;
-  grid-template-rows: ${(props) => (props.rows ? `repeat(${props.rows}, auto)` : 'auto')};
-  grid-gap: 0.5rem 1rem;
+  display: ${(props) => (props.isStat ? 'flex' : 'none')};
+  flex-direction: column;
+  grid-gap: 0.25rem;
   margin-bottom: 1rem;
+`;
+const ChartLine = styled.div`
+  display: grid;
+  grid-template-columns: 2rem 1fr 3rem;
+  grid-gap: 1rem;
+
+  div:last-child {
+    text-align: right;
+  }
 `;
 const ChartStatNum = styled.div`
   text-align: right;
@@ -320,7 +328,8 @@ const SidebarContent = styled.div`
     font-size: 1rem;
     font-family: 'GowunDodum-Regular', sans-serif;
     font-weight: ${(props) => props.weight};
-    word-break: break-word;
+    word-break: keep-all;
+    line-height: 120%;
   }
   div:first-child {
     margin-right: 0.5rem;
@@ -463,7 +472,7 @@ const Solve = () => {
                   <SidebarContent
                     key={`sidebar${idx}`}
                     color={
-                      userChoices[idx] && isChecked[idx]
+                      userChoices[idx] && isChecked[idx] && set.problems[idx].answer
                         ? userChoices[idx].choice === set.problems[idx].answer
                           ? 'var(--vibrant-green)'
                           : 'var(--red)'
@@ -485,7 +494,7 @@ const Solve = () => {
                 <ProblemNum
                   font_size={curIdx + 1 > 99 ? '6rem' : '8rem'}
                   color={
-                    userChoices[curIdx]
+                    userChoices[curIdx] && answer
                       ? userChoices[curIdx].choice === answer
                         ? 'var(--vibrant-green-50)'
                         : 'var(--red-50)'
@@ -503,7 +512,7 @@ const Solve = () => {
                           <OIcon
                             id="O"
                             fill={
-                              userChoices[curIdx]
+                              userChoices[curIdx] && answer
                                 ? userChoices[curIdx].choice === answer
                                   ? userChoices[curIdx].choice === 1
                                     ? 'var(--vibrant-green-50)'
@@ -513,6 +522,10 @@ const Solve = () => {
                                   : answer === 1
                                   ? 'var(--vibrant-green-50)'
                                   : 'var(--orangey-yellow-50)'
+                                : data.userChoices && answer === 0
+                                ? userChoices[curIdx].choice === 1
+                                  ? 'var(--orangey-yellow)'
+                                  : 'var(--warm-grey)'
                                 : 'var(--warm-grey)'
                             }
                           />
@@ -531,6 +544,10 @@ const Solve = () => {
                                   : answer === 2
                                   ? 'var(--vibrant-green-50)'
                                   : 'var(--orangey-yellow-50)'
+                                : data.userChoices && answer === 0
+                                ? userChoices[curIdx].choice === 2
+                                  ? 'var(--orangey-yellow)'
+                                  : 'var(--warm-grey)'
                                 : 'var(--warm-grey)'
                             }
                           />
@@ -543,7 +560,7 @@ const Solve = () => {
                         <Choice
                           key={`choiceChecked ${idx + 1}`}
                           backgroundColor={
-                            userChoices[curIdx]
+                            userChoices[curIdx] && answer
                               ? userChoices[curIdx].choice === answer
                                 ? userChoices[curIdx].choice === idx + 1
                                   ? 'var(--vibrant-green-50)'
@@ -552,6 +569,10 @@ const Solve = () => {
                                 ? 'var(--red-50)'
                                 : answer === idx + 1
                                 ? 'var(--vibrant-green-50)'
+                                : ''
+                              : userChoices && answer === 0
+                              ? userChoices[curIdx].choice === idx + 1
+                                ? 'var(--orangey-yellow-50)'
                                 : ''
                               : ''
                           }
@@ -594,11 +615,13 @@ const Solve = () => {
                   <FaChartBar />
                 </ChartIcon>
                 <ChartContainer rows={choice.length + 1} isStat={isStat}>
-                  <div></div>
-                  <div>정답률 {Math.round(stats[curIdx][answer - 1])}%</div>
-                  <div>비율</div>
+                  <ChartLine>
+                    <div>보기</div>
+                    <div></div>
+                    <div>비율</div>
+                  </ChartLine>
                   {choice.map((choice, idx) => (
-                    <>
+                    <ChartLine key={`p${curIdx}c${idx}`}>
                       {isOX ? (
                         idx === 0 ? (
                           <div>O</div>
@@ -609,26 +632,26 @@ const Solve = () => {
                         <div>{choice.index}.</div>
                       )}
 
-                      <div>
-                        <ChartBox
-                          width={stats[curIdx][idx]}
-                          backgroundColor={
-                            userChoices[curIdx]
-                              ? userChoices[curIdx].choice === answer
-                                ? userChoices[curIdx].choice === idx + 1
-                                  ? 'var(--vibrant-green-50)'
-                                  : ''
-                                : userChoices[curIdx].choice === idx + 1
-                                ? 'var(--red-50)'
-                                : answer === idx + 1
+                      <ChartBox
+                        width={stats[curIdx][idx]}
+                        backgroundColor={
+                          userChoices[curIdx] && answer
+                            ? userChoices[curIdx].choice === answer
+                              ? userChoices[curIdx].choice === idx + 1
                                 ? 'var(--vibrant-green-50)'
                                 : ''
+                              : userChoices[curIdx].choice === idx + 1
+                              ? 'var(--red-50)'
+                              : answer === idx + 1
+                              ? 'var(--vibrant-green-50)'
                               : ''
-                          }
-                        />
-                      </div>
-                      <ChartStatNum>{Math.round(stats[curIdx][idx])}%</ChartStatNum>
-                    </>
+                            : ''
+                        }
+                      />
+                      <ChartStatNum>
+                        {userChoices ? Math.round(stats[curIdx][idx]) : 0}%
+                      </ChartStatNum>
+                    </ChartLine>
                   ))}
                 </ChartContainer>
                 <ExplanationContainer>
