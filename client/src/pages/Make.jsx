@@ -25,7 +25,7 @@ const Title = styled.textarea`
   font-size: 2rem;
   font-family: 'GongGothicMedium', sans-serif;
   word-wrap: break-word;
-  word-break: break-word;
+  word-break: keep-all;
   resize: none;
 
   @media all and (max-width: 1023px) {
@@ -49,7 +49,7 @@ const Desc = styled.textarea`
   font-size: 1.25rem;
   font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
-  word-break: break-word;
+  word-break: keep-all;
   resize: none;
 
   @media all and (max-width: 1023px) {
@@ -138,7 +138,8 @@ const SidebarContent = styled.div`
     font-size: 1rem;
     font-family: 'GowunDodum-Regular', sans-serif;
     font-weight: ${(props) => props.weight};
-    word-break: break-word;
+    word-wrap: break-word;
+    word-break: keep-all;
   }
   div:first-child {
     margin-right: 0.5rem;

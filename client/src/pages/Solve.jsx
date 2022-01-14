@@ -328,6 +328,7 @@ const SidebarContent = styled.div`
     font-size: 1rem;
     font-family: 'GowunDodum-Regular', sans-serif;
     font-weight: ${(props) => props.weight};
+    word-wrap: break-word;
     word-break: keep-all;
     line-height: 120%;
   }
