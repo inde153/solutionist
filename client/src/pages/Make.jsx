@@ -93,8 +93,8 @@ const ButtonContainer = styled.div`
     }
   }
   @media all and (max-width: 1023px) {
-    width: 60%;
-    margin: 0 15% 0 25%;
+    width: 55%;
+    margin: 0 15% 0 30%;
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -109,7 +109,7 @@ const SidebarContainer = styled.div`
   top: 3rem;
   display: grid;
   grid-template-rows: 1fr;
-  grid-template-columns: 1fr 50% 1fr;
+  grid-template-columns: 25% 50% 25%;
   grid-template-areas: '. . sidebar';
 
   @media all and (max-width: 1023px) {
@@ -127,6 +127,7 @@ const Sidebar = styled.div`
   padding: 0 1rem;
   border-left: 2px dashed var(--warm-grey);
   color: var(--warm-grey);
+  width: calc(100% - 4rem - 2px);
   div {
     font-size: 0.75rem;
   }
@@ -134,14 +135,15 @@ const Sidebar = styled.div`
 const SidebarContent = styled.div`
   margin-bottom: 0.25rem;
   display: flex;
-  * {
-    font-size: 1rem;
+  div {
     font-family: 'GowunDodum-Regular', sans-serif;
     font-weight: ${(props) => props.weight};
     word-wrap: break-word;
     word-break: keep-all;
+    width: 100%;
   }
   div:first-child {
+    width: auto;
     margin-right: 0.5rem;
   }
 `;
@@ -199,7 +201,9 @@ const Make = () => {
         return console.log('답을 정해주세요');
       }
     }
-    return axios.post(`${process.env.SERVER_URL}collections`, data);
+    return axios.post(`${process.env.SERVER_URL}collections`, data, {
+      withCredentials: true,
+    });
   };
 
   const handleNav = (e) => {

@@ -358,14 +358,16 @@ const Solve = () => {
   const [setInfo, setSetInfo] = useState({});
 
   useEffect(() => {
-    axios.get(`${process.env.SERVER_URL}sets/${setId}`).then((res) => {
-      setSet(res.data);
-      const newStat = [];
-      res.data.problems.map((el) => {
-        newStat.push(Array(el.choice.length).fill(0));
+    axios
+      .get(`${process.env.SERVER_URL}sets/${setId}`, { withCredentials: true })
+      .then((res) => {
+        setSet(res.data);
+        const newStat = [];
+        res.data.problems.map((el) => {
+          newStat.push(Array(el.choice.length).fill(0));
+        });
+        setStats([...newStat]);
       });
-      setStats([...newStat]);
-    });
   }, []);
 
   const handleClick = (e) => {
@@ -396,11 +398,15 @@ const Solve = () => {
     setIsChecked(newIsCheck);
 
     axios
-      .post(`${process.env.SERVER_URL}solveStatus`, {
-        ...userChoices[curIdx],
-        recordId: setInfo.recordId,
-        solver: setInfo.solver,
-      })
+      .post(
+        `${process.env.SERVER_URL}solveStatus`,
+        {
+          ...userChoices[curIdx],
+          recordId: setInfo.recordId,
+          solver: setInfo.solver,
+        },
+        { withCredentials: true }
+      )
       .then((res) => {
         const newStats = [...stats];
         newStats[curIdx] = res.data.selectionRate;
@@ -429,22 +435,28 @@ const Solve = () => {
     });
 
     axios
-      .patch(`${process.env.SERVER_URL}solveRecords/${setInfo.recordId}`, {
-        answerRate: !total
-          ? -1
-          : Math.round(
-              (count / set.problems.filter((el) => el.answer !== 0).length) * 100
-            ),
-      })
+      .patch(
+        `${process.env.SERVER_URL}solveRecords/${setInfo.recordId}`,
+        {
+          answerRate: !total
+            ? -1
+            : Math.round(
+                (count / set.problems.filter((el) => el.answer !== 0).length) * 100
+              ),
+        },
+        { withCredentials: true }
+      )
       .then(() => {
         window.location.href = `/result/${set.setId}/${setInfo.recordId}`;
       });
   };
   const handleStart = () => {
-    axios.post(`${process.env.SERVER_URL}solveRecords`, { setId }).then((res) => {
-      setIsSolving(true);
-      setSetInfo(res.data);
-    });
+    axios
+      .post(`${process.env.SERVER_URL}solveRecords`, { setId }, { withCredentials: true })
+      .then((res) => {
+        setIsSolving(true);
+        setSetInfo(res.data);
+      });
   };
 
   return (
