@@ -266,7 +266,7 @@ const Make = () => {
         </SideRelative>
       </SidebarContainer>
       {data.problems.map((problem, idx) => (
-        <>
+        <React.Fragment key={`p&d${idx}`}>
           <MakeProblem
             key={problem.index}
             problem={problem}
@@ -277,7 +277,7 @@ const Make = () => {
             navRefs={navRefs}
           />
           <Divider />
-        </>
+        </React.Fragment>
       ))}
       <ButtonContainer>
         <FaPlusSquare onClick={addProblem} />
