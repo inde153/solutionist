@@ -244,7 +244,7 @@ const Result = () => {
         </SideRelative>
       </SidebarContainer>
       {set.problems.map((problem, idx) => (
-        <>
+        <React.Fragment key={`p${idx}`}>
           <ResultProblem
             key={problem.index}
             problem={problem}
@@ -254,7 +254,7 @@ const Result = () => {
             data={data}
           />
           <Divider />
-        </>
+        </React.Fragment>
       ))}
     </MakeContainer>
   );
