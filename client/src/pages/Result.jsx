@@ -196,8 +196,6 @@ const Result = () => {
     }
   };
 
-  // console.log(set);
-  console.log(data);
   let count = 0;
   let total = set.problems.filter((el) => el.answer !== 0).length;
   set.problems.map((problem, idx) => {
