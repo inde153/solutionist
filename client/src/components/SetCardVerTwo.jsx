@@ -32,7 +32,7 @@ const CardContainer = styled.div`
 `;
 const CardFront = styled.div`
   width: 100%;
-  height: 15rem;
+  height: 13.75rem;
   background-color: white;
   border: 1px solid var(--warm-grey);
   border-radius: 10px;
@@ -90,7 +90,7 @@ const CardBack = styled.div`
   position: absolute;
   top: 0;
   width: 100%;
-  height: 15rem;
+  height: 13.75rem;
   border-radius: 10px;
   border: 1px solid var(--warm-grey);
   background-color: var(--warm-grey);
@@ -134,7 +134,7 @@ const StyledLink = styled(Link)`
   color: white;
 `;
 
-const SetCard = () => {
+const SetCardVerTwo = () => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   const [isHidden, setIsHidden] = useState(false);
@@ -152,7 +152,9 @@ const SetCard = () => {
 
   // * 카카오 공유하기
   useEffect(() => {
-    window.Kakao.init(`${process.env.KAKAO_JS_KEY}`);
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(`${process.env.KAKAO_JS_KEY}`);
+    }
   }, []);
 
   const shareKakao = () => {
@@ -178,6 +180,8 @@ const SetCard = () => {
       ],
     });
   };
+
+  // TODO : SetName, SetDesc, 90명, 90점 하드코딩 props로 수정
 
   return (
     <CardContainer $display={isHidden}>
@@ -252,4 +256,4 @@ const SetCard = () => {
   );
 };
 
-export default SetCard;
+export default SetCardVerTwo;
