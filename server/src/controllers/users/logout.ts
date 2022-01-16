@@ -1,7 +1,4 @@
 import { Request, Response } from 'express';
-import { users } from '../../database/entity/users';
-import errorGenerator from '../../error/errorGenerator';
-import { getRepository, getConnection } from 'typeorm';
 
 const logout = async (req: Request, res: Response) => {
   try {
