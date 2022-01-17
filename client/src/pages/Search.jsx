@@ -62,19 +62,21 @@ const Search = () => {
   };
 
   // * search API
-  const [searchedSets, setSearchedSets] = useState({});
+  const [searchedSets, setSearchedSets] = useState([]);
+  const [isSearch, setIsSearch] = useState(false);
   const keyword = new URLSearchParams(useLocation().search).get('title');
   // const [message, setMessage] = useState('검색중...');
 
   useEffect(() => {
-    setSearchedSets({});
+    setSearchedSets([]);
     const sendAPICall = async () => {
       const data = await searchSets(keyword);
-      console.log(data);
-      // setSearchedSets(data);
-      if (data.length === 0) {
-        // setMessage('검색 결과가 없습니다 :(');
-      }
+      console.log(data.data);
+      setSearchedSets(data.data);
+      setIsSearch(true);
+      // if (data.length === 0) {
+      // setMessage('검색 결과가 없습니다 :(');
+      // }
     };
     sendAPICall();
   }, [keyword]);
@@ -86,15 +88,20 @@ const Search = () => {
         <MoveTopButton />
         <Header>검색 결과</Header>
         <CardsContainer $display={isMadeHidden}>
-          <SetCardVerTwo />
-          <SetCardVerTwo />
-          <SetCardVerTwo />
-          <SetCardVerTwo />
-          <SetCardVerTwo />
-          <SetCardVerTwo />
-          <SetCardVerTwo />
-          <SetCardVerTwo />
-          <SetCardVerTwo />
+          {/* <SetCardVerTwo isSearch={isSearch} /> */}
+          {searchedSets.map((search) => (
+            <SetCardVerTwo
+              isSearch={isSearch}
+              averageScore={search.averageScore}
+              id={search.id}
+              createdAt={search.createdAt}
+              creator={search.creator}
+              description={search.description}
+              solvedUserNumber={search.solvedUserNumber}
+              title={search.title}
+              key={search.id}
+            />
+          ))}
         </CardsContainer>
       </SetsContainer>
       <ShowBox onClick={handleMadeHidden}>

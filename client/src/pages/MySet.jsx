@@ -68,7 +68,7 @@ const MySet = () => {
     setMySetsMade({});
     const sendAPICall = async () => {
       const data = await getMySetsMade();
-      console.log(data);
+      // console.log(data);
       // setMySetsMade(data);
     };
     sendAPICall();
@@ -81,7 +81,7 @@ const MySet = () => {
     setMySetsSolved({});
     const sendAPICall = async () => {
       const data = await getMySetsSolved();
-      console.log(data);
+      // console.log(data);
       // setMySetsSolved(data);
     };
     sendAPICall();
