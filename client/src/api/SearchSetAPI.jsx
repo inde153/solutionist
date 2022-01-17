@@ -4,11 +4,12 @@ const axios = require('axios');
 // TODO : req?, 쿠키 확인?
 export function searchSets(keyword) {
   return axios.get(
-    // `${process.env.SERVER_URL}sets/search/?title=${keyword}`,
-    `${process.env.SERVER_URL}sets/search`,
-    {
-      params: { title: keyword },
-    }
+    `${process.env.SERVER_URL}sets?title=${keyword}`
+    // sets?title=aaa
+    // `${process.env.SERVER_URL}sets/title`,
+    // {
+    //   params: { keyword },
+    // }
     // {
     //   headers: {
     //     'Content-Type': `application/json`,
@@ -22,16 +23,16 @@ export function searchSets(keyword) {
 // TODO : 배열로 변경, req?, 쿠키 확인?
 export function deleteSets(state) {
   return axios.delete(
-    `${process.env.SERVER_URL}sets/delete/${state.collectionId}`,
-    {
-      collectionId: state.collectionId,
-    }
+    `${process.env.SERVER_URL}collections/${state.collectionId}`,
     // {
-    //   headers: {
-    //     'Content-Type': `application/json`,
-    //   },
-    //   withCredentials: true,
-    // }
+    // collectionId: state.collectionId,
+    // },
+    {
+      headers: {
+        'Content-Type': `application/json`,
+      },
+      withCredentials: true,
+    }
   );
 }
 
@@ -56,10 +57,10 @@ export function selectSets(state) {
 // TODO : req?, 쿠키 확인?
 export function getMySetsMade() {
   return axios.get(
-    `${process.env.SERVER_URL}myPage/collections`,
-    {
-      // ? nothing
-    },
+    `${process.env.SERVER_URL}collections`,
+    // {
+    //   // ? nothing
+    // },
     {
       headers: {
         'Content-Type': `application/json`,
@@ -73,10 +74,10 @@ export function getMySetsMade() {
 // TODO : req?, 쿠키 확인?
 export function getMySetsSolved() {
   return axios.get(
-    `${process.env.SERVER_URL}myPage/solveRecords`,
-    {
-      // ? nothing
-    },
+    `${process.env.SERVER_URL}solveRecords`,
+    // {
+    //   // ? nothing
+    // },
     {
       headers: {
         'Content-Type': `application/json`,
