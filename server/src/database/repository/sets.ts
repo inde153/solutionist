@@ -130,18 +130,26 @@ export class SetsRepository extends Repository<sets> {
         'sets.description as descriptoin',
         'sets.createdAt as createdAt',
       ])
+      .innerJoin(
+        (qb) =>
+          qb
+            .select('MAX(children.id) as max')
+            .from(sets, 'children')
+            .groupBy('children.collectionId'),
+        'cs'
+      )
+      .leftJoin('sets.record', `solveRecords`)
+      .innerJoin('sets.collection', 'collections')
+      .leftJoin('collections.creator', 'users')
       .addSelect(
         `count(case when solveRecords.answerRate > -1 then 1 end) as solvedUserNumber`
       )
       .addSelect(
         `avg(case when solveRecords.answerRate > -1 then solveRecords.answerRate end) as  averageScore`
       )
-      .innerJoin(users, 'users', 'sets.editorId = users.id')
-      .innerJoin(solveRecords, 'solveRecords', `sets.id = solveRecords.setId`)
-      .innerJoin(collections, 'collections', `sets.collectionId = collections.id`)
-      .where(`collections.creatorId = :creatorId`, { creatorId: userId })
-      .andWhere('sets.editorId = :editorId', { editorId: userId })
-      .groupBy(`solveRecords.setId`)
+      .groupBy(`sets.Id`)
+      .where('cs.max = sets.id')
+      .andWhere('users.id= :userId', { userId: userId })
       .getRawMany();
     return dt;
   }
