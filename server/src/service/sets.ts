@@ -16,15 +16,6 @@ export class SetService {
     @InjectRepository() private choicesRepo: ChoicesRepository,
     @InjectRepository() private collectionRepo: CollectionsRepository
   ) {}
-  async findSetsId(userId: number) {
-    const find = await this.setsRepo.findMyCollection(userId);
-    return find;
-  }
-
-  async findSolveSetsId(userId: number) {
-    const find = await this.setsRepo.findSolveSet(userId);
-    return find;
-  }
 
   // 타이틀로 세트 검색
   async searchSet(title: string) {
@@ -36,7 +27,7 @@ export class SetService {
     const set = await this.setsRepo.getSet(setId);
     // 세트 검색에 실패하가나 유효하지 않은 경우
     if (!set || !set['collection']) {
-      errorGenerator({ statusCode: 500 });
+      errorGenerator({ msg: 'no matching set id', statusCode: 400 });
     }
 
     return {
@@ -57,11 +48,6 @@ export class SetService {
       .save({ id: null, creatorId })
       .then((collection) => collection.id);
 
-    // collection 생성이 실패했을 경우
-    if (!set.collectionId) {
-      errorGenerator({ statusCode: 500 });
-    }
-
     // 세트 제작
     const madeSet = await this.makeSet(set);
 
@@ -75,12 +61,12 @@ export class SetService {
   // 세트 수정 => sets 테이블에만 추가
   async modifySet(set: ISets) {
     // collection의 생성 일자 검색
-    const collectionCreatedAt = await this.setsRepo.findCollectionCreatedAt(
+    const collectionCreatedAt = await this.setsRepo.getCollectionCreatedAt(
       set.collectionId
     );
     // collection이 없거나 collection에 해당하는 set가 없을 경우
     if (!collectionCreatedAt) {
-      errorGenerator({ statusCode: 400 });
+      errorGenerator({ msg: 'no matching collection', statusCode: 400 });
     }
 
     // 세트 제작
@@ -97,18 +83,13 @@ export class SetService {
   async makeSet(set: ISets) {
     // 세트 타이틀이 누락된 경우
     if (!set.title) {
-      errorGenerator({ statusCode: 400 });
+      errorGenerator({ msg: 'empty or invalid set title', statusCode: 400 });
     }
 
     // 세트 삽입 후 setId 값 저장
     const savedSet = await this.setsRepo.save({
       ...set,
     });
-
-    // 세트가 저장되지 않았을 때
-    if (!savedSet) {
-      errorGenerator({ statusCode: 500 });
-    }
 
     const problems: IProblems[] = set['problems'];
 
@@ -119,7 +100,7 @@ export class SetService {
       const problemsToSave = problems.map((problem) => {
         // 문제의 index나 question 값이 존재하지 않으면 에러
         if (!problem.index || !problem.question) {
-          errorGenerator({ statusCode: 400 });
+          errorGenerator({ msg: 'empty or invalid question', statusCode: 400 });
         }
         // db에 적합한 형태로 problems 변환 => setId 삽입
         return insertIntoObject(problem, 'setId', savedSet.id);
@@ -139,7 +120,7 @@ export class SetService {
             choices.map((choice) => {
               // 보기의 index 값이 존재하지 않으면 에러
               if (!choice.index) {
-                errorGenerator({ statusCode: 400 });
+                errorGenerator({ msg: 'empty or invalid choice index', statusCode: 400 });
               }
               // choices에 problemId 삽입
               return insertIntoObject(choice, 'problemId', problem.id);
@@ -150,7 +131,7 @@ export class SetService {
 
       // 보기가 2개 미만인 경우
       if (choicesToSave.length < 2) {
-        errorGenerator({ statusCode: 400 });
+        errorGenerator({ msg: 'not enough choices', statusCode: 400 });
       }
 
       // 보기 삽입
@@ -158,5 +139,27 @@ export class SetService {
     }
 
     return savedSet;
+  }
+
+  async findPopular() {
+    return await this.setsRepo.getMostSolvedSet();
+  }
+
+  async findVersion(collectionId: number) {
+    const sets = await this.setsRepo.getSetByCollectionId(collectionId);
+    if (!sets) {
+      errorGenerator({ msg: 'no matching versions', statusCode: 400 });
+    }
+    return sets;
+  }
+
+  async findSetsId(userId: number) {
+    const find = await this.setsRepo.findMyCollection(userId);
+    return find;
+  }
+
+  async findSolveSetsId(userId: number) {
+    const find = await this.setsRepo.findSolveSet(userId);
+    return find;
   }
 }

@@ -16,21 +16,18 @@ export class RecordService {
     // 해당하는 세트가 없는 경우
     await this.setsRepo.findOne(setId).then((result) => {
       if (!result) {
-        errorGenerator({ statusCode: 400 });
+        errorGenerator({ msg: 'no matching set id', statusCode: 400 });
       }
     });
     // solveRecords 테이블에 삽입
     const recordId = await this.recordRepo
       .save({ setId, userId })
       .then((result) => (result ? result.id : null));
-    // solvedRecords 삽입에 실패한 경우
-    if (!recordId) {
-      errorGenerator({ statusCode: 500 });
-    }
+
     return recordId;
   }
 
-  async submitRecord(recordId: number, answerRate: number) {
+  async submitRecord(recordId: number, answerRate: number): Promise<number> {
     // answerRate가 유효하지 않을 경우
     if (answerRate < 0 || answerRate > 100) {
       errorGenerator({ statusCode: 400 });
@@ -43,7 +40,7 @@ export class RecordService {
   }
 
   // 해당 세트를 푼 유저를 카운트
-  async countRecord(setId: number) {
+  async countRecord(setId: number): Promise<number> {
     return await this.recordRepo.count({
       where: {
         setId,
@@ -52,7 +49,15 @@ export class RecordService {
     });
   }
 
-  async getTotalAnswerRate(recordId: number) {
+  async getTotalAnswerRate(recordId: number): Promise<number> {
     return await this.recordRepo.getAvgAnswerRate(recordId);
+  }
+
+  // record id가 유효한지 확인
+  async checkValidRecord(recordId: number): Promise<void> {
+    const foundRecord = await this.recordRepo.findOne({ id: recordId });
+    if (!foundRecord) {
+      errorGenerator({ msg: 'no matching record', statusCode: 400 });
+    }
   }
 }
