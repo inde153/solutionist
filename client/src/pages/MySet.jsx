@@ -83,6 +83,7 @@ const MySet = () => {
       const data = await getMySetsSolved();
       // console.log(data);
       // setMySetsSolved(data);
+      // Todo : map할때 props에 isMade 보내서 만든/푼 구분
     };
     sendAPICall();
   }, []);

@@ -14,6 +14,8 @@ import KakaoIcon from '../icons/Kakao';
 import { GrDocumentUpdate } from 'react-icons/gr';
 import { RiKakaoTalkLine } from 'react-icons/ri';
 import { HiOutlineClipboardCopy } from 'react-icons/hi';
+import { VscOutput } from 'react-icons/vsc';
+
 import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useNavigate } from 'react-router-dom';
@@ -200,6 +202,33 @@ const SetCardVerTwo = ({
     navigate(`/solve/${id}`);
   };
 
+  const koCreatedAt = new Date(createdAt).toLocaleString('ko-KR', {
+    timeZone: 'Asia/Seoul',
+  });
+
+  const timeForToday = (value) => {
+    const today = new Date();
+    const timeValue = new Date(value);
+
+    const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+    if (betweenTime < 1) return '방금전';
+    if (betweenTime < 60) {
+      return `${betweenTime}분전`;
+    }
+
+    const betweenTimeHour = Math.floor(betweenTime / 60);
+    if (betweenTimeHour < 24) {
+      return `${betweenTimeHour}시간전`;
+    }
+
+    const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+    if (betweenTimeDay < 365) {
+      return `${betweenTimeDay}일전`;
+    }
+
+    return `${Math.floor(betweenTimeDay / 365)}년전`;
+  };
+
   return (
     <CardContainer $display={isHidden}>
       {isSearch ? (
@@ -207,6 +236,9 @@ const SetCardVerTwo = ({
           <InfoContainer>
             <SetInfo>
               <SetName>{title}</SetName>
+              <SetDesc>{creator}</SetDesc>
+              <SetDesc>{timeForToday(createdAt)}</SetDesc>
+              <SetDesc>{koCreatedAt}</SetDesc>
               <SetDesc>{description}</SetDesc>
             </SetInfo>
             <IconContainer>
@@ -288,6 +320,10 @@ const SetCardVerTwo = ({
                 </Menu>
                 <Menu onClick={handleHidden}>
                   <TrashIcon fill="white" /> 삭제
+                  {/* // TODO : display:none? 안보이게 처리 */}
+                </Menu>
+                <Menu>
+                  <VscOutput /> 결과
                   {/* // TODO : display:none? 안보이게 처리 */}
                 </Menu>
               </MenuContainer>
