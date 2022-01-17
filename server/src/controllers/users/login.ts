@@ -20,6 +20,8 @@ const login = async (req: Request, res: Response) => {
     if (!user) {
       return res.status(401).send('Email not found');
     }
+
+    console.log(333, user);
     // const saltBase = user.salt;
     // const salt = Buffer.from(saltBase, 'base64');
     // const dbpw = cryptos.encrypt(password, salt);
