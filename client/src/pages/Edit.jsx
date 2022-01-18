@@ -78,7 +78,7 @@ const Desc = styled.textarea`
 
   @media all and (max-width: 1023px) {
     width: 60%;
-    margin: 0.5rem 15% 0.5rem 25%;
+    margin: 0.5rem 15% 1rem 25%;
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
