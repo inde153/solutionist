@@ -3,67 +3,75 @@ import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 
 import MenuDropDownContainer from '../containers/MenuDropDownContainer';
-import { useNavigate } from 'react-router-dom';
+import { FaSignInAlt, FaBars } from 'react-icons/fa';
+import LogoFull from '../icons/Logo';
 
 const UnderlineFadeIn = keyframes`
   from {
     box-shadow: 0 0 0 0px inset var(--butterscotch);
   }
   to{
-    box-shadow: 0 -5px 0 0px inset var(--butterscotch);
+    box-shadow: 0 -0.25rem 0 0px inset var(--butterscotch);
   }
 `;
 
 const NavContainer = styled.div`
   width: 100vw;
-  height: 70px;
+  height: 3rem;
+  position: sticky;
+  top: 0;
   background-color: white;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  z-index: 998;
 
   div:last-child {
-    z-index: 900;
+    z-index: 999;
   }
 `;
 const NavGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-columns: repeat(8, 1fr);
   grid-template-rows: 1fr;
-  grid-template-areas: 'logo logo . make solve . . . search search search login';
+  grid-template-areas: 'logo logo make solve . . .  login';
   grid-gap: 1rem;
   align-items: center;
-  width: calc(100% - 12.8%);
+  width: calc(100% - 1rem);
+  max-width: 1200px;
   height: 100%;
-  margin: 0 6.4%;
+  margin: 0 auto;
+
+  @media all and (max-width: 1023px) {
+  }
+  @media all and (max-width: 767px) {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas: 'logo make solve login';
+  }
 `;
 const LogoContainer = styled.div`
   grid-area: logo;
   width: 100%;
-  height: 100%;
-  font-size: 1.75rem;
-  a {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 70px;
-    img {
-      height: 100%;
-    }
+  height: 2.75rem;
+  * {
+    height: 100%;
   }
 `;
 const MakeContainer = styled.div`
   grid-area: make;
   width: 100%;
   height: 100%;
-  font-size: 1.75rem;
   a {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 100%;
+    font-size: 1.25rem;
     &:hover {
-      box-shadow: 0 -5px 0 0px inset var(--butterscotch);
-      animation: ${UnderlineFadeIn} 0.5s ease;
+      box-shadow: 0 -0.25rem 0 0px inset var(--butterscotch);
+      animation: ${UnderlineFadeIn} 0.25s ease;
+    }
+    @media all and (max-width: 767px) {
+      font-size: 1rem;
     }
   }
 `;
@@ -71,74 +79,77 @@ const SolveContainer = styled.div`
   grid-area: solve;
   width: 100%;
   height: 100%;
-  font-size: 1.75rem;
   a {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 100%;
-    :hover {
-      box-shadow: 0 -5px 0 0px inset var(--butterscotch);
-      animation: ${UnderlineFadeIn} 0.5s ease;
+    font-size: 1.25rem;
+    &:hover {
+      box-shadow: 0 -0.25rem 0 0px inset var(--butterscotch);
+      animation: ${UnderlineFadeIn} 0.25s ease;
     }
-  }
-`;
-const SearchContainer = styled.div`
-  grid-area: search;
-  display: flex;
-  align-items: center;
-`;
-const SearchInput = styled.input`
-  width: calc(100% - 55px);
-  height: 48px;
-  padding: 0 0 0 5px;
-  border-bottom: 2px solid black;
-  font-size: 1.5rem;
-  font-family: 'GowunDodum-Regular', sans-serif;
-`;
-const SearchIconContainer = styled.div`
-  width: 46px;
-  height: 46px;
-  border: 2px solid black;
-  border-radius: 10px 10px 10px 0;
-  background-color: var(--butterscotch);
-  a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
+    @media all and (max-width: 767px) {
+      font-size: 1rem;
+    }
   }
 `;
 const LoginContainer = styled.div`
   grid-area: login;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 50px;
+  justify-content: flex-end;
+`;
+const Login = styled.div`
+  display: flex;
   border-radius: 10px;
-  background-color: black;
-  font-size: 1.75rem;
+  background-color: var(--butterscotch);
+  justify-content: flex-end;
+  box-shadow: 0 0 0 2px inset black;
+  cursor: pointer;
+
   :hover {
-    opacity: 0.75;
+    background-color: black;
+    * {
+      color: var(--butterscotch);
+    }
   }
-  span {
+
+  * {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
-    color: var(--butterscotch);
+    margin: 0.5rem;
+    color: black;
+  }
+  > :first-child {
+    @media all and (max-width: 767px) {
+      display: none;
+    }
+  }
+  > :last-child {
+    display: none;
+    @media all and (max-width: 767px) {
+      display: flex;
+    }
   }
 `;
 const MenuIconContainer = styled.div`
+  font-size: 2rem;
+  display: flex;
   grid-area: login;
+  justify-content: flex-end;
+  opacity: 0.5;
+
+  * {
+    cursor: pointer;
+    :hover {
+      opacity: 1;
+    }
+  }
 `;
 
 const Nav = ({ onLoginModalOnAction, isLogin }) => {
-  const [keyword, setKeyword] = useState('');
   const [isDropDown, setIsDropDown] = useState(false);
 
   const handleDropDown = () => {
@@ -146,53 +157,34 @@ const Nav = ({ onLoginModalOnAction, isLogin }) => {
     else setIsDropDown(true);
   };
 
-  // * keyword로 URI 이동
-  const navigate = useNavigate();
-
-  const handleSearch = (event) => {
-    console.log('핸들서치 작동?');
-    event.preventDefault();
-    navigate(`/search?title=${keyword}`);
-  };
-
   return (
     <NavContainer>
       <NavGrid>
         <LogoContainer>
           <Link to="/">
-            <img src="/assets/images/header.png" />
+            <LogoFull />
           </Link>
         </LogoContainer>
         <MakeContainer>
-          <Link to="/make">MAKE</Link>
+          <Link to="/make">
+            <p> MAKE</p>
+          </Link>
         </MakeContainer>
         <SolveContainer>
-          <Link to="/solve">SOLVE</Link>
+          <Link to="/solve">
+            <p> SOLVE</p>
+          </Link>
         </SolveContainer>
-        <SearchContainer onSubmit={() => false}>
-          <SearchInput
-            type="text"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            placeholder="Search..."
-          />
-          <SearchIconContainer>
-            <Link to="/search">
-              <img
-                src="/assets/icons/search.svg"
-                alt="search-icon"
-                onClick={handleSearch}
-              />
-            </Link>
-          </SearchIconContainer>
-        </SearchContainer>
         {isLogin ? (
           <MenuIconContainer>
-            <img src="/assets/icons/menu.svg" alt="menu-icon" onClick={handleDropDown} />
+            <FaBars onClick={handleDropDown} />
           </MenuIconContainer>
         ) : (
-          <LoginContainer onClick={onLoginModalOnAction}>
-            <span>LOGIN</span>
+          <LoginContainer>
+            <Login onClick={onLoginModalOnAction}>
+              <span>LOGIN</span>
+              <FaSignInAlt />
+            </Login>
           </LoginContainer>
         )}
       </NavGrid>
