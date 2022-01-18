@@ -3,7 +3,7 @@ import { IUsers } from '../../interface/IUsers';
 import { SetService } from '../../service/sets';
 import Container from 'typedi';
 
-const made = async (req: Request, res: Response) => {
+const collections = async (req: Request, res: Response) => {
   const userInfo: IUsers = res.locals.userInfo;
 
   const setsServiceInstance: SetService = Container.get(SetService);
@@ -15,4 +15,4 @@ const made = async (req: Request, res: Response) => {
   // console.log(111, test);
 };
 
-export default made;
+export default collections;

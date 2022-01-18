@@ -72,33 +72,21 @@ export function selectSets(state) {
 // * [GET: /collections [내가 만든 세트]]
 // TODO : req?, 쿠키 확인?
 export function getMySetsMade() {
-  return axios.get(
-    `${process.env.SERVER_URL}collections`,
-    // {
-    //   // ? nothing
-    // },
-    {
-      headers: {
-        'Content-Type': `application/json`,
-      },
-      withCredentials: true,
-    }
-  );
+  return axios.get(`${process.env.SERVER_URL}collections`, {
+    headers: {
+      'Content-Type': `application/json`,
+    },
+    withCredentials: true,
+  });
 }
 
 // * [GET: /solveRecords [내가 푼 세트]]
 // TODO : req?, 쿠키 확인?
 export function getMySetsSolved() {
-  return axios.get(
-    `${process.env.SERVER_URL}solveRecords`,
-    // {
-    //   // ? nothing
-    // },
-    {
-      headers: {
-        'Content-Type': `application/json`,
-      },
-      withCredentials: true,
-    }
-  );
+  return axios.get(`${process.env.SERVER_URL}solveRecords`, {
+    headers: {
+      'Content-Type': `application/json`,
+    },
+    withCredentials: true,
+  });
 }
