@@ -15,8 +15,8 @@ const SetsContainer = styled.div`
   grid-template-areas:
     '. header .'
     '. cards .';
-  margin: 1.2rem 0;
-  grid-row-gap: 1.2rem;
+  margin: 1.5rem 0;
+  grid-row-gap: 1.5rem;
   grid-column-gap: 1rem;
 `;
 
@@ -62,27 +62,28 @@ const MySet = () => {
   };
 
   // * 내가 만든 세트 API 통신
-  const [mySetsMade, setMySetsMade] = useState({});
+  const [mySetsMade, setMySetsMade] = useState([]);
 
   useEffect(() => {
-    setMySetsMade({});
+    setMySetsMade([]);
     const sendAPICall = async () => {
       const data = await getMySetsMade();
-      console.log(data);
-      // setMySetsMade(data);
+      // console.log('made', data.data.findSet);
+      setMySetsMade(data.data.findSet);
     };
     sendAPICall();
   }, []);
 
   // * 내가 푼 세트 API 통신
-  const [mySetsSolved, setMySetsSolved] = useState({});
+  const [mySetsSolved, setMySetsSolved] = useState([]);
 
   useEffect(() => {
-    setMySetsSolved({});
+    setMySetsSolved([]);
     const sendAPICall = async () => {
       const data = await getMySetsSolved();
-      console.log(data);
-      // setMySetsSolved(data);
+      // console.log('solved', data.data.findSet);
+      setMySetsSolved(data.data.findSet);
+      // Todo : map할때 props에 isMade 보내서 만든/푼 구분
     };
     sendAPICall();
   }, []);
@@ -94,15 +95,20 @@ const MySet = () => {
         <MoveTopButton />
         <Header>내가 만든 세트</Header>
         <CardsContainer $display={isMadeHidden}>
-          <SetCardVerTwo />
-          <SetCardVerTwo />
-          <SetCardVerTwo />
-          <SetCardVerTwo />
-          <SetCardVerTwo />
-          <SetCardVerTwo />
-          <SetCardVerTwo />
-          <SetCardVerTwo />
-          <SetCardVerTwo />
+          {mySetsMade.map((made) => (
+            <SetCardVerTwo
+              isMade={true}
+              averageScore={made.averageScore}
+              id={made.id}
+              createdAt={made.createdAt}
+              // creator={made.creator}
+              description={made.description}
+              solvedUserNumber={made.solvedUserNumber}
+              title={made.title}
+              key={made.id}
+              // updatedAt={made.updatedAt}
+            />
+          ))}
         </CardsContainer>
       </SetsContainer>
       <ShowBox onClick={handleMadeHidden}>
@@ -112,15 +118,20 @@ const MySet = () => {
       <SetsContainer>
         <Header>내가 푼 세트</Header>
         <CardsContainer $display={isSolvedHidden}>
-          <SetCardVerTwo />
-          <SetCardVerTwo />
-          <SetCardVerTwo />
-          <SetCardVerTwo />
-          <SetCardVerTwo />
-          <SetCardVerTwo />
-          <SetCardVerTwo />
-          <SetCardVerTwo />
-          <SetCardVerTwo />
+          {mySetsSolved.map((solve) => (
+            <SetCardVerTwo
+              isMade={false}
+              averageScore={solve.averageScore}
+              id={solve.id}
+              createdAt={solve.createdAt}
+              // creator={solve.creator}
+              description={solve.description}
+              solvedUserNumber={solve.solvedUserNumber}
+              title={solve.title}
+              key={solve.id}
+              // updatedAt={solve.updatedAt}
+            />
+          ))}
         </CardsContainer>
       </SetsContainer>
       <ShowBox onClick={handleSolvedHidden}>
