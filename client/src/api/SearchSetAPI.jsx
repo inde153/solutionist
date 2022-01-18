@@ -3,12 +3,19 @@ const axios = require('axios');
 // * [GET: /sets/title?{검색어} [세트 검색]]
 // TODO : req?, 쿠키 확인?
 export function searchSets(keyword) {
+  if (keyword) {
+    return axios.get(`${process.env.SERVER_URL}sets/search?title=${keyword}`);
+  }
+}
+
+// * GET: /sets/sort?solved-user-number [인기 세트]
+export function popularSets() {
   return axios.get(
-    // `${process.env.SERVER_URL}sets/search/?title=${keyword}`,
-    `${process.env.SERVER_URL}sets/search`,
-    {
-      params: { title: keyword },
-    }
+    `${process.env.SERVER_URL}sets/sort?solved-user-number`
+    // `${process.env.SERVER_URL}sets/title`,
+    // {
+    //   params: { keyword },
+    // }
     // {
     //   headers: {
     //     'Content-Type': `application/json`,
@@ -22,16 +29,16 @@ export function searchSets(keyword) {
 // TODO : 배열로 변경, req?, 쿠키 확인?
 export function deleteSets(state) {
   return axios.delete(
-    `${process.env.SERVER_URL}sets/delete/${state.collectionId}`,
-    {
-      collectionId: state.collectionId,
-    }
+    `${process.env.SERVER_URL}collections/${state.collectionId}`,
     // {
-    //   headers: {
-    //     'Content-Type': `application/json`,
-    //   },
-    //   withCredentials: true,
-    // }
+    // collectionId: state.collectionId,
+    // },
+    {
+      headers: {
+        'Content-Type': `application/json`,
+      },
+      withCredentials: true,
+    }
   );
 }
 
@@ -55,29 +62,21 @@ export function selectSets(state) {
 // * [GET: /collections [내가 만든 세트]]
 // TODO : req?, 쿠키 확인?
 export function getMySetsMade() {
-  return axios.get(
-    `${process.env.SERVER_URL}collections`,
-
-    {
-      headers: {
-        'Content-Type': `application/json`,
-      },
-      withCredentials: true,
-    }
-  );
+  return axios.get(`${process.env.SERVER_URL}collections`, {
+    headers: {
+      'Content-Type': `application/json`,
+    },
+    withCredentials: true,
+  });
 }
 
 // * [GET: /solveRecords [내가 푼 세트]]
 // TODO : req?, 쿠키 확인?
 export function getMySetsSolved() {
-  return axios.get(
-    `${process.env.SERVER_URL}solveRecords`,
-
-    {
-      headers: {
-        'Content-Type': `application/json`,
-      },
-      withCredentials: true,
-    }
-  );
+  return axios.get(`${process.env.SERVER_URL}solve-records`, {
+    headers: {
+      'Content-Type': `application/json`,
+    },
+    withCredentials: true,
+  });
 }
