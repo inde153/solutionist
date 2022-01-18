@@ -545,9 +545,11 @@ paths:
       tags:
         - search && sets
       summary: create set
+      security:
+        - cookieAuth: ~
       requestBody:
         content:
-          'application/json':
+          application/json:
             schema:
               type: object
               properties:
@@ -607,7 +609,7 @@ paths:
                         content: b
         required: true
       responses:
-        '201':
+        201:
           description: Created
           content:
             application/json:
@@ -625,8 +627,8 @@ paths:
                 example:
                   title: easy questions
                   username: kimcoding
-                  createdAt: 2021-12-18 22:51:20
-        '400':
+                  createdAt: 2022. 1. 11. 오후 3:00:41
+        400:
           description: Bad Request
           content:
             application/json:
@@ -635,7 +637,7 @@ paths:
                   message:
                     type: string
                     default: insufficient information
-        '500':
+        500:
           description: Internal Server Error
           content:
             application/json:
@@ -649,9 +651,11 @@ paths:
       tags:
         - search && sets
       summary: modify set
+      security:
+        - cookieAuth: ~
       requestBody:
         content:
-          'application/json':
+          application/json:
             schema:
               type: object
               properties:
@@ -715,7 +719,7 @@ paths:
                         content: b
         required: true
       responses:
-        '201':
+        201:
           description: Created
           content:
             application/json:
@@ -735,7 +739,7 @@ paths:
                   username: kimcoding
                   createdAt: 2021-12-18 22:51:20
                   updatedAt: 2021-12-19 22:51:20
-        '400':
+        400:
           description: Bad Request
           content:
             application/json:
@@ -744,8 +748,7 @@ paths:
                   message:
                     type: string
                     default: insufficient information
-
-        '401':
+        401:
           description: Unauthorized
           content:
             application/json:
@@ -754,7 +757,7 @@ paths:
                   message:
                     type: string
                     default: invalid user
-        '409':
+        409:
           description: Conflict
           content:
             application/json:
@@ -763,7 +766,111 @@ paths:
                   message:
                     type: string
                     default: duplicate information
-        '500':
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error
+  /collections/{collectionId}:
+    delete:
+      tags:
+        - search && sets
+      summary: delete set
+      security:
+        - cookieAuth: ~
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                example:
+                  id: 1
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: invalid user
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error
+  /sets/search?title={검색어}:
+    get:
+      tags:
+        - search && sets
+      summary: delete set
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                properties:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      creator:
+                        type: string
+                      recordId:
+                        type: integer
+                      title:
+                        type: string
+                      description:
+                        type: string
+                      solvedUserNumber:
+                        type: integer
+                      averageScore:
+                        type: float
+                      createdAt:
+                        type: string
+                example:
+                  - id: 1
+                    recordId: 1
+                    creator: messi
+                    title: easy questions
+                    description: easy
+                    solvedUserNumber: 100
+                    averageScore: 50
+                    createdAt: 2021-12-18 22:51:20
+                  - id: 2
+                    recordId: 3
+                    creator: messi
+                    title: diffcult questions
+                    description: diffcult
+                    solvedUserNumber: 50
+                    averageScore: 30
+                    createdAt: 2021-12-19 22:51:20
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: invalid user
+        500:
           description: Internal Server Error
           content:
             application/json:
@@ -773,12 +880,13 @@ paths:
                     type: string
                     default: internal server error
   /sets:{setId}:
+    components: ~
     get:
       tags:
         - search && sets
       summary: select set
       responses:
-        '201':
+        201:
           description: Created
           content:
             application/json:
@@ -797,8 +905,6 @@ paths:
                     type: string
                   solvedUserNumber:
                     type: integer
-                  createdAt:
-                    type: string
                   problems:
                     type: array
                     items:
@@ -834,7 +940,6 @@ paths:
                   title: easy questions
                   description: very easy
                   solvedUserNumber: 100
-                  createdAt: 2022. 1. 11. 오후 3:00:41
                   problems:
                     - id: 1
                       index: 1
@@ -862,7 +967,7 @@ paths:
                         - id: 2
                           index: 2
                           content: b
-        '400':
+        400:
           description: Bad Request
           content:
             application/json:
@@ -871,7 +976,7 @@ paths:
                   message:
                     type: string
                     default: insufficient information
-        '500':
+        500:
           description: Internal Server Error
           content:
             application/json:
@@ -880,14 +985,67 @@ paths:
                   message:
                     type: string
                     default: internal server error
-  /solveStatus:
+  /solve-records:
+    post:
+      tags:
+        - search && sets
+      summary: record solving
+      security:
+        - cookieAuth: ~
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                setId:
+                  type: number
+              required:
+                - setId
+              example:
+                setId: 1
+        required: true
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  recordId:
+                    type: integer
+                  solver:
+                    type: string
+                example:
+                  recordId: 1
+                  solver: zzz@naver.com
+        400:
+          description: ~
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: insufficient information
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error
+  /solve-status:
     post:
       tags:
         - search && sets
       summary: solve set
       requestBody:
         content:
-          'application/json':
+          application/json:
             schema:
               type: object
               properties:
@@ -905,13 +1063,13 @@ paths:
                 - problemId
                 - choice
               example:
-                solver: 'kimcoding@naver.com'
+                solver: kimcoding@naver.com
                 recordId: 1
                 problemId: 2
                 choice: 3
         required: true
       responses:
-        '201':
+        201:
           description: Created
           content:
             application/json:
@@ -927,34 +1085,55 @@ paths:
                       properties:
                         - problemId: 1
                           choice: 2
-                          selectionRate:
+                          selectionRate: ~
                           type: array
                           items:
                             type: float
                 example:
                   id: 1
-                  selectionRate: ['10', '20', '30', '40']
-
-  /solvedRecords/{recordId}:
+                  selectionRate:
+                    - 10
+                    - 20
+                    - 30
+                    - 40
+        400:
+          description: ~
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: insufficient information
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error
+  /solve-records/{recordId}:
     patch:
       tags:
         - search && sets
       summary: submit set
       requestBody:
         content:
-          'application/json':
+          application/json:
             schema:
               type: object
               properties:
                 answerRate:
-                  type: integer
+                  type: float
               required:
                 - answerRate
               example:
-                answerRate: 50
+                answerRate: 33.299999999999997
         required: true
       responses:
-        '201':
+        201:
           description: Created
           content:
             application/json:
@@ -965,8 +1144,8 @@ paths:
                     type: integer
                 example:
                   id: 1
-        '400':
-          description:
+        400:
+          description: ~
           content:
             application/json:
               schema:
@@ -974,7 +1153,7 @@ paths:
                   message:
                     type: string
                     default: insufficient information
-        '500':
+        500:
           description: Internal Server Error
           content:
             application/json:
@@ -983,13 +1162,38 @@ paths:
                   message:
                     type: string
                     default: internal server error
-  /solveRecords/{recordId}:
+  /solve-records/{recordid}:
     get:
       tags:
         - search && sets
       summary: set statics
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                solver:
+                  type: string
+                recordId:
+                  type: integer
+                problemId:
+                  type: integer
+                choice:
+                  type: integer
+              required:
+                - solver
+                - recordId
+                - problemId
+                - choice
+              example:
+                solver: kimcoding@naver.com
+                recordId: 1
+                problemId: 2
+                choice: 3
+        required: true
       responses:
-        '201':
+        201:
           description: Created
           content:
             application/json:
@@ -997,28 +1201,30 @@ paths:
                 type: object
                 properties:
                   totalRate:
-                    type: integer
+                    type: float
                   userChoices:
                     type: array
-                    itmes:
+                    items:
                       type: object
                       properties:
                         - problemId:
-                            type: integer
+                            type: int
                           choice:
-                            type: integer
+                            type: int
                           selectionRate:
-                            type: array
-                            items:
-                              type: float
+                            type: float
                 example:
-                  totalRate: 50
+                  totalRate: 40
                   userChoices:
                     - problemId: 1
                       choice: 2
-                      selectionRate: [10, 20, 30, 40]
-        '400':
-          description:
+                      selectionRate:
+                        - 10
+                        - 20
+                        - 30
+                        - 40
+        400:
+          description: ~
           content:
             application/json:
               schema:
@@ -1026,7 +1232,7 @@ paths:
                   message:
                     type: string
                     default: insufficient information
-        '500':
+        500:
           description: Internal Server Error
           content:
             application/json:
@@ -1035,9 +1241,121 @@ paths:
                   message:
                     type: string
                     default: internal server error
-components:
-  securitySchemes:
-    cookieAuth:
-      type: apiKey
-      in: cookie
-      name: accessToken
+  /sets/collections/collectionId={collectionId}:
+    get:
+      tags:
+        - search && sets
+      summary: version list
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                properties:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      editor:
+                        type: string
+                      problemCount:
+                        type: integer
+                      createdAt:
+                        type: string
+                example:
+                  - id: 1
+                    editor: kimcoding
+                    problemCount: 30
+                    createdAt: 2021-12-18 22:51:20
+                  - id: 2
+                    editor: parkhacker
+                    problemCount: 25
+                    createdAt: 2021-12-19 22:51:20
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: invalid user
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error
+  /sets/sort?solved-user-number:
+    get:
+      tags:
+        - search && sets
+      summary: popular set
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                properties:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      creator:
+                        type: string
+                      recordId:
+                        type: integer
+                      title:
+                        type: string
+                      description:
+                        type: string
+                      solvedUserNumber:
+                        type: integer
+                      averageScore:
+                        type: float
+                      createdAt:
+                        type: string
+                example:
+                  - id: 1
+                    recordId: 1
+                    creator: messi
+                    title: easy questions
+                    description: easy
+                    solvedUserNumber: 100
+                    averageScore: 50
+                    createdAt: 2021-12-18 22:51:20
+                  - id: 2
+                    recordId: 3
+                    creator: messi
+                    title: diffcult questions
+                    description: diffcult
+                    solvedUserNumber: 50
+                    averageScore: 30
+                    createdAt: 2021-12-19 22:51:20
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: invalid user
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error
