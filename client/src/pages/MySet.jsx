@@ -102,7 +102,7 @@ const MySet = () => {
               id={made.id}
               createdAt={made.createdAt}
               // creator={made.creator}
-              description={made.description}
+              description={made.descriptoin}
               solvedUserNumber={made.solvedUserNumber}
               title={made.title}
               key={made.id}
@@ -124,11 +124,12 @@ const MySet = () => {
               averageScore={solve.averageScore}
               id={solve.id}
               createdAt={solve.createdAt}
-              // creator={solve.creator}
-              description={solve.description}
+              description={solve.descriptoin}
               solvedUserNumber={solve.solvedUserNumber}
               title={solve.title}
               key={solve.id}
+              recordId={solve.recordId}
+              // creator={solve.creator}
               // updatedAt={solve.updatedAt}
             />
           ))}

@@ -213,10 +213,10 @@ const Search = () => {
               ))}
             </CardsContainer>
           </SetsContainer>
-          <ShowBox onClick={handleMadeHidden}>
+          {/* <ShowBox onClick={handleMadeHidden}>
             {isMadeHidden ? <p>Show More</p> : <p>Show less</p>}
           </ShowBox>
-          <Divider />
+          <Divider /> */}
         </>
       )}
     </>
