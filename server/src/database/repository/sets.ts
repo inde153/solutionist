@@ -116,6 +116,7 @@ export class SetsRepository extends Repository<sets> {
       .groupBy(`sets.id`)
       .where('cs.max = sets.id')
       .orderBy('solvedUserNumber', 'DESC')
+      .limit(8)
       .getRawMany()
       .then((result) => convertRawObject(result));
   }
