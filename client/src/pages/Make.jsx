@@ -7,17 +7,35 @@ import { FaPlusSquare, FaSave } from 'react-icons/fa';
 
 const MakeContainer = styled.div`
   height: calc(100% - 4rem - 70px);
-  padding: 2rem 0;
+  padding: 1rem 0 2rem;
 
   *::placeholder {
     opacity: 0.5;
+  }
+`;
+const Header = styled.div`
+  width: 50%;
+  margin: 0 25% 0.5rem 25%;
+  font-size: 1rem;
+  color: var(--warm-grey);
+  font-family: 'GongGothicMedium', sans-serif;
+  user-select: none;
+
+  @media all and (max-width: 1023px) {
+    width: 60%;
+    margin: 0 15% 0.5rem 25%;
+  }
+  @media all and (max-width: 767px) {
+    width: calc(100% - 2rem);
+    margin: 0 1rem 0.5rem 1rem;
+    font-size: 0.75rem;
   }
 `;
 const Title = styled.textarea`
   display: flex;
   align-items: center;
   width: 50%;
-  height: 38px;
+  height: 39px;
   margin: 0 25% 0 25%;
   line-height: 120%;
   font-size: 2rem;
@@ -41,8 +59,8 @@ const Desc = styled.textarea`
   display: flex;
   align-items: center;
   width: 50%;
-  height: 26px;
-  margin: 0.5rem 25%;
+  height: 27px;
+  margin: 0.5rem 25% 1rem;
   line-height: 120%;
   font-size: 1.25rem;
   font-family: 'GowunDodum-Regular', sans-serif;
@@ -82,17 +100,18 @@ const ButtonContainer = styled.div`
   width: 50%;
   margin: 0 25% 0 25%;
   color: var(--warm-grey);
-  font-size: 5rem;
+  font-size: 4rem;
   opacity: 0.5;
   svg {
     margin: 1rem 0;
+    cursor: pointer;
     :hover {
       color: black;
     }
   }
   @media all and (max-width: 1023px) {
-    width: 55%;
-    margin: 0 15% 0 30%;
+    width: 60%;
+    margin: 0 15% 0 25%;
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -102,9 +121,9 @@ const ButtonContainer = styled.div`
 `;
 
 const SidebarContainer = styled.div`
-  float: 0;
-  top: 5rem;
   position: sticky;
+  float: 0;
+  top: 4rem;
   display: grid;
   grid-template-rows: 1fr;
   grid-template-columns: 25% 50% 25%;
@@ -139,6 +158,9 @@ const SidebarContent = styled.div`
     word-wrap: break-word;
     word-break: keep-all;
     width: 100%;
+    line-height: 120%;
+    user-select: none;
+    cursor: pointer;
   }
   div:first-child {
     width: auto;
@@ -235,6 +257,9 @@ const Make = () => {
 
   return (
     <MakeContainer onScroll={handleScroll} ref={makeRef}>
+      <Header>
+        <p>세트 만들기</p>
+      </Header>
       <Title
         placeholder="세트 제목을 입력해주세요."
         value={data.title}

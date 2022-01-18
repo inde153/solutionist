@@ -42,6 +42,7 @@ const ProblemNum = styled.div`
   font-size: ${(props) => props.font_size};
   opacity: 0.5;
   margin-right: 1rem;
+  user-select: none;
 
   @media all and (max-width: 767px) {
     font-size: 2rem;
@@ -77,6 +78,7 @@ const Icon = styled.div`
   width: 1.5rem;
   height: 1.5rem;
   margin: 0 0.25rem;
+  cursor: pointer;
   svg {
     width: 1.5rem;
     height: 1.5rem;
@@ -115,6 +117,8 @@ const ChoiceNum = styled.div`
   font-family: 'GowunDodum-Regular', sans-serif;
   font-weight: ${(props) => props.fontWeight};
   color: ${(props) => props.color};
+  user-select: none;
+  cursor: pointer;
 `;
 const ChoiceContent = styled.textarea`
   flex: 1;
@@ -141,6 +145,8 @@ const Plus = styled.div`
   background-color: var(--warm-grey-50);
   border-radius: 1rem;
   margin-top: 1rem;
+  user-select: none;
+  cursor: pointer;
   p {
     margin: 0.5rem 0;
     text-align: center;
@@ -153,6 +159,8 @@ const Minus = styled.div`
   border-radius: 1rem;
   margin-top: 1rem;
   background-color: var(--red-50);
+  user-select: none;
+  cursor: pointer;
 
   p {
     margin: 0.5rem 0;
@@ -167,6 +175,7 @@ const Check = styled.div`
   width: 1.5rem;
   margin-right: 0.5rem;
   margin-bottom: 0.5rem;
+  cursor: pointer;
   svg {
     align-self: start;
   }
@@ -206,6 +215,7 @@ const OxCard = styled.div`
   background-color: white;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
   border-radius: 10px;
+  cursor: pointer;
   svg {
     height: 100%;
     width: 100%;

@@ -40,9 +40,20 @@ const Container = styled.div`
   }
 `;
 const Version = styled.div`
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border-bottom: 1px solid black;
+  background-color: ${(props) =>
+    props.backgroundColor ? 'var(--butterscotch)' : 'none'};
+  cursor: pointer;
+  :hover {
+    background-color: ${(props) =>
+      props.backgroundColor ? 'var(--butterscotch)' : 'var(--orangey-yellow-50)'};
+  }
   p {
     font-family: 'GowunDodum-Regular', sans-serif;
     margin-bottom: 0.25rem;
+    user-select: none;
     :nth-child(2) {
       font-size: 0.75rem;
     }
@@ -52,40 +63,44 @@ const Version = styled.div`
       text-align: right;
     }
   }
-  margin-bottom: 0.5rem;
-  padding: 0.5rem;
-  border-bottom: 1px solid black;
-  background-color: ${(props) =>
-    props.backgroundColor ? 'var(--butterscotch)' : 'none'};
-  :hover {
-    background-color: ${(props) =>
-      props.backgroundColor ? 'var(--butterscotch)' : 'var(--orangey-yellow-50)'};
-  }
 `;
 const VersionContainer = styled.div``;
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   div {
+    flex: 1;
+    color: var(--warm-grey);
     box-shadow: 0 0 0 2px inset var(--warm-grey);
+    :hover {
+      color: black;
+      box-shadow: 0 0 0 2px inset black;
+    }
   }
   div:first-child {
+    flex: 2;
+    color: black;
     background-color: var(--butterscotch);
     box-shadow: 0 0 0 2px inset black;
+    font-weight: bold;
+    :hover {
+      background-color: black;
+      color: var(--butterscotch);
+    }
   }
 `;
 const Button = styled.div`
   display: flex;
-  width: 50%;
   height: 2.5rem;
   margin: 0.5rem;
   font-size: 1rem;
   text-align: center;
   border-radius: 0.5rem;
   font-family: 'GowunDodum-Regular', sans-serif;
-  font-weight: bold;
   justify-content: center;
   align-items: center;
+  user-select: none;
+  cursor: pointer;
 `;
 const EditVersion = ({ versionOn, setVersionOn, collectionId, setData }) => {
   const [versions, setVersions] = useState([]);

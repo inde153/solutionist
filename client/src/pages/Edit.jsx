@@ -7,6 +7,15 @@ import MakeProblem from '../components/MakeProblem';
 import EditVersion from '../components/EditVersion';
 import { FaPlusSquare, FaSave } from 'react-icons/fa';
 
+const MakeContainer = styled.div`
+  position: relative;
+  height: calc(100% - 4rem - 70px);
+  padding: 1rem 0 2rem;
+
+  *::placeholder {
+    opacity: 0.5;
+  }
+`;
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
@@ -15,26 +24,19 @@ const Header = styled.div`
   font-size: 1rem;
   color: var(--warm-grey);
   font-family: 'GongGothicMedium', sans-serif;
+  user-select: none;
 
   @media all and (max-width: 1023px) {
     width: 60%;
-    margin: 0 15% 0 25%;
+    margin: 0 15% 0.5rem 25%;
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
-    margin: 0 1rem;
+    margin: 0 1rem 0.5rem 1rem;
     font-size: 0.75rem;
-    height: 29px;
   }
-`;
-
-const MakeContainer = styled.div`
-  position: relative;
-  height: calc(100% - 4rem - 70px);
-  padding: 1rem 0 2rem;
-
-  *::placeholder {
-    opacity: 0.5;
+  p:last-child {
+    cursor: pointer;
   }
 `;
 const Title = styled.textarea`
@@ -106,17 +108,18 @@ const ButtonContainer = styled.div`
   width: 50%;
   margin: 0 25% 0 25%;
   color: var(--warm-grey);
-  font-size: 5rem;
+  font-size: 4rem;
   opacity: 0.5;
   svg {
     margin: 1rem 0;
+    cursor: pointer;
     :hover {
       color: black;
     }
   }
   @media all and (max-width: 1023px) {
-    width: 55%;
-    margin: 0 15% 0 30%;
+    width: 60%;
+    margin: 0 15% 0 25%;
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -164,6 +167,8 @@ const SidebarContent = styled.div`
     word-break: keep-all;
     width: 100%;
     line-height: 120%;
+    user-select: none;
+    cursor: pointer;
   }
   div:first-child {
     width: auto;
@@ -171,7 +176,7 @@ const SidebarContent = styled.div`
   }
 `;
 
-const Make = () => {
+const Edit = () => {
   const [data, setData] = useState({
     title: '',
     description: '',
@@ -183,7 +188,6 @@ const Make = () => {
   const makeRef = useRef(null);
   const navRefs = useRef([0]);
 
-  console.log(data);
   useEffect(() => {
     axios.get(`${process.env.SERVER_URL}sets/${setId}`).then((res) => setData(res.data));
   }, []);
@@ -264,7 +268,6 @@ const Make = () => {
         setCurPos(i);
       }
     }
-    console.log(document.scrollingElement.scrollTop);
   };
 
   const [versionOn, setVersionOn] = useState(false);
@@ -335,4 +338,4 @@ const Make = () => {
   );
 };
 
-export default Make;
+export default Edit;
