@@ -83,7 +83,7 @@ export function getMySetsMade() {
 // * [GET: /solveRecords [내가 푼 세트]]
 // TODO : req?, 쿠키 확인?
 export function getMySetsSolved() {
-  return axios.get(`${process.env.SERVER_URL}solveRecords`, {
+  return axios.get(`${process.env.SERVER_URL}solve-records`, {
     headers: {
       'Content-Type': `application/json`,
     },

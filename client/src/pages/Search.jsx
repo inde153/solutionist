@@ -116,6 +116,7 @@ const Search = () => {
               solvedUserNumber={search.solvedUserNumber}
               title={search.title}
               key={search.id}
+              updatedAt={search.updatedAt}
             />
           ))}
         </CardsContainer>

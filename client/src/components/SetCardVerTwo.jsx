@@ -59,6 +59,12 @@ const SetName = styled.div`
 const SetDesc = styled.div`
   margin-top: 1rem;
   font-family: 'GowunDodum-Regular', sans-serif;
+
+  &.align-right {
+    display: flex;
+    /* flex-direction: flex-end; */
+    justify-content: flex-end;
+  }
 `;
 const IconContainer = styled.div`
   display: flex;
@@ -146,6 +152,7 @@ const SetCardVerTwo = ({
   description,
   solvedUserNumber,
   title,
+  updatedAt,
 }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
@@ -236,8 +243,8 @@ const SetCardVerTwo = ({
           <InfoContainer>
             <SetInfo>
               <SetName>{title}</SetName>
-              <SetDesc>{creator}</SetDesc>
-              <SetDesc>{timeForToday(createdAt)}</SetDesc>
+              {/* <SetDesc>{creator}</SetDesc> */}
+              <SetDesc className="align-right">{timeForToday(updatedAt)}</SetDesc>
               {/* <SetDesc>{koCreatedAt}</SetDesc> */}
               <SetDesc>{description}</SetDesc>
             </SetInfo>
@@ -253,7 +260,7 @@ const SetCardVerTwo = ({
                   <Icon>
                     <ChartIcon />
                   </Icon>
-                  <p>{averageScore}</p>
+                  <p>{Math.round(averageScore)}</p>
                 </Stat>
               </StatsContainer>
             </IconContainer>

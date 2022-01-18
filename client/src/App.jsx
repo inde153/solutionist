@@ -31,11 +31,11 @@ const App = () => {
         <Route path="/make" element={<Make />} />
         <Route path="/solve/:setId" element={<Solve />} />
         <Route path="/myset" element={<MySet />} />
-        <Route path="/solve" element={<Solve />} />
+        <Route path="/solve" element={<Search />} />
         <Route path="/setting" element={<Setting />} />
         <Route path="/result/:setId/:recordId" element={<Result />} />
         <Route path="/edit/:setId" element={<Edit />} />
-        <Route path="/search" element={<Search />} />
+        {/* <Route path="/search" element={<Search />} /> */}
       </Routes>
       <LoginModalContainer />
     </BG>
