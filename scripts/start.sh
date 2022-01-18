@@ -18,6 +18,7 @@ export BUCKET_KEY_ID=$(aws ssm get-parameters --region ap-northeast-2 --names BU
 export BUCKET_SECRET_KEY=$(aws ssm get-parameters --region ap-northeast-2 --names BUCKET_SECRET_KEY --query Parameters[0].Value | sed 's/"//g')
 export BUCKET_REGION=$(aws ssm get-parameters --region ap-northeast-2 --names BUCKET_REGION --query Parameters[0].Value | sed 's/"//g')
 export CLIENT_URI=$(aws ssm get-parameters --region ap-northeast-2 --names CLIENT_URI --query Parameters[0].Value | sed 's/"//g')
+export DOMAIN=$(aws ssm get-parameters --region ap-northeast-2 --names DOMAIN --query Parameters[0].Value | sed 's/"//g')
 
 cd /home/ubuntu/solutionist/server/dist/src
 authbind --deep pm2 start -f index.js
