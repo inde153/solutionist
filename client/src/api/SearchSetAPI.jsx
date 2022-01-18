@@ -4,8 +4,24 @@ const axios = require('axios');
 // TODO : req?, 쿠키 확인?
 export function searchSets(keyword) {
   return axios.get(
-    `${process.env.SERVER_URL}sets?title=${keyword}`
-    // sets?title=aaa
+    `${process.env.SERVER_URL}sets/search?title=${keyword}`
+    // `${process.env.SERVER_URL}sets/title`,
+    // {
+    //   params: { keyword },
+    // }
+    // {
+    //   headers: {
+    //     'Content-Type': `application/json`,
+    //   },
+    //   withCredentials: true,
+    // }
+  );
+}
+
+// * GET: /sets/sort?solved-user-number [인기 세트]
+export function popularSets() {
+  return axios.get(
+    `${process.env.SERVER_URL}sets/sort?solved-user-number`
     // `${process.env.SERVER_URL}sets/title`,
     // {
     //   params: { keyword },

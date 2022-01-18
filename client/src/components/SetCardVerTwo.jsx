@@ -238,7 +238,7 @@ const SetCardVerTwo = ({
               <SetName>{title}</SetName>
               <SetDesc>{creator}</SetDesc>
               <SetDesc>{timeForToday(createdAt)}</SetDesc>
-              <SetDesc>{koCreatedAt}</SetDesc>
+              {/* <SetDesc>{koCreatedAt}</SetDesc> */}
               <SetDesc>{description}</SetDesc>
             </SetInfo>
             <IconContainer>

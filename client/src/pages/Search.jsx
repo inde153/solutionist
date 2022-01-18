@@ -6,7 +6,7 @@ import SetCardVerTwo from '../components/SetCardVerTwo';
 import MoveTopButton from '../components/MoveTopButton';
 
 import { useLocation } from 'react-router-dom';
-import { searchSets } from '../api/SearchSetAPI';
+import { searchSets, popularSets } from '../api/SearchSetAPI';
 
 const SetsContainer = styled.div`
   display: grid;
@@ -63,6 +63,7 @@ const Search = () => {
 
   // * search API
   const [searchedSets, setSearchedSets] = useState([]);
+  const [popSets, setPopSets] = useState([]);
   const [isSearch, setIsSearch] = useState(false);
   const keyword = new URLSearchParams(useLocation().search).get('title');
   // const [message, setMessage] = useState('검색중...');
@@ -71,7 +72,7 @@ const Search = () => {
     setSearchedSets([]);
     const sendAPICall = async () => {
       const data = await searchSets(keyword);
-      console.log(data.data);
+      console.log('searchSets', data.data);
       setSearchedSets(data.data);
       setIsSearch(true);
       // if (data.length === 0) {
@@ -80,6 +81,21 @@ const Search = () => {
     };
     sendAPICall();
   }, [keyword]);
+
+  useEffect(() => {
+    setPopSets([]);
+    console.log('파퓰러');
+    const sendAPICall = async () => {
+      const data = await popularSets();
+      console.log('popularSets', data.data);
+      setPopSets(data.data);
+      setIsSearch(true);
+      // if (data.length === 0) {
+      // setMessage('검색 결과가 없습니다 :(');
+      // }
+    };
+    sendAPICall();
+  }, []);
 
   return (
     <>
