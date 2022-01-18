@@ -36,7 +36,6 @@ export class SetService {
       creator: set['collection'].creator ? set['collection'].creator.username : null,
       title: set.title,
       description: set.description,
-      createdAt: timestampToLocaleTime(String(set['collection'].createdAt)),
       problems: set.problem,
     };
   }
