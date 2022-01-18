@@ -64,6 +64,7 @@ const SetDesc = styled.div`
     display: flex;
     /* flex-direction: flex-end; */
     justify-content: flex-end;
+    font-size: 0.75rem;
   }
 `;
 const IconContainer = styled.div`
@@ -154,12 +155,14 @@ const SetCardVerTwo = ({
   title,
   updatedAt,
   isMade,
+  recordId,
 }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   const [isHidden, setIsHidden] = useState(false);
   const handleHidden = () => {
     setIsHidden(true);
+    // ! 삭제 api
   };
 
   const [isShare, setIsShare] = useState(false);
@@ -168,7 +171,7 @@ const SetCardVerTwo = ({
   };
 
   // TODO : 동작은 하는데 알림이 없음 ex)클립보드에 저장 완료 메시지
-  const solveUrl = `http://localhost:9000/solve`;
+  const solveUrl = `http://localhost:9000/solve/${id}`;
 
   // * 카카오 공유하기
   useEffect(() => {
@@ -182,19 +185,20 @@ const SetCardVerTwo = ({
     Kakao.Link.sendDefault({
       objectType: 'feed',
       content: {
-        title: 'Solutionist 문제 풀기',
-        description: 'Username님이 공유하신 문제로 이동합니다.',
+        title: `${title} 문제 풀기`,
+        description: `${creator}님이 공유하신 문제로 이동합니다.`,
         imageUrl:
           'https://user-images.githubusercontent.com/73838733/149615624-3d540181-ce17-4bda-8bfe-2c382525e44a.png',
+        // TODO : 납작한 이미지
         link: {
-          mobileWebUrl: 'https://solutionist.site/solve',
+          mobileWebUrl: `https://solutionist.site/solve/${id}`,
         },
       },
       buttons: [
         {
           title: '웹으로 이동',
           link: {
-            mobileWebUrl: 'https://solutionist.site/solve',
+            mobileWebUrl: `https://solutionist.site/solve/${id}`,
           },
         },
       ],
@@ -245,7 +249,7 @@ const SetCardVerTwo = ({
             <SetInfo>
               <SetName>{title}</SetName>
               {/* <SetDesc>{creator}</SetDesc> */}
-              <SetDesc className="align-right">{timeForToday(updatedAt)}</SetDesc>
+              <SetDesc className="align-right">{timeForToday(updatedAt)} 수정됨</SetDesc>
               {/* <SetDesc>{koCreatedAt}</SetDesc> */}
               <SetDesc>{description}</SetDesc>
             </SetInfo>
@@ -275,7 +279,7 @@ const SetCardVerTwo = ({
                 <SetName>{title}</SetName>
                 {/* <SetDesc>{creator}</SetDesc> */}
                 <SetDesc className="align-right">
-                  {updatedAt ? timeForToday(updatedAt) : timeForToday(createdAt)}
+                  {updatedAt ? timeForToday(updatedAt) : timeForToday(createdAt)} 수정됨
                 </SetDesc>
                 {/* <SetDesc>{koCreatedAt}</SetDesc> */}
                 <SetDesc>{description}</SetDesc>
@@ -302,13 +306,13 @@ const SetCardVerTwo = ({
             <InfoContainer>
               <MenuContainer>
                 <Menu>
-                  <StyledLink to="/solve">
+                  <StyledLink to={/solve/ + id}>
                     <EditIcon fill="white" /> 풀기
                     {/* // TODO : /solve 로 이동 */}
                   </StyledLink>
                 </Menu>
                 <Menu>
-                  <StyledLink to="/edit">
+                  <StyledLink to={/edit/ + id}>
                     <UpdateIcon fill="none" stroke="white" strokeWidth="2" /> 수정
                     {/* <GrDocumentUpdate /> */}
                     {/* // TODO : /edit 로 이동 */}
@@ -339,8 +343,9 @@ const SetCardVerTwo = ({
                 )}
                 {!isMade && (
                   <Menu>
-                    <VscOutput /> 결과
-                    {/* // TODO : display:none? 안보이게 처리 */}
+                    <StyledLink to={/result/ + id + '/' + recordId}>
+                      <VscOutput /> 결과
+                    </StyledLink>
                   </Menu>
                 )}
               </MenuContainer>
