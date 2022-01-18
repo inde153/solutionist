@@ -15,8 +15,8 @@ const SetsContainer = styled.div`
   grid-template-areas:
     '. header .'
     '. cards .';
-  margin: 1.2rem 0;
-  grid-row-gap: 1.2rem;
+  margin: 1.5rem 0;
+  grid-row-gap: 1.5rem;
   grid-column-gap: 1rem;
 `;
 

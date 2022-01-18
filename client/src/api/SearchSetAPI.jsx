@@ -3,19 +3,9 @@ const axios = require('axios');
 // * [GET: /sets/title?{검색어} [세트 검색]]
 // TODO : req?, 쿠키 확인?
 export function searchSets(keyword) {
-  return axios.get(
-    `${process.env.SERVER_URL}sets/search?title=${keyword}`
-    // `${process.env.SERVER_URL}sets/title`,
-    // {
-    //   params: { keyword },
-    // }
-    // {
-    //   headers: {
-    //     'Content-Type': `application/json`,
-    //   },
-    //   withCredentials: true,
-    // }
-  );
+  if (keyword) {
+    return axios.get(`${process.env.SERVER_URL}sets/search?title=${keyword}`);
+  }
 }
 
 // * GET: /sets/sort?solved-user-number [인기 세트]

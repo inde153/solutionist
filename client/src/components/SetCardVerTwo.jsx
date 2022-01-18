@@ -271,8 +271,11 @@ const SetCardVerTwo = ({
           <CardFront isFlipped={isFlipped} onClick={() => setIsFlipped(true)}>
             <InfoContainer>
               <SetInfo>
-                <SetName>세트 카드 버전2</SetName>
-                <SetDesc>기능 테스트 용도입니다</SetDesc>
+                <SetName>{title}</SetName>
+                {/* <SetDesc>{creator}</SetDesc> */}
+                <SetDesc className="align-right">{timeForToday(updatedAt)}</SetDesc>
+                {/* <SetDesc>{koCreatedAt}</SetDesc> */}
+                <SetDesc>{description}</SetDesc>
               </SetInfo>
               <IconContainer>
                 <StatsContainer>
@@ -280,13 +283,13 @@ const SetCardVerTwo = ({
                     <Icon>
                       <UserIcon />
                     </Icon>
-                    <p>90명</p>
+                    <p>{solvedUserNumber}</p>
                   </Stat>
                   <Stat>
                     <Icon>
                       <ChartIcon />
                     </Icon>
-                    <p>90점</p>
+                    <p>{Math.round(averageScore)}</p>
                   </Stat>
                 </StatsContainer>
               </IconContainer>
