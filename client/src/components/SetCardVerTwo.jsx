@@ -153,6 +153,7 @@ const SetCardVerTwo = ({
   solvedUserNumber,
   title,
   updatedAt,
+  isMade,
 }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
@@ -273,7 +274,9 @@ const SetCardVerTwo = ({
               <SetInfo>
                 <SetName>{title}</SetName>
                 {/* <SetDesc>{creator}</SetDesc> */}
-                <SetDesc className="align-right">{timeForToday(updatedAt)}</SetDesc>
+                <SetDesc className="align-right">
+                  {updatedAt ? timeForToday(updatedAt) : timeForToday(createdAt)}
+                </SetDesc>
                 {/* <SetDesc>{koCreatedAt}</SetDesc> */}
                 <SetDesc>{description}</SetDesc>
               </SetInfo>
@@ -328,14 +331,18 @@ const SetCardVerTwo = ({
                   )}
                   {/* // TODO : 클립보드 & 카카오 공유 선택 */}
                 </Menu>
-                <Menu onClick={handleHidden}>
-                  <TrashIcon fill="white" /> 삭제
-                  {/* // TODO : display:none? 안보이게 처리 */}
-                </Menu>
-                <Menu>
-                  <VscOutput /> 결과
-                  {/* // TODO : display:none? 안보이게 처리 */}
-                </Menu>
+                {isMade && (
+                  <Menu onClick={handleHidden}>
+                    <TrashIcon fill="white" /> 삭제
+                    {/* // TODO : display:none? 안보이게 처리 */}
+                  </Menu>
+                )}
+                {!isMade && (
+                  <Menu>
+                    <VscOutput /> 결과
+                    {/* // TODO : display:none? 안보이게 처리 */}
+                  </Menu>
+                )}
               </MenuContainer>
               <Icon onClick={() => setIsFlipped(false)}>
                 <DecreaseIcon fill="white" />

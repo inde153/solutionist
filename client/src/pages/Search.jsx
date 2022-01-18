@@ -100,6 +100,13 @@ const Search = () => {
   const [searchKey, setSearchKey] = useState('');
   const [isOverEight, setIsOverEight] = useState(false);
 
+  const handleInputChange = (event) => {
+    setSearchKey(event.target.value);
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   const handleSearch = () => {
     setSearchedSets([]);
     const sendAPICall = async () => {
@@ -138,8 +145,9 @@ const Search = () => {
       <SearchContainer onSubmit={() => false}>
         <SearchInput
           type="text"
-          value={searchKey}
-          onChange={(e) => setSearchKey(e.target.value)}
+          // value={searchKey}
+          // onChange={(e) => setSearchKey(e.target.value)}
+          onKeyUp={handleInputChange}
           placeholder="Search..."
         />
         <SearchIconContainer>
