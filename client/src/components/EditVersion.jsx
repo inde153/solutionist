@@ -13,7 +13,15 @@ const fromRight = keyframes`
   }
   
 `;
-
+const ContainerAbsolute = styled.div`
+  position: sticky;
+  display: flex;
+  justify-content: flex-end;
+  top: 4rem;
+  right: 0;
+  margin-left: auto;
+  z-index: 900;
+`;
 const Container = styled.div`
   display: ${(props) => (props.versionOn ? 'flex' : 'none')};
   position: absolute;
@@ -21,29 +29,39 @@ const Container = styled.div`
   justify-content: space-between;
   padding: 0.5rem;
   width: calc(25% - 2rem);
-  height: calc(100% - 1rem);
-  top: 0;
-  right: 0;
+  height: calc(100vh - 4rem);
+  margin-top: -1rem;
   background-color: white;
   border-left: 1px solid var(--warm-grey-50);
   animation: ${fromRight} 0.5s cubic-bezier(0, 0, 0.2, 1);
-  z-index: 998;
+
+  @media all and (max-width: 1023px) {
+    width: 50%;
+  }
 `;
 const Version = styled.div`
-  p {
-    font-family: 'GowunDodum-Regular', sans-serif;
-  }
   margin-bottom: 0.5rem;
   padding: 0.5rem;
   border-bottom: 1px solid black;
   background-color: ${(props) =>
     props.backgroundColor ? 'var(--butterscotch)' : 'none'};
-  p:first-child {
-    margin-bottom: 0.25rem;
-  }
+  cursor: pointer;
   :hover {
     background-color: ${(props) =>
       props.backgroundColor ? 'var(--butterscotch)' : 'var(--orangey-yellow-50)'};
+  }
+  p {
+    font-family: 'GowunDodum-Regular', sans-serif;
+    margin-bottom: 0.25rem;
+    user-select: none;
+    :nth-child(2) {
+      font-size: 0.75rem;
+    }
+    :last-child {
+      color: var(--warm-grey);
+      font-size: 0.75rem;
+      text-align: right;
+    }
   }
 `;
 const VersionContainer = styled.div``;
@@ -51,130 +69,115 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   div {
-    box-shadow: 0 0 0 1px inset var(--warm-grey);
+    flex: 1;
+    color: var(--warm-grey);
+    box-shadow: 0 0 0 2px inset var(--warm-grey);
+    :hover {
+      color: black;
+      box-shadow: 0 0 0 2px inset black;
+    }
   }
   div:first-child {
+    flex: 2;
+    color: black;
     background-color: var(--butterscotch);
-    box-shadow: 0 0 0 1px inset var(--warm-grey-50);
+    box-shadow: 0 0 0 2px inset black;
+    font-weight: bold;
+    :hover {
+      background-color: black;
+      color: var(--butterscotch);
+    }
   }
 `;
 const Button = styled.div`
   display: flex;
-  width: 50%;
   height: 2.5rem;
   margin: 0.5rem;
   font-size: 1rem;
   text-align: center;
   border-radius: 0.5rem;
   font-family: 'GowunDodum-Regular', sans-serif;
-  font-weight: bold;
   justify-content: center;
   align-items: center;
+  user-select: none;
+  cursor: pointer;
 `;
-const EditVersion = ({ versionOn, setVersionOn, collectionId }) => {
-  const dummy = [
-    {
-      solvedUserNumber: 0,
-      setId: 59,
-      collectionId: 40,
-      creator: null,
-      title: '수정 전 세트 제목',
-      description: '수정 전 세트 설명',
-      createdAt: '2022. 1. 17. 오전 2:22:15',
-      problems: [
-        {
-          id: 462,
-          setId: 59,
-          index: 1,
-          question: '수정 전 문제',
-          answer: 1,
-          explanation: '수정 전 해설',
-          isOX: false,
-          choice: [
-            {
-              id: 405,
-              problemId: 462,
-              index: 1,
-              content: '수정 전 보기 1번',
-              selectionRate: 0,
-            },
-            {
-              id: 406,
-              problemId: 462,
-              index: 2,
-              content: '수정 전 보기 2번',
-              selectionRate: 0,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      solvedUserNumber: 0,
-      setId: 59,
-      collectionId: 40,
-      creator: null,
-      title: '수정 전 세트 제목',
-      description: '수정 전 세트 설명',
-      createdAt: '2022. 1. 17. 오전 2:22:15',
-      problems: [
-        {
-          id: 462,
-          setId: 59,
-          index: 1,
-          question: '수정 전 문제',
-          answer: 1,
-          explanation: '수정 전 해설',
-          isOX: false,
-          choice: [
-            {
-              id: 405,
-              problemId: 462,
-              index: 1,
-              content: '수정 전 보기 1번',
-              selectionRate: 0,
-            },
-            {
-              id: 406,
-              problemId: 462,
-              index: 2,
-              content: '수정 전 보기 2번',
-              selectionRate: 0,
-            },
-          ],
-        },
-      ],
-    },
-  ];
-
-  const [versions, setVersions] = useState(dummy);
+const EditVersion = ({ versionOn, setVersionOn, collectionId, setData }) => {
+  const [versions, setVersions] = useState([]);
   const [clickIdx, setClickIdx] = useState(null);
 
   useEffect(() => {
-    // 컬렉션ID 를 통한 컬렉션에 있는 set 정보를 갖고오기 (new API)
-    // axios.get(`${process.env.SERVER_URL}sets/`).then((res) => setData(res.data));
+    if (collectionId && versionOn) {
+      axios
+        .get(`${process.env.SERVER_URL}sets/collections/${collectionId}`)
+        .then((res) => {
+          setVersions(res.data);
+          console.log(res.data);
+        });
+    }
   }, [versionOn]);
 
   const handleRestore = () => {
-    // setID를 통해 setData
-    axios.get(`${process.env.SERVER_URL}sets/`).then((res) => setData(res.data));
+    if (clickIdx >= 0) {
+      axios
+        .get(`${process.env.SERVER_URL}sets/${versions[clickIdx].id}`)
+        .then((res) => setData(res.data))
+        .then(() => {
+          setClickIdx(undefined);
+          setVersionOn(false);
+        });
+    }
+  };
+
+  const timeForToday = (value) => {
+    const today = new Date();
+    const timeValue = new Date(value);
+
+    const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+    if (betweenTime < 1) return '방금전';
+    if (betweenTime < 60) {
+      return `${betweenTime}분전`;
+    }
+
+    const betweenTimeHour = Math.floor(betweenTime / 60);
+    if (betweenTimeHour < 24) {
+      return `${betweenTimeHour}시간전`;
+    }
+
+    const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+    if (betweenTimeDay < 365) {
+      return `${betweenTimeDay}일전`;
+    }
+
+    return new Date(value).toLocaleString('ko-KR', {
+      timeZone: 'Asia/Seoul',
+    });
   };
 
   return (
-    <Container versionOn={versionOn}>
-      <VersionContainer>
-        {versions.map((version, idx) => (
-          <Version onClick={() => setClickIdx(idx)} backgroundColor={idx === clickIdx}>
-            <p>{version.createdAt}</p>
-            <p>수정자</p>
-          </Version>
-        ))}
-      </VersionContainer>
-      <ButtonContainer>
-        <Button onClick={handleRestore}>되돌리기</Button>
-        <Button onClick={() => setVersionOn(false)}>취소</Button>
-      </ButtonContainer>
-    </Container>
+    <ContainerAbsolute>
+      <Container versionOn={versionOn}>
+        <VersionContainer>
+          {versions[0]
+            ? versions.map((version, idx) => (
+                <Version
+                  key={`v${idx}`}
+                  onClick={() => setClickIdx(idx)}
+                  backgroundColor={idx === clickIdx}
+                >
+                  <p>{timeForToday(version.updatedAt)} 수정됨</p>
+                  <p>by{version.editor}</p>
+                  <p>문제 개수 : {version.problemCount}</p>
+                </Version>
+              ))
+            : ''}
+        </VersionContainer>
+        <ButtonContainer>
+          <Button onClick={handleRestore}>되돌리기</Button>
+          <Button onClick={() => setVersionOn(false)}>취소</Button>
+        </ButtonContainer>
+      </Container>
+    </ContainerAbsolute>
   );
 };
 
