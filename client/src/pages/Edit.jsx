@@ -11,7 +11,7 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   width: 50%;
-  margin: 0 25% 1rem 25%;
+  margin: 0 25% 0.5rem 25%;
   font-size: 1rem;
   color: var(--warm-grey);
   font-family: 'GongGothicMedium', sans-serif;
@@ -32,7 +32,6 @@ const MakeContainer = styled.div`
   position: relative;
   height: calc(100% - 4rem - 70px);
   padding: 1rem 0 2rem;
-  overflow: scroll;
 
   *::placeholder {
     opacity: 0.5;
@@ -67,7 +66,7 @@ const Desc = styled.textarea`
   align-items: center;
   width: 50%;
   height: 26px;
-  margin: 0.5rem 25%;
+  margin: 0.5rem 25% 1rem;
   line-height: 120%;
   font-size: 1.25rem;
   font-family: 'GowunDodum-Regular', sans-serif;
@@ -129,7 +128,7 @@ const ButtonContainer = styled.div`
 const SidebarContainer = styled.div`
   position: sticky;
   float: 0;
-  top: 3rem;
+  top: 4rem;
   display: grid;
   grid-template-rows: 1fr;
   grid-template-columns: 25% 50% 25%;
@@ -231,13 +230,14 @@ const Make = () => {
         return console.log('답을 정해주세요');
       }
     }
+
     return axios.post(`${process.env.SERVER_URL}sets`, data, {
       withCredentials: true,
     });
   };
 
   const handleNav = (e) => {
-    navRefs.current[e.target.id].scrollIntoView({ behavior: 'smooth' });
+    navRefs.current[e.target.id].scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
 
   const [Qpos, setQpos] = useState([]);
