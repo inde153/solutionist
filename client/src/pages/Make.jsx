@@ -70,7 +70,7 @@ const Desc = styled.textarea`
 
   @media all and (max-width: 1023px) {
     width: 60%;
-    margin: 0.5rem 15% 0.5rem 25%;
+    margin: 0.5rem 15% 1rem 25%;
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -98,12 +98,11 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 50%;
-  margin: 0 25% 0 25%;
+  margin: 1rem 25% 0 25%;
   color: var(--warm-grey);
   font-size: 4rem;
   opacity: 0.5;
   svg {
-    margin: 1rem 0;
     cursor: pointer;
     :hover {
       color: black;
@@ -111,11 +110,11 @@ const ButtonContainer = styled.div`
   }
   @media all and (max-width: 1023px) {
     width: 60%;
-    margin: 0 15% 0 25%;
+    margin: 1rem 15% 0 25%;
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
-    margin: 0 1rem;
+    margin: 0.5rem 1rem 0;
     font-size: 3rem;
   }
 `;
@@ -168,11 +167,33 @@ const SidebarContent = styled.div`
   }
 `;
 
+const Message = styled.div`
+  display: flex;
+
+  font-size: 1rem;
+  user-select: none;
+  p {
+    margin: auto;
+  }
+`;
+
 const Make = () => {
   const [data, setData] = useState({
     title: '',
     description: '',
-    problems: [],
+    problems: [
+      {
+        index: 1,
+        question: '',
+        answer: '',
+        explanation: '',
+        isOX: false,
+        choice: [
+          { index: 1, content: '' },
+          { index: 2, content: '' },
+        ],
+      },
+    ],
   });
   const [curPos, setCurPos] = useState(0);
   const makeRef = useRef(null);
@@ -209,21 +230,23 @@ const Make = () => {
 
   const handleSave = () => {
     if (data.title === '') {
-      return console.log('세트 제목을 입력하세요');
+      return setMessage('세트 제목을 입력해주세요');
     }
 
     for (let problem of data.problems) {
       if (problem.question === '') {
-        return console.log('문제를 입력해주세요');
+        return setMessage('문제를 입력해주세요');
       }
 
       if (problem.answer === '') {
-        return console.log('답을 정해주세요');
+        return setMessage('문제의 답을 정해주세요');
       }
     }
-    return axios.post(`${process.env.SERVER_URL}collections`, data, {
-      withCredentials: true,
-    });
+    return axios
+      .post(`${process.env.SERVER_URL}collections`, data, {
+        withCredentials: true,
+      })
+      .then(() => {});
   };
 
   const handleNav = (e) => {
@@ -254,6 +277,9 @@ const Make = () => {
       }
     }
   };
+
+  console.log(data);
+  const [message, setMessage] = useState('<- 여기를 눌러 문제를 추가할 수 있습니다.');
 
   return (
     <MakeContainer onScroll={handleScroll} ref={makeRef}>
@@ -308,6 +334,9 @@ const Make = () => {
       ))}
       <ButtonContainer>
         <FaPlusSquare onClick={addProblem} />
+        <Message>
+          <p>{message}</p>
+        </Message>
         <FaSave onClick={handleSave} />
       </ButtonContainer>
     </MakeContainer>
