@@ -7,7 +7,7 @@ import { solveRecords } from '../entity/solveRecords';
 
 @EntityRepository(sets)
 export class SetsRepository extends Repository<sets> {
-  // setId로 세트 검색
+  // set id로 세트 검색
   async getSet(id: number) {
     return await this.createQueryBuilder('sets')
       .innerJoinAndSelect('sets.collection', 'collections')
@@ -16,6 +16,23 @@ export class SetsRepository extends Repository<sets> {
       .innerJoinAndSelect('problems.choice', 'choices')
       .where(`sets.id = ${id}`)
       .getOne();
+  }
+
+  // collection id로 세트 검색
+  async getSetByCollectionId(collectionId: number) {
+    return await this.createQueryBuilder('sets')
+      .select([
+        'sets.id as id',
+        'users.username as editor',
+        'sets.createdAt as updatedAt',
+        'COUNT(problems.id) as problemCount',
+      ])
+      .leftJoin('sets.editor', 'users')
+      .leftJoin('sets.problem', 'problems')
+      .where(`sets.collectionId = ${collectionId}`)
+      .groupBy('sets.id')
+      .orderBy('sets.createdAt', 'DESC')
+      .getRawMany();
   }
 
   // title으로 세트 검색
@@ -38,7 +55,7 @@ export class SetsRepository extends Repository<sets> {
             .groupBy('children.collectionId'),
         'cs'
       )
-      .innerJoin('sets.record', `solveRecords`)
+      .leftJoin('sets.record', `solveRecords`)
       .innerJoin('sets.collection', 'collections')
       .leftJoin('collections.creator', 'users')
       .addSelect(
@@ -47,15 +64,16 @@ export class SetsRepository extends Repository<sets> {
       .addSelect(
         `avg(case when solveRecords.answerRate > -1 then solveRecords.answerRate end) as  averageScore`
       )
-      .groupBy(`solveRecords.setId`)
+      .groupBy(`sets.id`)
       .where('cs.max = sets.id')
       .andWhere('sets.title like :title', { title: `%${title}%` })
+      .orderBy('sets.createdAt', 'DESC')
       .getRawMany()
       .then((result) => convertRawObject(result));
   }
 
   // collection의 생성 일자 검색
-  async findCollectionCreatedAt(collectionId: number) {
+  async getCollectionCreatedAt(collectionId: number) {
     return await this.createQueryBuilder('sets')
       .select(['collections.createdAt as createdAt'])
       .innerJoin('sets.collection', 'collections')
@@ -67,7 +85,42 @@ export class SetsRepository extends Repository<sets> {
       });
   }
 
-  //내가 만든 문제
+  async getMostSolvedSet() {
+    return await this.createQueryBuilder('sets')
+      .select([
+        'sets.id as id',
+        'sets.collectionId as collectionId',
+        'sets.title as title',
+        'sets.description as description',
+        'collections.createdAt as createdAt',
+        'sets.createdAt as updatedAt',
+        'users.username as creator',
+      ])
+      .innerJoin(
+        (qb) =>
+          qb
+            .select('MAX(children.id) as max')
+            .from(sets, 'children')
+            .groupBy('children.collectionId'),
+        'cs'
+      )
+      .leftJoin('sets.record', `solveRecords`)
+      .innerJoin('sets.collection', 'collections')
+      .leftJoin('collections.creator', 'users')
+      .addSelect(
+        `count(case when solveRecords.answerRate > -1 then 1 end) as solvedUserNumber`
+      )
+      .addSelect(
+        `avg(case when solveRecords.answerRate > -1 then solveRecords.answerRate end) as  averageScore`
+      )
+      .groupBy(`sets.id`)
+      .where('cs.max = sets.id')
+      .orderBy('solvedUserNumber', 'DESC')
+      .getRawMany()
+      .then((result) => convertRawObject(result));
+  }
+
+  // 내가 만든 문제
   async findMyCollection(userId: number) {
     const dt = await this.createQueryBuilder('sets')
       .select([
@@ -77,21 +130,30 @@ export class SetsRepository extends Repository<sets> {
         'sets.description as descriptoin',
         'sets.createdAt as createdAt',
       ])
+      .innerJoin(
+        (qb) =>
+          qb
+            .select('MAX(children.id) as max')
+            .from(sets, 'children')
+            .groupBy('children.collectionId'),
+        'cs'
+      )
+      .leftJoin('sets.record', `solveRecords`)
+      .innerJoin('sets.collection', 'collections')
+      .leftJoin('collections.creator', 'users')
       .addSelect(
         `count(case when solveRecords.answerRate > -1 then 1 end) as solvedUserNumber`
       )
       .addSelect(
         `avg(case when solveRecords.answerRate > -1 then solveRecords.answerRate end) as  averageScore`
       )
-      .innerJoin(users, 'users', 'sets.editorId = users.id')
-      .innerJoin(solveRecords, 'solveRecords', `sets.id = solveRecords.setId`)
-      .innerJoin(collections, 'collections', `sets.collectionId = collections.id`)
-      .where(`collections.creatorId = :creatorId`, { creatorId: userId })
-      .andWhere('sets.editorId = :editorId', { editorId: userId })
-      .groupBy(`solveRecords.setId`)
+      .groupBy(`sets.Id`)
+      .where('cs.max = sets.id')
+      .andWhere('users.id= :userId', { userId: userId })
       .getRawMany();
     return dt;
   }
+
   //내가 푼 문제
   async findSolveSet(userId: number) {
     const dt = await this.createQueryBuilder('sets')

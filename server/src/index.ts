@@ -48,7 +48,6 @@ app.get('/', (req, res) => {
   res.send('hello');
 });
 app.use('/users', usersRouter);
-app.use('/myPage', myPage);
 app.use(myPage);
 // routing to controllers
 app.use(setsRouter);
