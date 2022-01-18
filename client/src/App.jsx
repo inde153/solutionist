@@ -15,11 +15,12 @@ import Edit from './pages/Edit';
 import Search from './pages/Search';
 
 const BG = styled.div`
+  position: absolute;
   background-color: var(--very-light-pink);
   width: 100vw;
-  height: 100vh;
-  /* height: auto; */
-  overflow: scroll;
+  /* height: 100vh; */
+  height: auto;
+  /* overflow: scroll; */
 `;
 
 const App = () => {
