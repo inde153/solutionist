@@ -64,6 +64,7 @@ const SetDesc = styled.div`
     display: flex;
     /* flex-direction: flex-end; */
     justify-content: flex-end;
+    font-size: 0.75rem;
   }
 `;
 const IconContainer = styled.div`
@@ -245,7 +246,7 @@ const SetCardVerTwo = ({
             <SetInfo>
               <SetName>{title}</SetName>
               {/* <SetDesc>{creator}</SetDesc> */}
-              <SetDesc className="align-right">{timeForToday(updatedAt)}</SetDesc>
+              <SetDesc className="align-right">{timeForToday(updatedAt)} 수정됨</SetDesc>
               {/* <SetDesc>{koCreatedAt}</SetDesc> */}
               <SetDesc>{description}</SetDesc>
             </SetInfo>
@@ -275,7 +276,7 @@ const SetCardVerTwo = ({
                 <SetName>{title}</SetName>
                 {/* <SetDesc>{creator}</SetDesc> */}
                 <SetDesc className="align-right">
-                  {updatedAt ? timeForToday(updatedAt) : timeForToday(createdAt)}
+                  {updatedAt ? timeForToday(updatedAt) : timeForToday(createdAt)} 수정됨
                 </SetDesc>
                 {/* <SetDesc>{koCreatedAt}</SetDesc> */}
                 <SetDesc>{description}</SetDesc>
