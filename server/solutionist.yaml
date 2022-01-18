@@ -879,7 +879,7 @@ paths:
                   message:
                     type: string
                     default: internal server error
-  /sets:{setId}:
+  /sets/{setId}:
     components: ~
     get:
       tags:
