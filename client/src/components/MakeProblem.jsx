@@ -52,7 +52,7 @@ const ProblemNum = styled.div`
 
 const Question = styled.textarea`
   grid-area: question;
-  height: 24px;
+  height: 27px;
   margin: 1rem 0.5rem 0 0;
   line-height: 120%;
   word-wrap: break-word;

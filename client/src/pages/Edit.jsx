@@ -41,7 +41,7 @@ const Title = styled.textarea`
   display: flex;
   align-items: center;
   width: 50%;
-  height: 38px;
+  height: 39px;
   margin: 0 25% 0 25%;
   line-height: 120%;
   font-size: 2rem;
@@ -65,7 +65,7 @@ const Desc = styled.textarea`
   display: flex;
   align-items: center;
   width: 50%;
-  height: 26px;
+  height: 27px;
   margin: 0.5rem 25% 1rem;
   line-height: 120%;
   font-size: 1.25rem;
@@ -163,6 +163,7 @@ const SidebarContent = styled.div`
     word-wrap: break-word;
     word-break: keep-all;
     width: 100%;
+    line-height: 120%;
   }
   div:first-child {
     width: auto;
@@ -259,10 +260,11 @@ const Make = () => {
 
   const handleScroll = (e) => {
     for (let i = 0; i < Qpos.length; i++) {
-      if (Qpos[i] - 100 < makeRef.current.scrollTop) {
+      if (Qpos[i] - 100 < document.scrollingElement.scrollTop) {
         setCurPos(i);
       }
     }
+    console.log(document.scrollingElement.scrollTop);
   };
 
   const [versionOn, setVersionOn] = useState(false);

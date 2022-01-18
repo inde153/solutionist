@@ -6,10 +6,8 @@ import MakeProblem from '../components/MakeProblem';
 import { FaPlusSquare, FaSave } from 'react-icons/fa';
 
 const MakeContainer = styled.div`
-  position: relative;
   height: calc(100% - 4rem - 70px);
   padding: 2rem 0;
-  overflow: scroll;
 
   *::placeholder {
     opacity: 0.5;
@@ -104,9 +102,9 @@ const ButtonContainer = styled.div`
 `;
 
 const SidebarContainer = styled.div`
-  position: sticky;
   float: 0;
-  top: 3rem;
+  top: 5rem;
+  position: sticky;
   display: grid;
   grid-template-rows: 1fr;
   grid-template-columns: 25% 50% 25%;
