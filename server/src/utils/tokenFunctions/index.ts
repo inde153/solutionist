@@ -27,7 +27,7 @@ const jwtToken = {
       httpOnly: true,
       sameSite: 'Lax',
       secure: true,
-      // domain: process.env.DOMAIN,
+      domain: process.env.DOMAIN,
       maxAge: 1000 * 60 * 60,
     });
   },
