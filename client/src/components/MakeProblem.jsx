@@ -240,7 +240,6 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
   };
 
   const handleClick = (e) => {
-    console.log(e.target.id);
     const choice = [...problem.choice];
 
     if (e.target.id[0] === 'i' && choice.length < 10) {
