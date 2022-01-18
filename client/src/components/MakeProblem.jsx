@@ -26,13 +26,13 @@ const ProblemContainer = styled.div`
   @media all and (max-width: 767px) {
     margin: 0 1rem;
     grid-template-rows: auto auto auto auto auto;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-areas:
-      'number icons icons'
-      'question question question'
-      'choice choice choice'
-      'counter counter counter'
-      'explanation explanation explanation';
+      'number icons'
+      'question question'
+      'choice choice'
+      'counter counter'
+      'explanation explanation';
   }
 `;
 const ProblemNum = styled.div`
@@ -56,9 +56,9 @@ const Question = styled.textarea`
   margin: 1rem 0.5rem 0 0;
   line-height: 120%;
   word-wrap: break-word;
-  word-break: break-word;
+  word-break: keep-all;
   font-size: 1.25rem;
-  font-family: 'GongGothicMedium', sans-serif;
+  font-family: 'GowunDodum-Regular', sans-serif;
   resize: none;
   @media all and (max-width: 767px) {
     /* margin-top: 0.5rem; */
@@ -125,7 +125,7 @@ const ChoiceContent = styled.textarea`
   font-size: 1rem;
   font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
-  word-break: break-word;
+  word-break: keep-all;
   resize: none;
 `;
 const Counter = styled.div`
@@ -186,7 +186,7 @@ const Explanation = styled.textarea`
   font-size: 0.75rem;
   font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
-  word-break: break-word;
+  word-break: keep-all;
   resize: none;
 `;
 const OxChoices = styled.div`
@@ -365,6 +365,8 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
                 key={`choice ${idx + 1}`}
               >
                 <ChoiceNum
+                  onClick={handleClick}
+                  id={`a${idx}`}
                   color={choice.index === problem.answer ? 'black' : ''}
                   fontWeight={choice.index === problem.answer ? 'bold' : 'initial'}
                 >{`${idx + 1}.`}</ChoiceNum>
