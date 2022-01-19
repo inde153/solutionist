@@ -82,11 +82,23 @@ const Landing = () => {
   const [secNum, setSecNum] = useState(1);
   const secRef = useRef([]);
 
+  const delay = 500;
+  const [lastScroll, setLastScroll] = useState(0);
+
   const handleWheel = (e) => {
-    if (e.deltaY < 0) {
-      if (secNum > 1) setSecNum(secNum - 1);
-    } else if (secNum < 5) setSecNum(secNum + 1);
-    console.log(secRef.current.map((el) => el.scrollTop));
+    if (lastScroll + delay < Date.now()) {
+      if (e.deltaY < 0) {
+        if (secNum > 1) {
+          setLastScroll(Date.now());
+          setSecNum(secNum - 1);
+          console.log(lastScroll);
+        }
+      } else if (secNum < 5) {
+        setLastScroll(Date.now());
+        setSecNum(secNum + 1);
+        console.log(lastScroll);
+      }
+    }
   };
 
   if (secRef.current[0]) {
