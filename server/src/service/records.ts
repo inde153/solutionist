@@ -29,8 +29,10 @@ export class RecordService {
 
   async submitRecord(recordId: number, answerRate: number): Promise<number> {
     // answerRate가 유효하지 않을 경우
-    if (answerRate < 0 || answerRate > 100) {
-      errorGenerator({ statusCode: 400 });
+    if (answerRate !== -1) {
+      if (answerRate < 0 || answerRate > 100) {
+        errorGenerator({ statusCode: 400 });
+      }
     }
 
     // id에 해당하는 레코드 있는지 확인
