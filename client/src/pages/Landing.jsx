@@ -82,7 +82,7 @@ const Landing = () => {
   const [secNum, setSecNum] = useState(1);
   const secRef = useRef([]);
 
-  const delay = 500;
+  const delay = 1000;
   const [lastScroll, setLastScroll] = useState(0);
 
   const handleWheel = (e) => {
