@@ -151,6 +151,7 @@ export class SetsRepository extends Repository<sets> {
       .groupBy(`sets.Id`)
       .where('cs.max = sets.id')
       .andWhere('users.id= :userId', { userId: userId })
+      .orderBy('createdAt', 'DESC')
       .getRawMany();
     return dt;
   }

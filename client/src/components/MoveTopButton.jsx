@@ -19,12 +19,12 @@ const TopButton = styled.button`
   background: var(--very-light-pink);
   color: var(--butterscotch);
   box-shadow: 1px 1px 3px 1.5px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
   transition: opacity 0.3s ease-in;
 
   &.active {
     z-index: 10;
     opacity: 1;
+    cursor: pointer;
   }
 
   &:hover,

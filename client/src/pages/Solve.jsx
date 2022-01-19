@@ -60,6 +60,34 @@ const Desc = styled.div`
     font-size: 1rem;
   }
 `;
+const Info = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 0.5rem 25% 1rem;
+  line-height: 120%;
+  font-size: 0.75rem;
+  word-wrap: break-word;
+  word-break: keep-all;
+  resize: none;
+  p {
+    font-family: 'GowunDodum-Regular', sans-serif;
+    margin-bottom: 0.25rem;
+  }
+  span {
+    font-family: 'GowunDodum-Regular', sans-serif;
+    font-weight: bold;
+  }
+  @media all and (max-width: 1023px) {
+    width: 60%;
+    margin: 0.5rem 15% 0.5rem 25%;
+  }
+  @media all and (max-width: 767px) {
+    width: calc(100% - 2rem);
+    margin: 0.5rem 1rem;
+    font-size: 1rem;
+  }
+`;
 const Divider = styled.div`
   width: 50%;
   height: 2px;
@@ -399,7 +427,7 @@ const Solve = () => {
 
     axios
       .post(
-        `${process.env.SERVER_URL}solveStatus`,
+        `${process.env.SERVER_URL}solve-status`,
         {
           ...userChoices[curIdx],
           recordId: setInfo.recordId,
@@ -436,7 +464,7 @@ const Solve = () => {
 
     axios
       .patch(
-        `${process.env.SERVER_URL}solveRecords/${setInfo.recordId}`,
+        `${process.env.SERVER_URL}solve-records/${setInfo.recordId}`,
         {
           answerRate: !total
             ? -1
@@ -452,12 +480,17 @@ const Solve = () => {
   };
   const handleStart = () => {
     axios
-      .post(`${process.env.SERVER_URL}solveRecords`, { setId }, { withCredentials: true })
+      .post(
+        `${process.env.SERVER_URL}solve-records`,
+        { setId },
+        { withCredentials: true }
+      )
       .then((res) => {
         setIsSolving(true);
         setSetInfo(res.data);
       });
   };
+  console.log(set);
 
   return (
     <SolveContainer>
@@ -465,13 +498,19 @@ const Solve = () => {
         <>
           <Title>{set.title}</Title>
           <Desc>{set.description}</Desc>
-          <div>by set.creator</div>
-          <div>at {set.createdAt}</div>
-          <div>{set.solvedUserNumber}명 풀이 완료</div>
+          <Info>
+            <p>
+              by <span>{set.creator ? set.creator : '익명의 Solutionist'}</span>
+            </p>
+            <p>at {set.createdAt}</p>
+            <p>
+              <span>{set.solvedUserNumber}</span>명 풀이 완료
+            </p>
+          </Info>
           <Divider />
-          <div>
+          <ButtonContainer>
             <FaCaretSquareRight onClick={handleStart} />
-          </div>
+          </ButtonContainer>
         </>
       ) : (
         <>
