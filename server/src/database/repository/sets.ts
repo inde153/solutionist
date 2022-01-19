@@ -1,4 +1,4 @@
-import { EntityRepository, Repository, getManager } from 'typeorm';
+import { EntityRepository, Repository, getManager, SelectQueryBuilder } from 'typeorm';
 import { sets } from '../entity/sets';
 import { convertRawObject } from '../../utils/custom';
 import { collections } from '../entity/collections';
@@ -8,7 +8,7 @@ import { solveRecords } from '../entity/solveRecords';
 @EntityRepository(sets)
 export class SetsRepository extends Repository<sets> {
   // set id로 세트 검색
-  async getSet(id: number) {
+  async getSet(id: number): Promise<sets> {
     return await this.createQueryBuilder('sets')
       .innerJoinAndSelect('sets.collection', 'collections')
       .leftJoinAndSelect('collections.creator', 'users')
@@ -35,9 +35,9 @@ export class SetsRepository extends Repository<sets> {
       .getRawMany();
   }
 
-  // title으로 세트 검색
-  async searchByTitle(title: string) {
-    return await this.createQueryBuilder('sets')
+  // 같은 collection 중 가장 최신 버전을 가져옴
+  getRecentSetVersion(): SelectQueryBuilder<sets> {
+    return this.createQueryBuilder('sets')
       .select([
         'sets.id as id',
         'sets.collectionId as collectionId',
@@ -65,7 +65,12 @@ export class SetsRepository extends Repository<sets> {
         `avg(case when solveRecords.answerRate > -1 then solveRecords.answerRate end) as  averageScore`
       )
       .groupBy(`sets.id`)
-      .where('cs.max = sets.id')
+      .where('cs.max = sets.id');
+  }
+
+  // title으로 세트 검색
+  async searchByTitle(title: string) {
+    return await this.getRecentSetVersion()
       .andWhere('sets.title like :title', { title: `%${title}%` })
       .orderBy('sets.createdAt', 'DESC')
       .getRawMany()
@@ -85,36 +90,9 @@ export class SetsRepository extends Repository<sets> {
       });
   }
 
+  // 가장 푼 사람이 많은 세트 검색
   async getMostSolvedSet() {
-    return await this.createQueryBuilder('sets')
-      .select([
-        'sets.id as id',
-        'sets.collectionId as collectionId',
-        'sets.title as title',
-        'sets.description as description',
-        'collections.createdAt as createdAt',
-        'sets.createdAt as updatedAt',
-        'users.username as creator',
-      ])
-      .innerJoin(
-        (qb) =>
-          qb
-            .select('MAX(children.id) as max')
-            .from(sets, 'children')
-            .groupBy('children.collectionId'),
-        'cs'
-      )
-      .leftJoin('sets.record', `solveRecords`)
-      .innerJoin('sets.collection', 'collections')
-      .leftJoin('collections.creator', 'users')
-      .addSelect(
-        `count(case when solveRecords.answerRate > -2 then 1 end) as solvedUserNumber`
-      )
-      .addSelect(
-        `avg(case when solveRecords.answerRate > -1 then solveRecords.answerRate end) as  averageScore`
-      )
-      .groupBy(`sets.id`)
-      .where('cs.max = sets.id')
+    return await this.getRecentSetVersion()
       .orderBy('solvedUserNumber', 'DESC')
       .limit(8)
       .getRawMany()
