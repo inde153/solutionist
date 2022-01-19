@@ -59,7 +59,7 @@ export class SetsRepository extends Repository<sets> {
       .innerJoin('sets.collection', 'collections')
       .leftJoin('collections.creator', 'users')
       .addSelect(
-        `count(case when solveRecords.answerRate > -1 then 1 end) as solvedUserNumber`
+        `count(case when solveRecords.answerRate > -2 then 1 end) as solvedUserNumber`
       )
       .addSelect(
         `avg(case when solveRecords.answerRate > -1 then solveRecords.answerRate end) as  averageScore`
@@ -108,7 +108,7 @@ export class SetsRepository extends Repository<sets> {
       .innerJoin('sets.collection', 'collections')
       .leftJoin('collections.creator', 'users')
       .addSelect(
-        `count(case when solveRecords.answerRate > -1 then 1 end) as solvedUserNumber`
+        `count(case when solveRecords.answerRate > -2 then 1 end) as solvedUserNumber`
       )
       .addSelect(
         `avg(case when solveRecords.answerRate > -1 then solveRecords.answerRate end) as  averageScore`

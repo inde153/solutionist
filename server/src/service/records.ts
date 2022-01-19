@@ -44,7 +44,7 @@ export class RecordService {
     return await this.recordRepo.count({
       where: {
         setId,
-        answerRate: MoreThan(-1),
+        answerRate: MoreThan(-2),
       },
     });
   }
