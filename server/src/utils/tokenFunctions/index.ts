@@ -27,11 +27,7 @@ const jwtToken = {
       httpOnly: true,
       sameSite: 'Lax',
       secure: true,
-<<<<<<< HEAD
       domain: process.env.DOMAIN,
-=======
-      // domain: process.env.DOMAIN,
->>>>>>> 9b7d2a8b076b7ab046c8298062fcd5e93d0e2d3f
       maxAge: 1000 * 60 * 60,
     });
   },
