@@ -1,7 +1,6 @@
 import { EntityRepository, Repository, getManager, SelectQueryBuilder } from 'typeorm';
 import { sets } from '../entity/sets';
 import { convertRawObject } from '../../utils/custom';
-import { collections } from '../entity/collections';
 import { users } from '../entity/users';
 import { solveRecords } from '../entity/solveRecords';
 
