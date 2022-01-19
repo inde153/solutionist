@@ -32,10 +32,13 @@ const CardContainer = styled.div`
   perspective: 1000px;
 
   display: ${(props) => (props.$display ? 'none' : '')};
+
+  width: 180px;
+  height: 240px;
 `;
 const CardFront = styled.div`
-  width: 100%;
-  height: 13.75rem;
+  width: 180px;
+  height: 240px;
   background-color: white;
   border: 1px solid var(--warm-grey);
   border-radius: 10px;
@@ -56,7 +59,6 @@ const SetInfo = styled.div``;
 const SetName = styled.div`
   font-size: 1.25rem;
 
-  width: 163px;
   white-space: normal;
   display: -webkit-box;
   -webkit-line-clamp: 1;
@@ -67,7 +69,6 @@ const SetDesc = styled.div`
   margin-top: 1rem;
   font-family: 'GowunDodum-Regular', sans-serif;
 
-  width: 163px;
   white-space: normal;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -112,8 +113,8 @@ const Stat = styled.li`
 const CardBack = styled.div`
   position: absolute;
   top: 0;
-  width: 100%;
-  height: 13.75rem;
+  width: 180px;
+  height: 240px;
   border-radius: 10px;
   border: 1px solid var(--warm-grey);
   background-color: var(--warm-grey);
@@ -272,13 +273,13 @@ const SetCardVerTwo = ({
                   <Icon>
                     <UserIcon />
                   </Icon>
-                  <p>{solvedUserNumber}</p>
+                  <p>{solvedUserNumber}명</p>
                 </Stat>
                 <Stat>
                   <Icon>
                     <ChartIcon />
                   </Icon>
-                  <p>{Math.round(averageScore)}</p>
+                  <p>{Math.round(averageScore)}점</p>
                 </Stat>
               </StatsContainer>
             </IconContainer>
