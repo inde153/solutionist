@@ -55,14 +55,27 @@ const InfoContainer = styled.div`
 const SetInfo = styled.div``;
 const SetName = styled.div`
   font-size: 1.25rem;
+
+  width: 163px;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 `;
 const SetDesc = styled.div`
   margin-top: 1rem;
   font-family: 'GowunDodum-Regular', sans-serif;
 
+  width: 163px;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
   &.align-right {
     display: flex;
-    /* flex-direction: flex-end; */
     justify-content: flex-end;
     font-size: 0.75rem;
   }
