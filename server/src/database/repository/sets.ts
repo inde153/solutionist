@@ -125,6 +125,7 @@ export class SetsRepository extends Repository<sets> {
     const dt = await this.createQueryBuilder('sets')
       .select([
         'sets.id as id',
+        'collections.id as collectionId',
         'users.username as username',
         'sets.title as title',
         'sets.description as descriptoin',
