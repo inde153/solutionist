@@ -18,21 +18,83 @@ const SetsContainer = styled.div`
   margin: 1.2rem 0;
   grid-row-gap: 1.2rem;
   grid-column-gap: 1rem;
+
+  @media all and (max-width: 1023px) {
+    grid-template-columns: 1fr 85% 1fr;
+    /* width: 60%; */
+    /* grid-template-areas: '. cards .'; */
+    /* margin: 0.5rem 1rem; */
+  }
+  @media all and (max-width: 767px) {
+    grid-template-columns: 1fr 95% 1fr;
+    grid-row-gap: 0.8rem;
+    grid-column-gap: 0.8rem;
+    /* display: flex; */
+    /* margin: 0.5rem 1rem; */
+    /* width: calc(100% - 2rem); */
+    /* margin: 0.5rem 1rem 0.5rem 1rem; */
+    /* font-size: 0.75rem; */
+    /* margin: 0.8rem 0; */
+  }
+
+  @media all and (max-width: 405px) {
+    grid-template-columns: 1fr 99% 1fr;
+    grid-row-gap: 0.4rem;
+    grid-column-gap: 0.4rem;
+    /* margin: 0.5rem 0; */
+    /* width: calc(100% - 2rem); */
+    /* margin: 0.5rem 1rem 0.5rem 1rem; */
+    /* font-size: 0.75rem; */
+  }
 `;
 
 const Header = styled.div`
   grid-area: header;
   font-size: 1.75rem;
+  display: flex;
+  width: 56.6%;
+  /* justify-content: center; */
+
+  @media all and (max-width: 595px) {
+    justify-content: center;
+    width: 100%;
+  }
 `;
 
 const CardsContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+  /* align-content: center; */
+  /* align-items: center; */
+  /* grid-template-columns: 1fr 1fr 1fr 1fr; */
   grid-gap: 1rem;
   grid-area: cards;
 
   div:nth-child(n + 9) {
     display: ${(props) => (props.$display ? 'none' : '')};
+  }
+
+  @media all and (max-width: 1023px) {
+    /* grid-template-columns: 1fr 1fr; */
+    /* width: 60%; */
+    /* margin: 0.5rem 0; */
+  }
+  @media all and (max-width: 767px) {
+    grid-gap: 0.8rem;
+    /* width: calc(100% - 2rem); */
+    /* margin: 0.5rem 1rem 0.5rem 1rem; */
+    /* font-size: 0.75rem; */
+    /* margin: 0.5rem 0; */
+  }
+
+  @media all and (max-width: 595px) {
+    grid-gap: 0.4rem;
+    justify-content: center;
+    /* width: calc(100% - 2rem); */
+    /* margin: 0.5rem 1rem 0.5rem 1rem; */
+    /* font-size: 0.75rem; */
+    /* margin: 0.5rem 0; */
   }
 `;
 
@@ -58,6 +120,11 @@ const SearchContainer = styled.div`
   display: flex;
   width: 56.6%;
   margin: 2rem 21.7% 0 21.7%;
+
+  @media all and (max-width: 595px) {
+    width: 80%;
+    margin: 2rem auto;
+  }
 `;
 const SearchInput = styled.input`
   width: calc(100% - 55px);
