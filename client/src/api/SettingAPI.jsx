@@ -9,7 +9,7 @@ export function changeProfileImage(file) {
     //   console.log(value);
     // }
     return axios
-      .patch(`${process.env.SERVER_URL}myPage/profileImage`, formData, {
+      .patch(`${process.env.SERVER_URL}users/profileimage`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -25,7 +25,7 @@ export function changeProfileImage(file) {
 export function changeUsername(newUsername) {
   console.log(newUsername);
   return axios.patch(
-    `${process.env.SERVER_URL}myPage/username`,
+    `${process.env.SERVER_URL}users/username`,
     { newUsername },
     {
       headers: {
@@ -39,7 +39,7 @@ export function changeUsername(newUsername) {
 export function changePassword(password, newPassword) {
   // console.log(password, newPassword);
   return axios.patch(
-    `${process.env.SERVER_URL}myPage/password`,
+    `${process.env.SERVER_URL}users/password`,
     { password, newPassword },
     {
       headers: {

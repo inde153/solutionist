@@ -30,6 +30,9 @@
   --vibrant-green-50: rgba(0, 204, 0, 0.5);
   --red-50: rgba(238, 0, 0, 0.5);
 }
+body {
+  background-color: var(--very-light-pink);
+}
 * {
   font-family: 'Righteous', 'GongGothicMedium', 'GowunDodum-Regular', sans-serif;
 }

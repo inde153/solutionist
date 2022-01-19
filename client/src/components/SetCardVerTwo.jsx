@@ -14,8 +14,11 @@ import KakaoIcon from '../icons/Kakao';
 import { GrDocumentUpdate } from 'react-icons/gr';
 import { RiKakaoTalkLine } from 'react-icons/ri';
 import { HiOutlineClipboardCopy } from 'react-icons/hi';
+import { VscOutput } from 'react-icons/vsc';
+
 import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { useNavigate } from 'react-router-dom';
 
 const anim = keyframes`
   from{
@@ -56,6 +59,13 @@ const SetName = styled.div`
 const SetDesc = styled.div`
   margin-top: 1rem;
   font-family: 'GowunDodum-Regular', sans-serif;
+
+  &.align-right {
+    display: flex;
+    /* flex-direction: flex-end; */
+    justify-content: flex-end;
+    font-size: 0.75rem;
+  }
 `;
 const IconContainer = styled.div`
   display: flex;
@@ -134,12 +144,25 @@ const StyledLink = styled(Link)`
   color: white;
 `;
 
-const SetCardVerTwo = () => {
+const SetCardVerTwo = ({
+  isSearch,
+  averageScore,
+  id,
+  createdAt,
+  creator,
+  description,
+  solvedUserNumber,
+  title,
+  updatedAt,
+  isMade,
+  recordId,
+}) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   const [isHidden, setIsHidden] = useState(false);
   const handleHidden = () => {
     setIsHidden(true);
+    // ! 삭제 api
   };
 
   const [isShare, setIsShare] = useState(false);
@@ -148,7 +171,7 @@ const SetCardVerTwo = () => {
   };
 
   // TODO : 동작은 하는데 알림이 없음 ex)클립보드에 저장 완료 메시지
-  const solveUrl = `http://localhost:9000/solve`;
+  const solveUrl = `http://localhost:9000/solve/${id}`;
 
   // * 카카오 공유하기
   useEffect(() => {
@@ -162,19 +185,20 @@ const SetCardVerTwo = () => {
     Kakao.Link.sendDefault({
       objectType: 'feed',
       content: {
-        title: 'Solutionist 문제 풀기',
-        description: 'Username님이 공유하신 문제로 이동합니다.',
+        title: `${title} 문제 풀기`,
+        description: `${creator}님이 공유하신 문제로 이동합니다.`,
         imageUrl:
           'https://user-images.githubusercontent.com/73838733/149615624-3d540181-ce17-4bda-8bfe-2c382525e44a.png',
+        // TODO : 납작한 이미지
         link: {
-          mobileWebUrl: 'https://solutionist.site/solve',
+          mobileWebUrl: `https://solutionist.site/solve/${id}`,
         },
       },
       buttons: [
         {
           title: '웹으로 이동',
           link: {
-            mobileWebUrl: 'https://solutionist.site/solve',
+            mobileWebUrl: `https://solutionist.site/solve/${id}`,
           },
         },
       ],
@@ -183,75 +207,155 @@ const SetCardVerTwo = () => {
 
   // TODO : SetName, SetDesc, 90명, 90점 하드코딩 props로 수정
 
+  // 검색 페이지 카드세트일 때 뒤집어지지 않고, solve로 navigate
+  const navigate = useNavigate();
+  const handleGoSolve = () => {
+    // console.log('검색일 때 카드 클릭 콘솔로그');
+    navigate(`/solve/${id}`);
+  };
+
+  const koCreatedAt = new Date(createdAt).toLocaleString('ko-KR', {
+    timeZone: 'Asia/Seoul',
+  });
+
+  const timeForToday = (value) => {
+    const today = new Date();
+    const timeValue = new Date(value);
+
+    const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+    if (betweenTime < 1) return '방금전';
+    if (betweenTime < 60) {
+      return `${betweenTime}분전`;
+    }
+
+    const betweenTimeHour = Math.floor(betweenTime / 60);
+    if (betweenTimeHour < 24) {
+      return `${betweenTimeHour}시간전`;
+    }
+
+    const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+    if (betweenTimeDay < 365) {
+      return `${betweenTimeDay}일전`;
+    }
+
+    return `${Math.floor(betweenTimeDay / 365)}년전`;
+  };
+
   return (
     <CardContainer $display={isHidden}>
-      <CardFront isFlipped={isFlipped} onClick={() => setIsFlipped(true)}>
-        <InfoContainer>
-          <SetInfo>
-            <SetName>세트 카드 버전2</SetName>
-            <SetDesc>기능 테스트 용도입니다</SetDesc>
-          </SetInfo>
-          <IconContainer>
-            <StatsContainer>
-              <Stat>
-                <Icon>
-                  <UserIcon />
-                </Icon>
-                <p>90명</p>
-              </Stat>
-              <Stat>
-                <Icon>
-                  <ChartIcon />
-                </Icon>
-                <p>90점</p>
-              </Stat>
-            </StatsContainer>
-          </IconContainer>
-        </InfoContainer>
-      </CardFront>
-      <CardBack isFlipped={isFlipped}>
-        <InfoContainer>
-          <MenuContainer>
-            <Menu>
-              <StyledLink to="/solve">
-                <EditIcon fill="white" /> 풀기
-                {/* // TODO : /solve 로 이동 */}
-              </StyledLink>
-            </Menu>
-            <Menu>
-              <StyledLink to="/edit">
-                <UpdateIcon fill="none" stroke="white" strokeWidth="2" /> 수정
-                {/* <GrDocumentUpdate /> */}
-                {/* // TODO : /edit 로 이동 */}
-              </StyledLink>
-            </Menu>
-            <Menu onClick={handleShare}>
-              {isShare ? (
-                <>
-                  <CopyToClipboard text={solveUrl}>
-                    <HiOutlineClipboardCopy />
-                  </CopyToClipboard>
-                  {/* <KakaoIcon  fill="white" strokeWidth="0" /> */}
-                  {/* // ! 크기가 뭔가 안크다... */}
-                  <RiKakaoTalkLine onClick={shareKakao} />
-                </>
-              ) : (
-                <>
-                  <ShareIcon fill="white" /> 공유
-                </>
-              )}
-              {/* // TODO : 클립보드 & 카카오 공유 선택 */}
-            </Menu>
-            <Menu onClick={handleHidden}>
-              <TrashIcon fill="white" /> 삭제
-              {/* // TODO : display:none? 안보이게 처리 */}
-            </Menu>
-          </MenuContainer>
-          <Icon onClick={() => setIsFlipped(false)}>
-            <DecreaseIcon fill="white" />
-          </Icon>
-        </InfoContainer>
-      </CardBack>
+      {isSearch ? (
+        <CardFront onClick={handleGoSolve}>
+          <InfoContainer>
+            <SetInfo>
+              <SetName>{title}</SetName>
+              {/* <SetDesc>{creator}</SetDesc> */}
+              <SetDesc className="align-right">{timeForToday(updatedAt)} 수정됨</SetDesc>
+              {/* <SetDesc>{koCreatedAt}</SetDesc> */}
+              <SetDesc>{description}</SetDesc>
+            </SetInfo>
+            <IconContainer>
+              <StatsContainer>
+                <Stat>
+                  <Icon>
+                    <UserIcon />
+                  </Icon>
+                  <p>{solvedUserNumber}</p>
+                </Stat>
+                <Stat>
+                  <Icon>
+                    <ChartIcon />
+                  </Icon>
+                  <p>{Math.round(averageScore)}</p>
+                </Stat>
+              </StatsContainer>
+            </IconContainer>
+          </InfoContainer>
+        </CardFront>
+      ) : (
+        <>
+          <CardFront isFlipped={isFlipped} onClick={() => setIsFlipped(true)}>
+            <InfoContainer>
+              <SetInfo>
+                <SetName>{title}</SetName>
+                {/* <SetDesc>{creator}</SetDesc> */}
+                <SetDesc className="align-right">
+                  {updatedAt ? timeForToday(updatedAt) : timeForToday(createdAt)} 수정됨
+                </SetDesc>
+                {/* <SetDesc>{koCreatedAt}</SetDesc> */}
+                <SetDesc>{description}</SetDesc>
+              </SetInfo>
+              <IconContainer>
+                <StatsContainer>
+                  <Stat>
+                    <Icon>
+                      <UserIcon />
+                    </Icon>
+                    <p>{solvedUserNumber}</p>
+                  </Stat>
+                  <Stat>
+                    <Icon>
+                      <ChartIcon />
+                    </Icon>
+                    <p>{Math.round(averageScore)}</p>
+                  </Stat>
+                </StatsContainer>
+              </IconContainer>
+            </InfoContainer>
+          </CardFront>
+          <CardBack isFlipped={isFlipped}>
+            <InfoContainer>
+              <MenuContainer>
+                <Menu>
+                  <StyledLink to={/solve/ + id}>
+                    <EditIcon fill="white" /> 풀기
+                    {/* // TODO : /solve 로 이동 */}
+                  </StyledLink>
+                </Menu>
+                <Menu>
+                  <StyledLink to={/edit/ + id}>
+                    <UpdateIcon fill="none" stroke="white" strokeWidth="2" /> 수정
+                    {/* <GrDocumentUpdate /> */}
+                    {/* // TODO : /edit 로 이동 */}
+                  </StyledLink>
+                </Menu>
+                <Menu onClick={handleShare}>
+                  {isShare ? (
+                    <>
+                      <CopyToClipboard text={solveUrl}>
+                        <HiOutlineClipboardCopy />
+                      </CopyToClipboard>
+                      {/* <KakaoIcon  fill="white" strokeWidth="0" /> */}
+                      {/* // ! 크기가 뭔가 안크다... */}
+                      <RiKakaoTalkLine onClick={shareKakao} />
+                    </>
+                  ) : (
+                    <>
+                      <ShareIcon fill="white" /> 공유
+                    </>
+                  )}
+                  {/* // TODO : 클립보드 & 카카오 공유 선택 */}
+                </Menu>
+                {isMade && (
+                  <Menu onClick={handleHidden}>
+                    <TrashIcon fill="white" /> 삭제
+                    {/* // TODO : display:none? 안보이게 처리 */}
+                  </Menu>
+                )}
+                {!isMade && (
+                  <Menu>
+                    <StyledLink to={/result/ + id + '/' + recordId}>
+                      <VscOutput /> 결과
+                    </StyledLink>
+                  </Menu>
+                )}
+              </MenuContainer>
+              <Icon onClick={() => setIsFlipped(false)}>
+                <DecreaseIcon fill="white" />
+              </Icon>
+            </InfoContainer>
+          </CardBack>
+        </>
+      )}
     </CardContainer>
   );
 };

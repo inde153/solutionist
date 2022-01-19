@@ -15,11 +15,12 @@ import Edit from './pages/Edit';
 import Search from './pages/Search';
 
 const BG = styled.div`
+  position: absolute;
   background-color: var(--very-light-pink);
   width: 100vw;
-  height: 100vh;
-  /* height: auto; */
-  overflow: scroll;
+  /* height: 100vh; */
+  height: auto;
+  /* overflow: scroll; */
 `;
 
 const App = () => {
@@ -31,11 +32,11 @@ const App = () => {
         <Route path="/make" element={<Make />} />
         <Route path="/solve/:setId" element={<Solve />} />
         <Route path="/myset" element={<MySet />} />
-        <Route path="/solve" element={<Solve />} />
+        <Route path="/solve" element={<Search />} />
         <Route path="/setting" element={<Setting />} />
         <Route path="/result/:setId/:recordId" element={<Result />} />
         <Route path="/edit/:setId" element={<Edit />} />
-        <Route path="/search" element={<Search />} />
+        {/* <Route path="/search" element={<Search />} /> */}
       </Routes>
       <LoginModalContainer />
     </BG>

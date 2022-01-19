@@ -26,13 +26,13 @@ const ProblemContainer = styled.div`
   @media all and (max-width: 767px) {
     margin: 0 1rem;
     grid-template-rows: auto auto auto auto auto;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-areas:
-      'number icons icons'
-      'question question question'
-      'choice choice choice'
-      'counter counter counter'
-      'explanation explanation explanation';
+      'number icons'
+      'question question'
+      'choice choice'
+      'counter counter'
+      'explanation explanation';
   }
 `;
 const ProblemNum = styled.div`
@@ -42,6 +42,7 @@ const ProblemNum = styled.div`
   font-size: ${(props) => props.font_size};
   opacity: 0.5;
   margin-right: 1rem;
+  user-select: none;
 
   @media all and (max-width: 767px) {
     font-size: 2rem;
@@ -52,13 +53,13 @@ const ProblemNum = styled.div`
 
 const Question = styled.textarea`
   grid-area: question;
-  height: 24px;
+  height: 27px;
   margin: 1rem 0.5rem 0 0;
   line-height: 120%;
   word-wrap: break-word;
-  word-break: break-word;
+  word-break: keep-all;
   font-size: 1.25rem;
-  font-family: 'GongGothicMedium', sans-serif;
+  font-family: 'GowunDodum-Regular', sans-serif;
   resize: none;
   @media all and (max-width: 767px) {
     /* margin-top: 0.5rem; */
@@ -77,6 +78,7 @@ const Icon = styled.div`
   width: 1.5rem;
   height: 1.5rem;
   margin: 0 0.25rem;
+  cursor: pointer;
   svg {
     width: 1.5rem;
     height: 1.5rem;
@@ -115,6 +117,8 @@ const ChoiceNum = styled.div`
   font-family: 'GowunDodum-Regular', sans-serif;
   font-weight: ${(props) => props.fontWeight};
   color: ${(props) => props.color};
+  user-select: none;
+  cursor: pointer;
 `;
 const ChoiceContent = styled.textarea`
   flex: 1;
@@ -125,7 +129,7 @@ const ChoiceContent = styled.textarea`
   font-size: 1rem;
   font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
-  word-break: break-word;
+  word-break: keep-all;
   resize: none;
 `;
 const Counter = styled.div`
@@ -141,6 +145,8 @@ const Plus = styled.div`
   background-color: var(--warm-grey-50);
   border-radius: 1rem;
   margin-top: 1rem;
+  user-select: none;
+  cursor: pointer;
   p {
     margin: 0.5rem 0;
     text-align: center;
@@ -153,6 +159,8 @@ const Minus = styled.div`
   border-radius: 1rem;
   margin-top: 1rem;
   background-color: var(--red-50);
+  user-select: none;
+  cursor: pointer;
 
   p {
     margin: 0.5rem 0;
@@ -167,6 +175,7 @@ const Check = styled.div`
   width: 1.5rem;
   margin-right: 0.5rem;
   margin-bottom: 0.5rem;
+  cursor: pointer;
   svg {
     align-self: start;
   }
@@ -186,7 +195,7 @@ const Explanation = styled.textarea`
   font-size: 0.75rem;
   font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
-  word-break: break-word;
+  word-break: keep-all;
   resize: none;
 `;
 const OxChoices = styled.div`
@@ -206,6 +215,7 @@ const OxCard = styled.div`
   background-color: white;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
   border-radius: 10px;
+  cursor: pointer;
   svg {
     height: 100%;
     width: 100%;
@@ -230,7 +240,6 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
   };
 
   const handleClick = (e) => {
-    console.log(e.target.id);
     const choice = [...problem.choice];
 
     if (e.target.id[0] === 'i' && choice.length < 10) {
@@ -365,6 +374,8 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
                 key={`choice ${idx + 1}`}
               >
                 <ChoiceNum
+                  onClick={handleClick}
+                  id={`a${idx}`}
                   color={choice.index === problem.answer ? 'black' : ''}
                   fontWeight={choice.index === problem.answer ? 'bold' : 'initial'}
                 >{`${idx + 1}.`}</ChoiceNum>

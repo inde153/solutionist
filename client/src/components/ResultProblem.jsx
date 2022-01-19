@@ -318,7 +318,7 @@ const ResultProblem = ({ idx, problem, navRefs, data }) => {
           <div>비율</div>
         </ChartLine>
         {problem.choice.map((choice, idx) => (
-          <ChartLine>
+          <ChartLine key={`p${curIdx}c${idx}`}>
             {problem.isOX ? (
               idx === 0 ? (
                 <div>O</div>
