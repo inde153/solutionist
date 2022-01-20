@@ -38,6 +38,7 @@ const ProblemNum = styled.div`
   color: ${(props) => props.color};
   font-size: ${(props) => props.font_size};
   margin-right: 1rem;
+  font-family: 'Righteous', 'GongGothicMedium', sans-serif;
 
   @media all and (max-width: 767px) {
     font-size: 2rem;
@@ -54,7 +55,8 @@ const Question = styled.div`
   word-wrap: break-word;
   word-break: break-word;
   font-size: 1.25rem;
-  font-family: 'GongGothicMedium', sans-serif;
+  font-family: 'GowunDodum-Regular', sans-serif;
+  font-weight: bold;
   @media all and (max-width: 767px) {
     font-size: 1rem;
   }
@@ -90,6 +92,7 @@ const ChoiceContent = styled.div`
   padding: 0.25rem 0;
   color: black;
   font-size: 1rem;
+  height: 1rem;
   font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
   word-break: break-word;

@@ -43,6 +43,9 @@ const ProblemNum = styled.div`
   opacity: 0.5;
   margin-right: 1rem;
   user-select: none;
+  p {
+    font-family: 'Righteous', sans-serif;
+  }
 
   @media all and (max-width: 767px) {
     font-size: 2rem;
@@ -62,7 +65,6 @@ const Question = styled.textarea`
   font-family: 'GowunDodum-Regular', sans-serif;
   resize: none;
   @media all and (max-width: 767px) {
-    /* margin-top: 0.5rem; */
     height: 19px;
     font-size: 1rem;
   }

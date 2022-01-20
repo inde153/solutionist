@@ -8,11 +8,30 @@ import { useParams } from 'react-router-dom';
 const MakeContainer = styled.div`
   position: relative;
   height: calc(100% - 4rem - 70px);
-  padding: 2rem 0;
-  overflow: scroll;
+  padding: 1rem 0 2rem;
 
   *::placeholder {
     opacity: 0.5;
+  }
+`;
+const Header = styled.div`
+  width: 50%;
+  margin: 0 25% 0.5rem 25%;
+  font-size: 1rem;
+  color: var(--warm-grey);
+  user-select: none;
+  p {
+    font-family: 'GongGothicMedium', sans-serif;
+  }
+
+  @media all and (max-width: 1023px) {
+    width: 60%;
+    margin: 0 15% 0.5rem 25%;
+  }
+  @media all and (max-width: 767px) {
+    width: calc(100% - 2rem);
+    margin: 0 1rem 0.5rem 1rem;
+    font-size: 0.75rem;
   }
 `;
 const Title = styled.div`
@@ -21,7 +40,7 @@ const Title = styled.div`
   margin: 0 25% 0 25%;
   line-height: 120%;
   font-size: 2rem;
-  font-family: 'GongGothicMedium', sans-serif;
+  font-weight: bold;
   word-wrap: break-word;
   word-break: keep-all;
 
@@ -42,7 +61,6 @@ const Desc = styled.div`
   margin: 0.5rem 25%;
   line-height: 120%;
   font-size: 1.25rem;
-  font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
   word-break: keep-all;
 
@@ -68,9 +86,12 @@ const Rate = styled.div`
   text-align: right;
   word-wrap: break-word;
   word-break: keep-all;
-  > div > div:last-child {
-    font-size: 5rem;
-    color: var(--warm-grey);
+  > div > div {
+    font-family: 'Righteous', 'GongGothicMedium', sans-serif;
+    :last-child {
+      font-size: 5rem;
+      color: var(--warm-grey);
+    }
   }
 
   @media all and (max-width: 1023px) {
@@ -104,7 +125,7 @@ const Divider = styled.div`
 const SidebarContainer = styled.div`
   position: sticky;
   float: 0;
-  top: 3rem;
+  top: 4rem;
   display: grid;
   grid-template-rows: 1fr;
   grid-template-columns: 1fr 50% 1fr;
@@ -138,6 +159,10 @@ const SidebarContent = styled.div`
     font-weight: ${(props) => props.weight};
     word-wrap: break-word;
     word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
   }
   div:first-child {
     margin-right: 0.5rem;
@@ -208,6 +233,9 @@ const Result = () => {
 
   return (
     <MakeContainer onScroll={handleScroll} ref={makeRef}>
+      <Header>
+        <p>세트 결과</p>
+      </Header>
       <Title> {set.title} </Title>
       <Desc>{set.description}</Desc>
       {total ? (

@@ -183,6 +183,7 @@ const Message = styled.div`
   display: flex;
   color: ${(props) => (props.color ? props.color : '')};
   font-size: 1rem;
+  font-weight: bold;
   user-select: none;
   p {
     margin: auto;
@@ -289,7 +290,7 @@ const Edit = () => {
   const [versionOn, setVersionOn] = useState(false);
 
   const [message, setMessage] = useState([
-    '<- 여기를 눌러 문제를 추가할 수 있습니다.',
+    '+ 버튼을 눌러 문제를 추가할 수 있습니다.',
     '',
   ]);
 
