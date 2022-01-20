@@ -11,6 +11,8 @@ const SolveContainer = styled.div`
   position: relative;
   height: calc(100% - 4rem - 70px);
   padding: 1rem 0 2rem;
+  max-width: 1216px;
+  margin: 0 auto;
 
   *::placeholder {
     opacity: 0.5;
@@ -29,6 +31,15 @@ const Header = styled.div`
     :last-child {
       cursor: pointer;
     }
+  }
+  @media all and (max-width: 1023px) {
+    width: 60%;
+    margin: 0 15% 0.5rem 25%;
+  }
+  @media all and (max-width: 767px) {
+    width: calc(100% - 2rem);
+    margin: 0 1rem 0.5rem 1rem;
+    font-size: 0.75rem;
   }
 `;
 const Title = styled.div`
@@ -93,12 +104,11 @@ const Info = styled.div`
   }
   @media all and (max-width: 1023px) {
     width: 60%;
-    margin: 0.5rem 15% 0.5rem 25%;
+    margin: 0.5rem 15% 1rem 25%;
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
     margin: 0.5rem 1rem;
-    font-size: 1rem;
   }
 `;
 const Divider = styled.div`

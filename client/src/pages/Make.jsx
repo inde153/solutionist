@@ -7,6 +7,8 @@ import { FaPlusSquare, FaSave, FaArrowLeft } from 'react-icons/fa';
 
 const MakeContainer = styled.div`
   height: calc(100% - 4rem - 70px);
+  max-width: 1216px;
+  margin: 0 auto;
   padding: 1rem 0 2rem;
 
   *::placeholder {
@@ -285,10 +287,7 @@ const Make = () => {
     }
   };
 
-  const [message, setMessage] = useState([
-    '+ 버튼을 눌러 문제를 추가할 수 있습니다.',
-    '',
-  ]);
+  const [message, setMessage] = useState(['+ 버튼을 눌러 문제를 추가해보세요.', '']);
 
   return (
     <MakeContainer onScroll={handleScroll} ref={makeRef}>
