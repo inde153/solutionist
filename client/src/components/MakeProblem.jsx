@@ -10,7 +10,7 @@ import OIcon from '../icons/O';
 import XIcon from '../icons/X';
 
 const ProblemContainer = styled.div`
-  margin: 0.25rem 0;
+  margin: 0.5rem 0;
   display: grid;
   grid-template-rows: auto auto auto auto;
   grid-template-columns: 25% 1fr auto 25%;
@@ -39,10 +39,13 @@ const ProblemNum = styled.div`
   grid-area: number;
   text-align: end;
   color: var(--orangey-yellow);
-  font-size: ${(props) => props.font_size};
+  font-size: 6rem;
   opacity: 0.5;
   margin-right: 1rem;
   user-select: none;
+  p {
+    font-family: 'Righteous', sans-serif;
+  }
 
   @media all and (max-width: 767px) {
     font-size: 2rem;
@@ -53,7 +56,7 @@ const ProblemNum = styled.div`
 
 const Question = styled.textarea`
   grid-area: question;
-  height: 27px;
+  height: 26px;
   margin: 1rem 0.5rem 0 0;
   line-height: 120%;
   word-wrap: break-word;
@@ -62,7 +65,6 @@ const Question = styled.textarea`
   font-family: 'GowunDodum-Regular', sans-serif;
   resize: none;
   @media all and (max-width: 767px) {
-    /* margin-top: 0.5rem; */
     height: 19px;
     font-size: 1rem;
   }
@@ -96,7 +98,7 @@ const Icon = styled.div`
 `;
 const ChoicesContainer = styled.ol`
   grid-area: choice;
-  margin-top: 0.5rem;
+  margin: 1rem 0 0.5rem 0;
 `;
 const Choice = styled.li`
   display: flex;
@@ -293,7 +295,7 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
 
   return (
     <ProblemContainer ref={(el) => (navRefs.current[idx] = el)}>
-      <ProblemNum font_size={idx + 1 > 99 ? '6rem' : '8rem'}>
+      <ProblemNum>
         <p>{idx + 1}</p>
       </ProblemNum>
       {problem.isOX ? (
