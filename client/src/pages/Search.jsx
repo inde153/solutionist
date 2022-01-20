@@ -200,10 +200,13 @@ const Search = () => {
     setSearchedSets([]);
     const sendAPICall = async () => {
       const data = await searchSets(searchKey);
-      if (data) {
+      if (data.data.length !== 0) {
         // console.log('searchSets', data.data);
         setSearchedSets(data.data);
         setIsSearch(true);
+        setMessage('검색중...');
+      } else {
+        setMessage('검색 결과가 없습니다 :(');
       }
     };
     sendAPICall();
@@ -214,9 +217,6 @@ const Search = () => {
       setIsOverEight(true);
     } else {
       setIsOverEight(false);
-    }
-    if (searchedSets.length === 0) {
-      setMessage('검색 결과가 없습니다 :(');
     }
   });
 
@@ -250,7 +250,7 @@ const Search = () => {
           <SetsContainer>
             <Header>검색 결과</Header>
             <CardsContainer $display={isMadeHidden}>
-              {searchedSets.length === 0 ? (
+              {searchedSets && searchedSets.length === 0 ? (
                 <p>{message}</p>
               ) : (
                 <>
