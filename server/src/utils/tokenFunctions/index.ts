@@ -25,9 +25,9 @@ const jwtToken = {
   sendAccessToken: (res, accessToken: any) => {
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      sameSite: 'none',
+      sameSite: 'Lax',
       secure: true,
-      // domain: process.env.DOMAIN,
+      domain: process.env.DOMAIN,
       maxAge: 1000 * 60 * 60,
     });
   },

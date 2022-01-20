@@ -359,6 +359,9 @@ const SidebarContent = styled.div`
     word-wrap: break-word;
     word-break: keep-all;
     line-height: 120%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   div:first-child {
     margin-right: 0.5rem;

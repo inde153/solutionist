@@ -16,6 +16,9 @@ const Container = styled.div`
 
 const DescWrapper = styled.div`
   flex: 2;
+  @media all and (max-width: 1023px) {
+    display: none;
+  }
 `;
 
 const Wrapper = styled.div`
