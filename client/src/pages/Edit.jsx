@@ -23,8 +23,13 @@ const Header = styled.div`
   margin: 0 25% 0.5rem 25%;
   font-size: 1rem;
   color: var(--warm-grey);
-  font-family: 'GongGothicMedium', sans-serif;
   user-select: none;
+  p {
+    font-family: 'GongGothicMedium', sans-serif;
+    :last-child {
+      cursor: pointer;
+    }
+  }
 
   @media all and (max-width: 1023px) {
     width: 60%;
@@ -35,9 +40,6 @@ const Header = styled.div`
     margin: 0 1rem 0.5rem 1rem;
     font-size: 0.75rem;
   }
-  p:last-child {
-    cursor: pointer;
-  }
 `;
 const Title = styled.textarea`
   display: flex;
@@ -47,7 +49,7 @@ const Title = styled.textarea`
   margin: 0 25% 0 25%;
   line-height: 120%;
   font-size: 2rem;
-  font-family: 'GongGothicMedium', sans-serif;
+  font-weight: bold;
   word-wrap: break-word;
   word-break: keep-all;
   resize: none;
@@ -71,7 +73,6 @@ const Desc = styled.textarea`
   margin: 0.5rem 25% 1rem;
   line-height: 120%;
   font-size: 1.25rem;
-  font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
   word-break: keep-all;
   resize: none;
@@ -248,7 +249,7 @@ const Edit = () => {
       }
     }
     return axios
-      .post(`${process.env.SERVER_URL}collections`, data, {
+      .post(`${process.env.SERVER_URL}sets`, data, {
         withCredentials: true,
       })
       .then((res) => {
