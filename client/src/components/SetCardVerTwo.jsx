@@ -202,8 +202,7 @@ const SetCardVerTwo = ({
         title: `${title} 문제 풀기`,
         description: `${creator}님이 공유하신 문제로 이동합니다.`,
         imageUrl:
-          'https://user-images.githubusercontent.com/73838733/149615624-3d540181-ce17-4bda-8bfe-2c382525e44a.png',
-        // TODO : 납작한 이미지
+          'https://user-images.githubusercontent.com/73838733/150278687-d065323b-f6db-4197-b97c-7b84293a9fcf.png',
         link: {
           mobileWebUrl: `https://solutionist.site/solve/${id}`,
         },
