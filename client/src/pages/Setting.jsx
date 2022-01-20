@@ -23,6 +23,7 @@ const MainContainer = styled.div`
 const SettingContainer = styled.div`
   display: grid;
   width: 100%;
+  margin-top: 40px;
   grid-template-columns: 1fr 56.6% 1fr;
   grid-template-areas:
     '. one .'
@@ -61,6 +62,7 @@ const SettingContainer = styled.div`
   }
   @media all and (max-width: 767px) {
     grid-template-columns: 2% 96% 2%;
+    margin-top: 0px;
   }
 `;
 
