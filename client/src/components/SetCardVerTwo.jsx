@@ -19,6 +19,7 @@ import { VscOutput } from 'react-icons/vsc';
 import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useNavigate } from 'react-router-dom';
+import { deleteSets } from '../api/SearchSetAPI';
 
 const anim = keyframes`
   from{
@@ -169,14 +170,21 @@ const SetCardVerTwo = ({
   title,
   updatedAt,
   isMade,
+  collectionId,
   recordId,
 }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   const [isHidden, setIsHidden] = useState(false);
-  const handleHidden = () => {
+  const handleDelete = () => {
     setIsHidden(true);
-    // ! 삭제 api
+    deleteSets(collectionId)
+      .then(() => {
+        // console.log('삭제 성공');
+      })
+      .catch((err) => {
+        // console.log('캐치에러', err)
+      });
   };
 
   const [isShare, setIsShare] = useState(false);
@@ -350,7 +358,7 @@ const SetCardVerTwo = ({
                   {/* // TODO : 클립보드 & 카카오 공유 선택 */}
                 </Menu>
                 {isMade && (
-                  <Menu onClick={handleHidden}>
+                  <Menu onClick={handleDelete}>
                     <TrashIcon fill="white" /> 삭제
                     {/* // TODO : display:none? 안보이게 처리 */}
                   </Menu>

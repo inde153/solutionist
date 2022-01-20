@@ -101,11 +101,12 @@ const MySet = () => {
               averageScore={made.averageScore}
               id={made.id}
               createdAt={made.createdAt}
-              // creator={made.creator}
               description={made.descriptoin}
               solvedUserNumber={made.solvedUserNumber}
               title={made.title}
               key={made.id}
+              collectionId={made.collectionId}
+              // creator={made.creator}
               // updatedAt={made.updatedAt}
             />
           ))}
