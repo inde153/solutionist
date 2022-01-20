@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
-import SubmenuIcon from '../icons/Submenu';
 import ShareIcon from '../icons/Share';
 import ChartIcon from '../icons/Chart';
 import UserIcon from '../icons/User';
@@ -20,25 +19,18 @@ import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useNavigate } from 'react-router-dom';
 
-const anim = keyframes`
-  from{
-  }
-  to {
-    transform: rotateY(180deg)
-    }
-`;
 const CardContainer = styled.div`
   position: relative;
   perspective: 1000px;
-
+  margin: 0.5rem;
   display: ${(props) => (props.$display ? 'none' : '')};
 
-  width: 180px;
-  height: 240px;
+  width: 10rem;
+  height: 12rem;
 `;
 const CardFront = styled.div`
-  width: 180px;
-  height: 240px;
+  width: 10rem;
+  height: 12rem;
   background-color: white;
   border: 1px solid var(--warm-grey);
   border-radius: 10px;
@@ -50,30 +42,33 @@ const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100% - 2rem);
-  margin: 1rem;
+  height: calc(100% - 1.5rem);
+  margin: 0.75rem;
   /* height: calc(100% - 1rem); */
   /* margin: 0.5rem; */
 `;
 const SetInfo = styled.div``;
 const SetName = styled.div`
-  font-size: 1.25rem;
-
+  font-size: 1rem;
   white-space: normal;
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  line-height: 120%;
+  font-weight: bold;
 `;
 const SetDesc = styled.div`
-  margin-top: 1rem;
+  margin-top: 0.75rem;
   font-family: 'GowunDodum-Regular', sans-serif;
-
+  word-wrap: break-word;
+  word-break: keep-all;
   white-space: normal;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  line-height: 120%;
 
   &.align-right {
     display: flex;
@@ -106,15 +101,19 @@ const StatsContainer = styled.ul`
 const Stat = styled.li`
   display: flex;
   margin-top: 0.5rem;
+  font-size: 0.75rem;
+  justify-content: space-between;
   > p {
+    display: flex;
+    align-items: center;
     margin-left: 0.5rem;
   }
 `;
 const CardBack = styled.div`
   position: absolute;
   top: 0;
-  width: 180px;
-  height: 240px;
+  width: 10rem;
+  height: 12rem;
   border-radius: 10px;
   border: 1px solid var(--warm-grey);
   background-color: var(--warm-grey);
