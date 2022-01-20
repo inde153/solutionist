@@ -23,6 +23,7 @@ const MainContainer = styled.div`
 const SettingContainer = styled.div`
   display: grid;
   width: 100%;
+  margin-top: 40px;
   grid-template-columns: 1fr 56.6% 1fr;
   grid-template-areas:
     '. one .'
@@ -61,6 +62,7 @@ const SettingContainer = styled.div`
   }
   @media all and (max-width: 767px) {
     grid-template-columns: 2% 96% 2%;
+    margin-top: 0px;
   }
 `;
 
@@ -164,7 +166,7 @@ const Nickname = styled.div`
     font-size: 1rem;
     cursor: pointer;
     :hover {
-      color: var(--orangey-);
+      color: var(--orangey-yellow);
     }
   }
   > input {
@@ -567,7 +569,7 @@ const Setting = () => {
         <Blank />
         <div>
           <EditContainer>
-            <LeftSide>내 프로필</LeftSide>
+            <LeftSide>프로필</LeftSide>
             <ImageContainer>
               <input type="file" id="upload" onChange={handleFileInput} />
               <label htmlFor="upload">

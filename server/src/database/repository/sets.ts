@@ -143,10 +143,10 @@ export class SetsRepository extends Repository<sets> {
       .innerJoin('sets.collection', 'collections')
       .leftJoin('collections.creator', 'users')
       .addSelect(
-        `count(case when solveRecords.answerRate > -1 then 1 end) as solvedUserNumber`
+        `count(case when solveRecords.answerRate > -2 then 1 end) as solvedUserNumber`
       )
       .addSelect(
-        `avg(case when solveRecords.answerRate > -1 then solveRecords.answerRate end) as  averageScore`
+        `avg(case when solveRecords.answerRate > -2 then solveRecords.answerRate end) as  averageScore`
       )
       .groupBy(`sets.Id`)
       .where('cs.max = sets.id')
@@ -168,10 +168,10 @@ export class SetsRepository extends Repository<sets> {
         'sets.createdAt as createdAt',
       ])
       .addSelect(
-        `count(case when solveRecords.answerRate > -1 then 1 end) as solvedUserNumber`
+        `count(case when solveRecords.answerRate > -2 then 1 end) as solvedUserNumber`
       )
       .addSelect(
-        `avg(case when solveRecords.answerRate > -1 then solveRecords.answerRate end) as  averageScore`
+        `avg(case when solveRecords.answerRate > -2 then solveRecords.answerRate end) as  averageScore`
       )
 
       .innerJoin(solveRecords, 'solveRecords', `sets.id = solveRecords.setId`)
