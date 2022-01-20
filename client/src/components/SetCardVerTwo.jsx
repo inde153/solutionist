@@ -185,7 +185,8 @@ const SetCardVerTwo = ({
   };
 
   // TODO : 동작은 하는데 알림이 없음 ex)클립보드에 저장 완료 메시지
-  const solveUrl = `http://localhost:9000/solve/${id}`;
+  const solveUrl = `https://solutionist.site/solve/${id}`;
+  // console.log('solve$id', solveUrl);
 
   // * 카카오 공유하기
   useEffect(() => {
@@ -200,18 +201,18 @@ const SetCardVerTwo = ({
       objectType: 'feed',
       content: {
         title: `${title} 문제 풀기`,
-        description: `${creator}님이 공유하신 문제로 이동합니다.`,
+        description: `문제 풀러 가볼까요?`,
         imageUrl:
           'https://user-images.githubusercontent.com/73838733/150278687-d065323b-f6db-4197-b97c-7b84293a9fcf.png',
         link: {
-          mobileWebUrl: `https://solutionist.site/solve/${id}`,
+          mobileWebUrl: 'https://solutionist.site/solve/' + id,
         },
       },
       buttons: [
         {
           title: '웹으로 이동',
           link: {
-            mobileWebUrl: `https://solutionist.site/solve/${id}`,
+            mobileWebUrl: 'https://solutionist.site/solve/' + id,
           },
         },
       ],

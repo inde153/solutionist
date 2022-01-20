@@ -68,7 +68,7 @@ const MySet = () => {
     setMySetsMade([]);
     const sendAPICall = async () => {
       const data = await getMySetsMade();
-      // console.log('made', data.data.findSet);
+      console.log('made', data.data.findSet);
       setMySetsMade(data.data.findSet);
     };
     sendAPICall();
@@ -81,7 +81,7 @@ const MySet = () => {
     setMySetsSolved([]);
     const sendAPICall = async () => {
       const data = await getMySetsSolved();
-      // console.log('solved', data.data.findSet);
+      console.log('solved', data.data.findSet);
       setMySetsSolved(data.data.findSet);
       // Todo : map할때 props에 isMade 보내서 만든/푼 구분
     };
