@@ -52,6 +52,7 @@ export class SetService {
 
     // 생성 정보 세팅
     return {
+      setId: madeSet.id,
       title: madeSet.title,
       createdAt: timestampToLocaleTime(madeSet.createdAt),
     };
@@ -72,6 +73,7 @@ export class SetService {
     const madeSet = await this.makeSet(set);
     // 수정 정보 세팅
     return {
+      setId: madeSet.id,
       title: madeSet.title,
       createdAt: timestampToLocaleTime(collectionCreatedAt),
       upatedAt: timestampToLocaleTime(madeSet.createdAt),
