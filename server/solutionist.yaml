@@ -553,6 +553,8 @@ paths:
             schema:
               type: object
               properties:
+                setId:
+                  type: integer
                 title:
                   type: string
                 description:
@@ -584,6 +586,7 @@ paths:
               required:
                 - title
               example:
+                setId: 1
                 title: easy questions
                 description: very easy
                 problems:
@@ -659,6 +662,8 @@ paths:
             schema:
               type: object
               properties:
+                setId:
+                  type: integer
                 collectionId:
                   type: integer
                 title:
@@ -693,6 +698,7 @@ paths:
                 - collectionId
                 - title
               example:
+                setId: 1
                 collectionId: 20
                 title: easy questions
                 description: very easy
