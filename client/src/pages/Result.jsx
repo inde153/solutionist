@@ -146,6 +146,7 @@ const Sidebar = styled.div`
   padding: 0 1rem;
   border-left: 2px dashed var(--warm-grey);
   color: var(--warm-grey);
+  width: calc(100% - 4rem - 2px);
   div {
     font-size: 0.75rem;
   }
@@ -153,19 +154,23 @@ const Sidebar = styled.div`
 const SidebarContent = styled.div`
   margin-bottom: 0.25rem;
   display: flex;
-  * {
-    font-size: 1rem;
+  color: ${(props) => props.color};
+  div {
     font-family: 'GowunDodum-Regular', sans-serif;
     font-weight: ${(props) => props.weight};
     word-wrap: break-word;
     word-break: keep-all;
+    width: 100%;
+    line-height: 120%;
+    user-select: none;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: pointer;
-  }
-  div:first-child {
-    margin-right: 0.5rem;
+    :first-child {
+      width: auto;
+      margin-right: 0.5rem;
+    }
   }
 `;
 

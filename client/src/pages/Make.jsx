@@ -164,10 +164,10 @@ const SidebarContent = styled.div`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-  div:first-child {
-    width: auto;
-    margin-right: 0.5rem;
+    :first-child {
+      width: auto;
+      margin-right: 0.5rem;
+    }
   }
 `;
 
@@ -175,7 +175,6 @@ const Message = styled.div`
   display: flex;
   color: ${(props) => (props.color ? props.color : '')};
   font-size: 1rem;
-  font-weight: bold;
   font-weight: bold;
   user-select: none;
   p {

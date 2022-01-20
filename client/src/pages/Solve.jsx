@@ -65,7 +65,7 @@ const Desc = styled.div`
 
   @media all and (max-width: 1023px) {
     width: 60%;
-    margin: 0.5rem 15% 0.5rem 25%;
+    margin: 0.5rem 15% 1rem 25%;
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -117,7 +117,7 @@ const Divider = styled.div`
   }
 `;
 const ProblemContainer = styled.div`
-  margin: 0.25rem 0;
+  margin: 0.5rem 0;
   display: grid;
   grid-template-rows: auto auto auto auto;
   grid-template-columns: 25% 1fr 25%;
@@ -147,8 +147,10 @@ const ProblemNum = styled.div`
   grid-area: number;
   text-align: end;
   color: ${(props) => props.color};
-  font-size: ${(props) => props.font_size};
+  font-size: 6rem;
   margin-right: 1rem;
+  display: flex;
+  flex-direction: column;
   p {
     font-family: 'Righteous', sans-serif;
   }
@@ -157,6 +159,9 @@ const ProblemNum = styled.div`
     font-size: 2rem;
     text-align: start;
     margin-top: 1rem;
+    margin-right: 0;
+    flex-direction: row;
+    justify-content: space-between;
   }
 `;
 const Question = styled.div`
@@ -174,8 +179,7 @@ const Question = styled.div`
 `;
 const ChoicesContainer = styled.ol`
   grid-area: choice;
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
 `;
 const Choice = styled.li`
   display: flex;
@@ -257,11 +261,13 @@ const Explanation = styled.div`
   word-wrap: break-word;
   word-break: break-word;
 `;
+const ChartIconContainer = styled.div`
+  position: relative;
+`;
 const ChartIcon = styled.div`
-  grid-area: statIcon;
-  text-align: right;
+  position: absolute;
+  right: 0.5rem;
   font-size: 3rem;
-  margin-right: 1.5rem;
   color: ${(props) => (props.isStat ? 'var(--orangey-yellow)' : 'var(--warm-grey-50)')};
   :hover {
     color: ${(props) =>
@@ -269,8 +275,8 @@ const ChartIcon = styled.div`
   }
   @media all and (max-width: 767px) {
     font-size: 1.75rem;
-    margin-top: 1rem;
     margin-right: 0;
+    position: initial;
   }
 `;
 const ChartContainer = styled.div`
@@ -316,6 +322,7 @@ const ButtonContainer = styled.div`
   div {
     flex: 1;
     p {
+      margin: 1rem 0;
       font-family: 'Righteous', sans-serif;
     }
     * {
@@ -369,6 +376,7 @@ const Sidebar = styled.div`
   padding: 0 1rem;
   border-left: 2px dashed var(--warm-grey);
   color: var(--warm-grey);
+  width: calc(100% - 4rem - 2px);
   div {
     font-size: 0.75rem;
   }
@@ -377,19 +385,22 @@ const SidebarContent = styled.div`
   margin-bottom: 0.25rem;
   display: flex;
   color: ${(props) => props.color};
-  * {
-    font-size: 1rem;
+  div {
     font-family: 'GowunDodum-Regular', sans-serif;
     font-weight: ${(props) => props.weight};
     word-wrap: break-word;
     word-break: keep-all;
+    width: 100%;
     line-height: 120%;
+    user-select: none;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-  div:first-child {
-    margin-right: 0.5rem;
+    cursor: pointer;
+    :first-child {
+      width: auto;
+      margin-right: 0.5rem;
+    }
   }
 `;
 
@@ -577,7 +588,6 @@ const Solve = () => {
             {isChecked[curIdx] ? (
               <>
                 <ProblemNum
-                  font_size={curIdx + 1 > 99 ? '6rem' : '8rem'}
                   color={
                     userChoices[curIdx] && answer
                       ? userChoices[curIdx].choice === answer
@@ -587,6 +597,11 @@ const Solve = () => {
                   }
                 >
                   <p>{index}</p>
+                  <ChartIconContainer>
+                    <ChartIcon onClick={() => setIsStat(!isStat)} isStat={isStat}>
+                      <FaChartBar />
+                    </ChartIcon>
+                  </ChartIconContainer>
                 </ProblemNum>
                 <Question>{question}</Question>
                 <ChoicesContainer>
@@ -696,9 +711,6 @@ const Solve = () => {
                     </>
                   )}
                 </ChoicesContainer>
-                <ChartIcon onClick={() => setIsStat(!isStat)} isStat={isStat}>
-                  <FaChartBar />
-                </ChartIcon>
                 <ChartContainer rows={choice.length + 1} isStat={isStat}>
                   <ChartLine>
                     <div>보기</div>
@@ -745,10 +757,7 @@ const Solve = () => {
               </>
             ) : (
               <>
-                <ProblemNum
-                  font_size={curIdx + 1 > 99 ? '6rem' : '8rem'}
-                  color="var(--orangey-yellow-50)"
-                >
+                <ProblemNum color="var(--orangey-yellow-50)">
                   <p>{index}</p>
                 </ProblemNum>
                 <Question>{question}</Question>
