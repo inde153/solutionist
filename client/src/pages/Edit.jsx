@@ -69,7 +69,7 @@ const Desc = styled.textarea`
   display: flex;
   align-items: center;
   width: 50%;
-  height: 27px;
+  height: 26px;
   margin: 0.5rem 25% 1rem;
   line-height: 120%;
   font-size: 1.25rem;
