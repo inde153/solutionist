@@ -285,10 +285,7 @@ const Make = () => {
     }
   };
 
-  const [message, setMessage] = useState([
-    '+ 버튼을 눌러 문제를 추가할 수 있습니다.',
-    '',
-  ]);
+  const [message, setMessage] = useState(['+ 버튼을 눌러 문제를 추가해보세요.', '']);
 
   return (
     <MakeContainer onScroll={handleScroll} ref={makeRef}>
