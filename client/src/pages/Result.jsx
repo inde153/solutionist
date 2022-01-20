@@ -3,7 +3,6 @@ import axios from 'axios';
 import styled from 'styled-components';
 
 import ResultProblem from '../components/ResultProblem';
-import { FaPlusSquare, FaSave } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 
 const MakeContainer = styled.div`
@@ -162,7 +161,7 @@ const Result = () => {
       setSet(res.data);
     });
 
-    axios.get(`${process.env.SERVER_URL}solveRecords/${recordId}`).then((res) => {
+    axios.get(`${process.env.SERVER_URL}solve-records/${recordId}`).then((res) => {
       res.data.userChoices.sort((a, b) => a.problemId - b.problemId);
       setData(res.data);
     });
