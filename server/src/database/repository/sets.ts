@@ -103,6 +103,7 @@ export class SetsRepository extends Repository<sets> {
     const dt = await this.createQueryBuilder('sets')
       .select([
         'sets.id as id',
+        'collections.id as collectionId',
         'users.username as username',
         'sets.title as title',
         'sets.description as descriptoin',
@@ -120,7 +121,7 @@ export class SetsRepository extends Repository<sets> {
       .innerJoin('sets.collection', 'collections')
       .leftJoin('collections.creator', 'users')
       .addSelect(
-        `count(case when solveRecords.answerRate > -1 then 1 end) as solvedUserNumber`
+        `count(case when solveRecords.answerRate > -2 then 1 end) as solvedUserNumber`
       )
       .addSelect(
         `avg(case when solveRecords.answerRate > -1 then solveRecords.answerRate end) as  averageScore`
@@ -145,7 +146,7 @@ export class SetsRepository extends Repository<sets> {
         'sets.createdAt as createdAt',
       ])
       .addSelect(
-        `count(case when solveRecords.answerRate > -1 then 1 end) as solvedUserNumber`
+        `count(case when solveRecords.answerRate > -2 then 1 end) as solvedUserNumber`
       )
       .addSelect(
         `avg(case when solveRecords.answerRate > -1 then solveRecords.answerRate end) as  averageScore`
@@ -155,6 +156,8 @@ export class SetsRepository extends Repository<sets> {
       .innerJoin(users, 'users', 'solveRecords.userId = users.id')
       .where('solveRecords.userId = :userId', { userId: userId })
       .groupBy(`solveRecords.setId`)
+      .orderBy('createdAt', 'DESC')
+      .limit(20)
       .getRawMany();
     return dt;
   }
