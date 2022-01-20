@@ -178,6 +178,15 @@ const SidebarContent = styled.div`
     margin-right: 0.5rem;
   }
 `;
+const Message = styled.div`
+  display: flex;
+  color: ${(props) => (props.color ? props.color : '')};
+  font-size: 1rem;
+  user-select: none;
+  p {
+    margin: auto;
+  }
+`;
 
 const Edit = () => {
   const [data, setData] = useState({
@@ -226,22 +235,25 @@ const Edit = () => {
 
   const handleSave = () => {
     if (data.title === '') {
-      return console.log('세트 제목을 입력하세요');
+      return setMessage(['세트 제목을 입력해주세요.', 'red']);
     }
 
     for (let problem of data.problems) {
       if (problem.question === '') {
-        return console.log('문제를 입력해주세요');
+        return setMessage(['문제를 입력해주세요.', 'red']);
       }
 
       if (problem.answer === '') {
-        return console.log('답을 정해주세요');
+        return setMessage(['모든 문제의 답을 정해주세요.', 'red']);
       }
     }
-
-    return axios.post(`${process.env.SERVER_URL}sets`, data, {
-      withCredentials: true,
-    });
+    return axios
+      .post(`${process.env.SERVER_URL}collections`, data, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        window.location.href = `/solve/${res.data.setId}`;
+      });
   };
 
   const handleNav = (e) => {
@@ -274,6 +286,11 @@ const Edit = () => {
   };
 
   const [versionOn, setVersionOn] = useState(false);
+
+  const [message, setMessage] = useState([
+    '<- 여기를 눌러 문제를 추가할 수 있습니다.',
+    '',
+  ]);
 
   return (
     <MakeContainer onScroll={handleScroll} ref={makeRef}>
@@ -335,6 +352,9 @@ const Edit = () => {
       ))}
       <ButtonContainer>
         <FaPlusSquare onClick={addProblem} />
+        <Message color={message[1]}>
+          <p>{message[0]}</p>
+        </Message>
         <FaSave onClick={handleSave} />
       </ButtonContainer>
     </MakeContainer>
