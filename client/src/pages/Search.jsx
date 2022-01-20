@@ -20,31 +20,19 @@ const SetsContainer = styled.div`
   grid-column-gap: 1rem;
 
   @media all and (max-width: 1023px) {
-    grid-template-columns: 1fr 85% 1fr;
-    /* width: 60%; */
-    /* grid-template-areas: '. cards .'; */
-    /* margin: 0.5rem 1rem; */
+    grid-template-columns: 1fr 75% 1fr;
   }
+
   @media all and (max-width: 767px) {
-    grid-template-columns: 1fr 95% 1fr;
+    grid-template-columns: 1fr 90% 1fr;
     grid-row-gap: 0.8rem;
     grid-column-gap: 0.8rem;
-    /* display: flex; */
-    /* margin: 0.5rem 1rem; */
-    /* width: calc(100% - 2rem); */
-    /* margin: 0.5rem 1rem 0.5rem 1rem; */
-    /* font-size: 0.75rem; */
-    /* margin: 0.8rem 0; */
   }
 
   @media all and (max-width: 405px) {
     grid-template-columns: 1fr 99% 1fr;
     grid-row-gap: 0.4rem;
     grid-column-gap: 0.4rem;
-    /* margin: 0.5rem 0; */
-    /* width: calc(100% - 2rem); */
-    /* margin: 0.5rem 1rem 0.5rem 1rem; */
-    /* font-size: 0.75rem; */
   }
 `;
 
@@ -53,9 +41,8 @@ const Header = styled.div`
   font-size: 1.75rem;
   display: flex;
   width: 56.6%;
-  /* justify-content: center; */
 
-  @media all and (max-width: 595px) {
+  @media all and (max-width: 630px) {
     justify-content: center;
     width: 100%;
   }
@@ -64,10 +51,7 @@ const Header = styled.div`
 const CardsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: center; */
-  /* align-content: center; */
-  /* align-items: center; */
-  /* grid-template-columns: 1fr 1fr 1fr 1fr; */
+  justify-content: space-between;
   grid-gap: 1rem;
   grid-area: cards;
 
@@ -75,26 +59,27 @@ const CardsContainer = styled.div`
     display: ${(props) => (props.$display ? 'none' : '')};
   }
 
-  @media all and (max-width: 1023px) {
-    /* grid-template-columns: 1fr 1fr; */
-    /* width: 60%; */
-    /* margin: 0.5rem 0; */
-  }
-  @media all and (max-width: 767px) {
-    grid-gap: 0.8rem;
-    /* width: calc(100% - 2rem); */
-    /* margin: 0.5rem 1rem 0.5rem 1rem; */
-    /* font-size: 0.75rem; */
-    /* margin: 0.5rem 0; */
+  @media all and (max-width: 1357px) {
+    div:nth-child(n + 7) {
+      display: ${(props) => (props.$display ? 'none' : '')};
+    }
   }
 
-  @media all and (max-width: 595px) {
+  @media all and (max-width: 767px) {
+    grid-gap: 0.8rem;
+  }
+
+  @media all and (max-width: 630px) {
     grid-gap: 0.4rem;
     justify-content: center;
-    /* width: calc(100% - 2rem); */
-    /* margin: 0.5rem 1rem 0.5rem 1rem; */
-    /* font-size: 0.75rem; */
-    /* margin: 0.5rem 0; */
+  }
+
+  @media all and (max-width: 615px) {
+    grid-gap: 0.4rem;
+    justify-content: center;
+    div:nth-child(n + 5) {
+      display: ${(props) => (props.$display ? 'none' : '')};
+    }
   }
 `;
 
@@ -103,6 +88,26 @@ const ShowBox = styled.section`
   justify-content: flex-end;
   width: 56.6%;
   margin: 0 21.7%;
+
+  @media all and (max-width: 1023px) {
+    width: 75%;
+    margin: 0 12.5%;
+  }
+
+  @media all and (max-width: 767px) {
+    width: 90%;
+    margin: 0 5%;
+  }
+
+  @media all and (max-width: 615px) {
+    width: 80%;
+    margin: 0 10%;
+  }
+
+  @media all and (max-width: 405px) {
+    width: 90%;
+    margin: 0 5%;
+  }
 `;
 
 const Divider = styled.div`
@@ -110,18 +115,35 @@ const Divider = styled.div`
   height: 2px;
   margin: 0 21.7% 2rem 21.7%;
   background-color: var(--orangey-yellow);
+
+  @media all and (max-width: 1023px) {
+    width: 75%;
+    margin: 0 12.5%;
+  }
+
+  @media all and (max-width: 767px) {
+    width: 90%;
+    margin: 0 5%;
+  }
+
+  @media all and (max-width: 615px) {
+    width: 80%;
+    margin: 0 10%;
+  }
+
+  @media all and (max-width: 405px) {
+    width: 90%;
+    margin: 0 5%;
+  }
 `;
 
 // * Search Bar
 const SearchContainer = styled.div`
-  /* grid-area: search; */
-  /* justify-content: center; */
-  /* align-items: center; */
   display: flex;
   width: 56.6%;
   margin: 2rem 21.7% 0 21.7%;
 
-  @media all and (max-width: 595px) {
+  @media all and (max-width: 630px) {
     width: 80%;
     margin: 2rem auto;
   }
