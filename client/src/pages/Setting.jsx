@@ -22,15 +22,17 @@ const MainContainer = styled.div`
 
 const SettingContainer = styled.div`
   display: grid;
-  grid-template-rows: 4fr;
+  width: 100%;
   grid-template-columns: 1fr 56.6% 1fr;
   grid-template-areas:
     '. one .'
-    'two three .'
-    'four five .'
-    'six seven .';
+    '. two .'
+    '. three .'
+    '. four .'
+    '. five. ';
 
   div:first-child {
+    font-size: 1.2rem;
     grid-area: one;
   }
 
@@ -54,32 +56,50 @@ const SettingContainer = styled.div`
     grid-area: six;
   }
 
-  .grid-five {
-    grid-area: five;
+  @media all and (max-width: 1023px) {
+    grid-template-columns: 1fr 56.6% 1fr;
   }
-
-  .grid-seven {
-    grid-area: seven;
+  @media all and (max-width: 767px) {
+    grid-template-columns: 2% 96% 2%;
   }
 `;
 
 const Title = styled.div`
-  font-size: 2.5rem;
+  align-self: flex-end;
+  font-family: sans-serif;
+  font-style: bold;
+  cursor: default;
+`;
+
+const SubTitle = styled.div`
+  align-self: flex-end;
+  font-family: sans-serif;
+  cursor: default;
 `;
 
 const LeftSide = styled.div`
+  width: 80px;
   display: flex;
-  justify-content: flex-end;
+  flex: none;
+  justify-content: flex-start;
+  font-family: sans-serif;
   font-size: 1.5rem;
-  margin-right: 5.9%;
+  margin-left: 5px;
+  cursor: default;
+
+  @media all and (max-width: 1023px) {
+    width: 80px;
+  }
+  @media all and (max-width: 767px) {
+    width: 72px;
+  }
 `;
 
 const Blank = styled.div`
   width: 100%;
-  margin: 3.7% 0;
-  border-bottom: 2px solid var(--orangey-yellow);
+  margin: 20px 0;
+  border-bottom: 0.5px solid var(--warm-grey);
   height: 2px;
-  font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
   word-break: break-word;
   resize: none;
@@ -87,53 +107,91 @@ const Blank = styled.div`
 
 const EditContainer = styled.div`
   display: flex;
+  justify-content: flex-start;
 `;
 
 const ChangePwContainer = styled.div`
   display: flex;
+  justify-content: right;
   align-items: center;
   gap: 1rem;
+  @media ${device.mobile} {
+    justify-content: center;
+    font-size: 1rem;
+  }
   p {
-    font-size: 1.5rem;
+    font-family: sans-serif;
+    font-size: 1rem;
   }
 `;
 
 const PersonalInfo = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  padding: 5%;
+  align-items: stretch;
+  justify-content: center;
+  margin-left: 15px;
   > p {
     /* margin-top: 10%; */
-    font-size: 1.5rem;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    font-family: sans-serif;
+    @media all and (max-width: 767px) {
+      font-size: 0.7rem;
+    }
   }
   > span {
-    font-size: 2rem;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    font-family: sans-serif;
+    cursor: default;
+    @media all and (max-width: 767px) {
+      margin-top: 0.3rem;
+    }
   }
 `;
 
 const Nickname = styled.div`
   display: flex;
+
   > span {
-    font-size: 2rem;
+    font-family: sans-serif;
+    font-size: 1.2rem;
+    cursor: default;
   }
   > svg {
-    font-size: 2rem;
+    margin-left: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    :hover {
+      color: var(--orangey-);
+    }
+  }
+  > input {
+    width: 138px;
   }
 `;
 
 const ImageContainer = styled.div`
-  width: 200px;
-  height: 200px;
+  width: 80px;
+  height: 80px;
   background-color: var(--warm-grey);
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-left: 30px;
+
+  @media all and (max-width: 1023px) {
+    margin-left: 30px;
+  }
+  @media all and (max-width: 767px) {
+    margin-left: 18px;
+  }
 
   input {
-    width: 200px;
-    height: 200px;
+    width: 80px;
+    height: 80px;
     outline: none;
     display: block;
     border-radius: 50%;
@@ -145,8 +203,8 @@ const ImageContainer = styled.div`
 
   label {
     position: inherit;
-    width: 200px;
-    height: 200px;
+    width: 80px;
+    height: 80px;
     outline: none;
     display: block;
     border-radius: 50%;
@@ -155,8 +213,8 @@ const ImageContainer = styled.div`
 
   img {
     position: inherit;
-    width: 200px;
-    height: 200px;
+    width: 80px;
+    height: 80px;
     outline: none;
     display: block;
     border-radius: 50%;
@@ -165,33 +223,100 @@ const ImageContainer = styled.div`
 `;
 
 const StyledInput = styled.input`
-  font-family: GowunDodum-Regular;
-  font-size: 1.5rem;
-  border-bottom: 1px solid var(--warm-grey);
+  font-family: sans-serif;
+  font-size: 1rem;
+  border-bottom: 1px solid var(--light--gray);
   ::placeholder {
-    font-family: GowunDodum-Regular;
+    font-family: sans-serif;
   }
 `;
 
 const PasswordContainer = styled.div`
   display: grid;
-  grid-template-rows: 2fr;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 2rem;
+  font-family: sans-serif;
+  grid-template-rows: 3fr;
+  grid-template-columns: 20px 1fr;
+  grid-gap: 18px 15px;
   grid-template-areas:
-    'one two'
-    '. three';
+    '. one'
+    '. two'
+    '. three'
+    '. four'
+    '. five';
+
+  @media all and (max-width: 1023px) {
+    margin-left: -5px;
+  }
+  @media all and (max-width: 767px) {
+    margin-left: -15px;
+  }
 
   input:first-child {
     grid-area: one;
+    width: 232px;
+    -webkit-text-security: disc;
+
+    @media all and (max-width: 767px) {
+      width: 235px;
+    }
   }
 
   input:nth-child(2) {
     grid-area: two;
+    width: 232px;
+    -webkit-text-security: disc;
+
+    @media all and (max-width: 767px) {
+      width: 235px;
+    }
   }
 
-  input:last-child {
+  input:nth-child(3) {
     grid-area: three;
+    width: 232px;
+    -webkit-text-security: disc;
+
+    @media all and (max-width: 767px) {
+      width: 235px;
+    }
+  }
+
+  p:nth-child(4) {
+    font-size: 0.8rem;
+    line-height: 0.9rem;
+    font-family: sans-serif;
+    grid-area: four;
+    white-space: pre-wrap;
+
+    @media all and (max-width: 767px) {
+      font-size: 0.7rem;
+    }
+  }
+
+  button:nth-child(5) {
+    grid-area: five;
+    margin-top: -8px;
+  }
+`;
+
+const AccountManagementContainer = styled.div`
+  display: grid;
+  font-family: sans-serif;
+  grid-template-rows: 3fr;
+  grid-template-columns: 20px 1fr;
+  grid-gap: 18px 15px;
+  grid-template-areas: '. one';
+
+  @media all and (max-width: 1023px) {
+    margin-left: -5px;
+  }
+  @media all and (max-width: 767px) {
+    margin-left: -15px;
+  }
+
+  button:first-child {
+    margin-top: -8px;
+    grid-area: one;
   }
 `;
 
@@ -207,12 +332,16 @@ const StyledButton = styled.button`
   cursor: pointer;
   padding: 0.5rem 1rem;
   border-radius: 10px;
+  margin-left: -5px;
   width: fit-content;
   height: fit-content;
 
   /* 색상 & 폰트 */
+  color: var(--butterscotch);
   background-color: #000;
-  font-size: 1.25rem;
+  cursor: pointer;
+  font-family: sans-serif;
+  font-size: 1rem;
   color: #fbb74a;
 
   &:hover {
@@ -305,14 +434,14 @@ const Setting = () => {
         };
         onUpdateUserInfoAction(updateUserInfo);
         setIsAfterUsernameEdit(true);
-        setAfterValiNameMsg('Username 변경이 완료되었습니다!');
+        setAfterValiNameMsg('닉네임 변경이 완료되었습니다!');
       })
       .catch((err) => {
         const errCode = err.response.status || 500;
         if (errCode === 409) {
-          setAfterValiNameMsg('변경 전과 같은 Username입니다.');
+          setAfterValiNameMsg('변경 전과 같은 닉네임입니다.');
         } else {
-          setAfterValiNameMsg('Username 변경을 실패했습니다!');
+          setAfterValiNameMsg(' 변경을 실패했습니다!');
         }
         console.log('changeUsername 에러캐치', err);
       });
@@ -360,7 +489,7 @@ const Setting = () => {
     (e) => {
       setChangeInfo({ ...changeInfo, newUsername: e.target.value });
       if (e.target.value.length < 3 || e.target.value.length > 10) {
-        setValiNameMsg('이름을 3글자 이상 10글자 이하로 입력해주세요.');
+        setValiNameMsg('3글자 이상 10글자 이하로 입력하세요');
         setValiInfo({ ...valiInfo, isNewUsername: false });
       } else {
         setValiNameMsg('올바른 이름 형식입니다 :)');
@@ -377,9 +506,7 @@ const Setting = () => {
       const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
       const passwordCurrent = e.target.value;
       if (!passwordRegex.test(passwordCurrent)) {
-        setValiPwMsg(`숫자+영문자+특수문자 조합으로
-          8자리 이상인 현재 비밀번호를 입력해주세요!
-          `);
+        setValiPwMsg(`현재 비밀번호를 입력해주세요!`);
         setValiInfo({ ...valiInfo, isPassword: false });
       } else {
         setValiPwMsg('현재 비밀번호를 입력하셨습니다 :)');
@@ -396,9 +523,9 @@ const Setting = () => {
       const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
       const passwordCurrent = e.target.value;
       if (!passwordRegex.test(passwordCurrent)) {
-        setValiPwMsg(`숫자+영문자+특수문자 조합으로
-          8자리 이상인 새 비밀번호를 입력해주세요!
-          사용 가능한 특수문자는 !@#$%^*+=- 입니다.`);
+        setValiPwMsg(
+          `새 비밀번호를 입력해주세요!\n8자리 이상의 숫자+영문자+특수문자를 입력하세요\n사용 가능한 특수문자: !@#$%^*+=-`
+        );
         setValiInfo({ ...valiInfo, isNewPassword: false });
       } else {
         setValiPwMsg('안전한 새 비밀번호예요 :)');
@@ -426,7 +553,7 @@ const Setting = () => {
         setValiPwMsg('새 비밀번호를 똑같이 입력했어요 :)');
         setValiInfo({ ...valiInfo, isNewPasswordConfirm: true });
       } else {
-        setValiPwMsg('새로 입력한 비밀번호가 달라요. 다시 확인해주세요!');
+        setValiPwMsg('새로 입력한 비밀번호가 달라요.\n다시 확인해주세요!');
         setValiInfo({ ...valiInfo, isNewPasswordConfirm: false });
       }
     },
@@ -436,13 +563,11 @@ const Setting = () => {
   return (
     <MainContainer>
       <SettingContainer>
-        <Title>
-          설정
-          <Blank />
-        </Title>
-        <LeftSide>개인정보 수정</LeftSide>
+        <Title>개인정보 설정</Title>
+        <Blank />
         <div>
           <EditContainer>
+            <LeftSide>내 프로필</LeftSide>
             <ImageContainer>
               <input type="file" id="upload" onChange={handleFileInput} />
               <label htmlFor="upload">
@@ -461,13 +586,13 @@ const Setting = () => {
                 <>
                   <Nickname>
                     <StyledInput
-                      placeholder="새 Username 입력"
+                      placeholder="새 닉네임 입력"
                       onChange={handleChangeNewUsername}
                     />
                     <MdCheck
                       onClick={() =>
                         !isNewUsername
-                          ? setValiNameMsg('채우지 않았거나 유효하지 않은 입력이 있어요.')
+                          ? setValiNameMsg('유효하지 않은 입력입니다.')
                           : handleSubmitNewUsername()
                       }
                     />
@@ -481,7 +606,7 @@ const Setting = () => {
                 </Nickname>
               )}
               {isAfterUsernameEdit ? (
-                <p style={{ color: 'red' }}>{afterValiNameMsg}</p>
+                <p style={{ color: 'black' }}>{afterValiNameMsg}</p>
               ) : (
                 ''
               )}
@@ -490,56 +615,56 @@ const Setting = () => {
           </EditContainer>
           <Blank />
         </div>
-        {type === 'google' || type === 'kakao' ? '' : <LeftSide>비밀번호 변경</LeftSide>}
         {type === 'google' || type === 'kakao' ? (
           ''
         ) : (
           <div>
             <EditContainer>
+              <LeftSide>비밀번호</LeftSide>
               <PasswordContainer>
                 <StyledInput
-                  type="password"
+                  type="currpassword"
                   placeholder="현재 비밀번호"
                   onChange={handleChangePassword}
                 />
                 <StyledInput
                   onBlur={handleCheckDupliPw}
-                  type="password"
+                  type="newpassword"
                   placeholder="새 비밀번호"
                   onChange={handleChangeNewPassword}
                 />
                 <StyledInput
-                  type="password"
+                  type="confirmpassword"
                   placeholder="새 비밀번호 확인"
                   onChange={handleChangeNewPasswordConfirm}
                 />
+                <p>{valiPwMsg}</p>
+                <StyledButton
+                  onClick={() =>
+                    !(isPassword && isNewPassword && isNewPasswordConfirm && isNotDupliPw)
+                      ? setValiPwMsg('채우지 않았거나 유효하지 않은 입력이 있어요.')
+                      : handleSubmitNewPassword()
+                  }
+                >
+                  비밀번호 변경
+                </StyledButton>
               </PasswordContainer>
             </EditContainer>
-            <ChangePwContainer>
-              <StyledButton
-                onClick={() =>
-                  !(isPassword && isNewPassword && isNewPasswordConfirm && isNotDupliPw)
-                    ? setValiPwMsg('채우지 않았거나 유효하지 않은 입력이 있어요.')
-                    : handleSubmitNewPassword()
-                }
-              >
-                비밀번호 변경
-              </StyledButton>
-              <p>{valiPwMsg}</p>
-            </ChangePwContainer>
             <Blank />
           </div>
         )}
-        <LeftSide>계정 관리</LeftSide>
-        {type === 'google' || type === 'kakao' ? (
-          <StyledButton className="grid-five" onClick={handleSignOut}>
-            회원 탈퇴
-          </StyledButton>
-        ) : (
-          <StyledButton className="grid-seven" onClick={handleSignOut}>
-            회원 탈퇴
-          </StyledButton>
-        )}
+        <div>
+          <EditContainer>
+            <LeftSide>계정관리</LeftSide>
+            <AccountManagementContainer>
+              {type === 'google' || type === 'kakao' ? (
+                <StyledButton onClick={handleSignOut}>회원 탈퇴</StyledButton>
+              ) : (
+                <StyledButton onClick={handleSignOut}>회원 탈퇴</StyledButton>
+              )}
+            </AccountManagementContainer>
+          </EditContainer>
+        </div>
       </SettingContainer>
     </MainContainer>
   );
