@@ -11,6 +11,8 @@ const MakeContainer = styled.div`
   position: relative;
   height: calc(100% - 4rem - 70px);
   padding: 1rem 0 2rem;
+  max-width: 1216px;
+  margin: 0 auto;
 
   *::placeholder {
     opacity: 0.5;

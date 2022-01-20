@@ -7,6 +7,8 @@ import { FaPlusSquare, FaSave, FaArrowLeft } from 'react-icons/fa';
 
 const MakeContainer = styled.div`
   height: calc(100% - 4rem - 70px);
+  max-width: 1216px;
+  margin: 0 auto;
   padding: 1rem 0 2rem;
 
   *::placeholder {
