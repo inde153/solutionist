@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 // import SetCard from '../components/SetCard';
@@ -8,122 +8,79 @@ import MoveTopButton from '../components/MoveTopButton';
 import { searchSets, popularSets } from '../api/SearchSetAPI';
 // import { useLocation } from 'react-router-dom';
 
+const Container = styled.div`
+  max-width: 1216px;
+  margin: 0 auto;
+`;
 const SetsContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 56.6% 1fr;
-  grid-template-rows: auto auto;
-  grid-template-areas:
-    '. header .'
-    '. cards .';
-  margin: 1.2rem 0;
-  grid-row-gap: 1.2rem;
-  grid-column-gap: 1rem;
-
-  @media all and (max-width: 1023px) {
-    grid-template-columns: 1fr 85% 1fr;
-    /* width: 60%; */
-    /* grid-template-areas: '. cards .'; */
-    /* margin: 0.5rem 1rem; */
-  }
-  @media all and (max-width: 767px) {
-    grid-template-columns: 1fr 95% 1fr;
-    grid-row-gap: 0.8rem;
-    grid-column-gap: 0.8rem;
-    /* display: flex; */
-    /* margin: 0.5rem 1rem; */
-    /* width: calc(100% - 2rem); */
-    /* margin: 0.5rem 1rem 0.5rem 1rem; */
-    /* font-size: 0.75rem; */
-    /* margin: 0.8rem 0; */
-  }
-
-  @media all and (max-width: 405px) {
-    grid-template-columns: 1fr 99% 1fr;
-    grid-row-gap: 0.4rem;
-    grid-column-gap: 0.4rem;
-    /* margin: 0.5rem 0; */
-    /* width: calc(100% - 2rem); */
-    /* margin: 0.5rem 1rem 0.5rem 1rem; */
-    /* font-size: 0.75rem; */
-  }
-`;
-
-const Header = styled.div`
-  grid-area: header;
-  font-size: 1.75rem;
   display: flex;
-  width: 56.6%;
-  /* justify-content: center; */
+  flex-direction: column;
+  justify-content: space-between;
+  width: 75%;
+  margin: 0 auto 0.5rem auto;
+  font-size: 1rem;
+  color: var(--warm-grey);
+  user-select: none;
+  p {
+    :last-child {
+      cursor: pointer;
+    }
+  }
 
-  @media all and (max-width: 595px) {
-    justify-content: center;
-    width: 100%;
+  @media all and (max-width: 767px) {
+    width: calc(100% - 1rem);
+    margin: 0 0.5rem 0.5rem 0.5rem;
   }
 `;
-
+const Header = styled.div`
+  font-size: 1.5rem;
+  font-family: 'GongGothicMedium', sans-serif;
+  margin: 1rem 0;
+  @media all and (max-width: 767px) {
+    margin-left: 0.5rem;
+  }
+`;
 const CardsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: center; */
-  /* align-content: center; */
-  /* align-items: center; */
-  /* grid-template-columns: 1fr 1fr 1fr 1fr; */
-  grid-gap: 1rem;
-  grid-area: cards;
-
-  div:nth-child(n + 9) {
-    display: ${(props) => (props.$display ? 'none' : '')};
-  }
-
-  @media all and (max-width: 1023px) {
-    /* grid-template-columns: 1fr 1fr; */
-    /* width: 60%; */
-    /* margin: 0.5rem 0; */
-  }
-  @media all and (max-width: 767px) {
-    grid-gap: 0.8rem;
-    /* width: calc(100% - 2rem); */
-    /* margin: 0.5rem 1rem 0.5rem 1rem; */
-    /* font-size: 0.75rem; */
-    /* margin: 0.5rem 0; */
-  }
-
-  @media all and (max-width: 595px) {
-    grid-gap: 0.4rem;
-    justify-content: center;
-    /* width: calc(100% - 2rem); */
-    /* margin: 0.5rem 1rem 0.5rem 1rem; */
-    /* font-size: 0.75rem; */
-    /* margin: 0.5rem 0; */
-  }
+  justify-content: space-around;
+  max-height: ${(props) => (props.isMadeHidden || !props.isSearch ? '416px' : 'initial')};
+  overflow: ${(props) => (props.isMadeHidden || !props.isSearch ? 'hidden' : 'initial')};
 `;
 
 const ShowBox = styled.section`
   display: flex;
   justify-content: flex-end;
-  width: 56.6%;
-  margin: 0 21.7%;
+  width: 75%;
+  margin: 0 auto;
+
+  @media all and (max-width: 767px) {
+    width: 90%;
+    margin: 0 5%;
+  }
 `;
 
 const Divider = styled.div`
-  width: 56.6%;
+  width: 70%;
   height: 2px;
-  margin: 0 21.7% 2rem 21.7%;
+  margin: 0 15% 2rem 15%;
   background-color: var(--orangey-yellow);
+
+  @media all and (max-width: 767px) {
+    width: calc(100% - 2rem);
+    margin: 0 1rem;
+  }
 `;
 
 // * Search Bar
 const SearchContainer = styled.div`
-  /* grid-area: search; */
-  /* justify-content: center; */
-  /* align-items: center; */
   display: flex;
-  width: 56.6%;
-  margin: 2rem 21.7% 0 21.7%;
+  width: 75%;
+  margin: 1rem auto;
 
-  @media all and (max-width: 595px) {
-    width: 80%;
-    margin: 2rem auto;
+  @media all and (max-width: 767px) {
+    width: calc(100% - 2rem);
+    margin: 1rem;
   }
 `;
 const SearchInput = styled.input`
@@ -147,25 +104,19 @@ const SearchIconContainer = styled.div`
 
 const Search = () => {
   const [isMadeHidden, setIsMadeHidden] = useState(true);
+  const [showShow, setShowShow] = useState(false);
   const handleMadeHidden = () => {
     setIsMadeHidden(!isMadeHidden);
-  };
-
-  const [isSolvedHidden, setIsSolvedHidden] = useState(true);
-  const handleSolvedHidden = () => {
-    setIsSolvedHidden(!isSolvedHidden);
   };
 
   // * search API
   const [searchedSets, setSearchedSets] = useState([]);
   const [popSets, setPopSets] = useState([]);
   const [isSearch, setIsSearch] = useState(false);
-  // const keyword = new URLSearchParams(useLocation()).get('title');
   const [message, setMessage] = useState('검색중...');
 
   // * Search Bar
   const [searchKey, setSearchKey] = useState('');
-  const [isOverEight, setIsOverEight] = useState(false);
 
   const handleInputChange = (event) => {
     setSearchKey(event.target.value);
@@ -175,24 +126,21 @@ const Search = () => {
   };
 
   const handleSearch = () => {
-    setSearchedSets([]);
-    const sendAPICall = async () => {
-      const data = await searchSets(searchKey);
-      if (data) {
-        // console.log('searchSets', data.data);
-        setSearchedSets(data.data);
-        setIsSearch(true);
-      }
-    };
-    sendAPICall();
+    if (!searchKey) setIsSearch(false);
+    else {
+      setSearchedSets([]);
+      const sendAPICall = async () => {
+        const data = await searchSets(searchKey);
+        if (data) {
+          setSearchedSets(data.data);
+          setIsSearch(true);
+        }
+      };
+      sendAPICall();
+    }
   };
 
   useEffect(() => {
-    if (searchedSets.length > 8) {
-      setIsOverEight(true);
-    } else {
-      setIsOverEight(false);
-    }
     if (searchedSets.length === 0) {
       setMessage('검색 결과가 없습니다 :(');
     }
@@ -207,27 +155,37 @@ const Search = () => {
     sendAPICall();
   }, []);
 
+  useEffect(() => {
+    if (cardRef.current?.scrollHeight > 416) setShowShow(true);
+    else setShowShow(false);
+  }, [searchedSets]);
+
+  const cardRef = useRef(null);
+
   return (
-    <>
+    <Container>
       <SearchContainer onSubmit={() => false}>
         <SearchInput
           type="text"
-          // value={searchKey}
-          // onChange={(e) => setSearchKey(e.target.value)}
-          onKeyUp={handleInputChange}
-          placeholder="Search..."
+          onChange={handleInputChange}
+          onKeyUp={handleSearch}
+          placeholder="어떤 문제를 풀어볼까요?"
         />
         <SearchIconContainer>
           <img src="/assets/icons/search.svg" alt="search-icon" onClick={handleSearch} />
         </SearchIconContainer>
       </SearchContainer>
-      {/* 상단 이동 버튼 테스트 */}
       <MoveTopButton />
       {isSearch ? (
         <>
           <SetsContainer>
             <Header>검색 결과</Header>
-            <CardsContainer $display={isMadeHidden}>
+            <CardsContainer
+              $display={isMadeHidden}
+              ref={cardRef}
+              isMadeHidden={isMadeHidden}
+              isSearch={isSearch}
+            >
               {searchedSets.length === 0 ? (
                 <p>{message}</p>
               ) : (
@@ -250,14 +208,9 @@ const Search = () => {
               )}
             </CardsContainer>
           </SetsContainer>
-          {isOverEight && (
-            <>
-              <ShowBox onClick={handleMadeHidden}>
-                {isMadeHidden ? <p>Show More</p> : <p>Show less</p>}
-              </ShowBox>
-              <Divider />
-            </>
-          )}
+          <ShowBox onClick={handleMadeHidden}>
+            {showShow ? isMadeHidden ? <p>Show More</p> : <p>Show less</p> : ''}
+          </ShowBox>
         </>
       ) : (
         <>
@@ -280,13 +233,9 @@ const Search = () => {
               ))}
             </CardsContainer>
           </SetsContainer>
-          {/* <ShowBox onClick={handleMadeHidden}>
-            {isMadeHidden ? <p>Show More</p> : <p>Show less</p>}
-          </ShowBox>
-          <Divider /> */}
         </>
       )}
-    </>
+    </Container>
   );
 };
 

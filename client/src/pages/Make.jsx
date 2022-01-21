@@ -3,10 +3,12 @@ import axios from 'axios';
 import styled from 'styled-components';
 
 import MakeProblem from '../components/MakeProblem';
-import { FaPlusSquare, FaSave } from 'react-icons/fa';
+import { FaPlusSquare, FaSave, FaArrowLeft } from 'react-icons/fa';
 
 const MakeContainer = styled.div`
   height: calc(100% - 4rem - 70px);
+  max-width: 1216px;
+  margin: 0 auto;
   padding: 1rem 0 2rem;
 
   *::placeholder {
@@ -18,8 +20,10 @@ const Header = styled.div`
   margin: 0 25% 0.5rem 25%;
   font-size: 1rem;
   color: var(--warm-grey);
-  font-family: 'GongGothicMedium', sans-serif;
   user-select: none;
+  p {
+    font-family: 'GongGothicMedium', sans-serif;
+  }
 
   @media all and (max-width: 1023px) {
     width: 60%;
@@ -35,11 +39,11 @@ const Title = styled.textarea`
   display: flex;
   align-items: center;
   width: 50%;
-  height: 39px;
+  height: 42px;
   margin: 0 25% 0 25%;
   line-height: 120%;
   font-size: 2rem;
-  font-family: 'GongGothicMedium', sans-serif;
+  font-weight: bold;
   word-wrap: break-word;
   word-break: keep-all;
   resize: none;
@@ -59,11 +63,10 @@ const Desc = styled.textarea`
   display: flex;
   align-items: center;
   width: 50%;
-  height: 27px;
+  height: 26px;
   margin: 0.5rem 25% 1rem;
   line-height: 120%;
   font-size: 1.25rem;
-  font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
   word-break: keep-all;
   resize: none;
@@ -160,17 +163,21 @@ const SidebarContent = styled.div`
     line-height: 120%;
     user-select: none;
     cursor: pointer;
-  }
-  div:first-child {
-    width: auto;
-    margin-right: 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    :first-child {
+      width: auto;
+      margin-right: 0.5rem;
+    }
   }
 `;
 
 const Message = styled.div`
   display: flex;
-
+  color: ${(props) => (props.color ? props.color : '')};
   font-size: 1rem;
+  font-weight: bold;
   user-select: none;
   p {
     margin: auto;
@@ -230,23 +237,25 @@ const Make = () => {
 
   const handleSave = () => {
     if (data.title === '') {
-      return setMessage('세트 제목을 입력해주세요');
+      return setMessage(['세트 제목을 입력해주세요.', 'red']);
     }
 
     for (let problem of data.problems) {
       if (problem.question === '') {
-        return setMessage('문제를 입력해주세요');
+        return setMessage(['문제를 입력해주세요.', 'red']);
       }
 
       if (problem.answer === '') {
-        return setMessage('문제의 답을 정해주세요');
+        return setMessage(['모든 문제의 답을 정해주세요.', 'red']);
       }
     }
     return axios
       .post(`${process.env.SERVER_URL}collections`, data, {
         withCredentials: true,
       })
-      .then(() => {});
+      .then((res) => {
+        window.location.href = `/solve/${res.data.setId}`;
+      });
   };
 
   const handleNav = (e) => {
@@ -278,8 +287,7 @@ const Make = () => {
     }
   };
 
-  console.log(data);
-  const [message, setMessage] = useState('<- 여기를 눌러 문제를 추가할 수 있습니다.');
+  const [message, setMessage] = useState(['+ 버튼을 눌러 문제를 추가해보세요.', '']);
 
   return (
     <MakeContainer onScroll={handleScroll} ref={makeRef}>
@@ -334,8 +342,8 @@ const Make = () => {
       ))}
       <ButtonContainer>
         <FaPlusSquare onClick={addProblem} />
-        <Message>
-          <p>{message}</p>
+        <Message color={message[1]}>
+          <p>{message[0]}</p>
         </Message>
         <FaSave onClick={handleSave} />
       </ButtonContainer>

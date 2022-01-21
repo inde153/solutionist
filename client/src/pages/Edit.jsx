@@ -11,6 +11,8 @@ const MakeContainer = styled.div`
   position: relative;
   height: calc(100% - 4rem - 70px);
   padding: 1rem 0 2rem;
+  max-width: 1216px;
+  margin: 0 auto;
 
   *::placeholder {
     opacity: 0.5;
@@ -23,8 +25,13 @@ const Header = styled.div`
   margin: 0 25% 0.5rem 25%;
   font-size: 1rem;
   color: var(--warm-grey);
-  font-family: 'GongGothicMedium', sans-serif;
   user-select: none;
+  p {
+    font-family: 'GongGothicMedium', sans-serif;
+    :last-child {
+      cursor: pointer;
+    }
+  }
 
   @media all and (max-width: 1023px) {
     width: 60%;
@@ -35,9 +42,6 @@ const Header = styled.div`
     margin: 0 1rem 0.5rem 1rem;
     font-size: 0.75rem;
   }
-  p:last-child {
-    cursor: pointer;
-  }
 `;
 const Title = styled.textarea`
   display: flex;
@@ -47,7 +51,7 @@ const Title = styled.textarea`
   margin: 0 25% 0 25%;
   line-height: 120%;
   font-size: 2rem;
-  font-family: 'GongGothicMedium', sans-serif;
+  font-weight: bold;
   word-wrap: break-word;
   word-break: keep-all;
   resize: none;
@@ -67,11 +71,10 @@ const Desc = styled.textarea`
   display: flex;
   align-items: center;
   width: 50%;
-  height: 27px;
+  height: 26px;
   margin: 0.5rem 25% 1rem;
   line-height: 120%;
   font-size: 1.25rem;
-  font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
   word-break: keep-all;
   resize: none;
@@ -169,10 +172,23 @@ const SidebarContent = styled.div`
     line-height: 120%;
     user-select: none;
     cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   div:first-child {
     width: auto;
     margin-right: 0.5rem;
+  }
+`;
+const Message = styled.div`
+  display: flex;
+  color: ${(props) => (props.color ? props.color : '')};
+  font-size: 1rem;
+  font-weight: bold;
+  user-select: none;
+  p {
+    margin: auto;
   }
 `;
 
@@ -223,22 +239,25 @@ const Edit = () => {
 
   const handleSave = () => {
     if (data.title === '') {
-      return console.log('세트 제목을 입력하세요');
+      return setMessage(['세트 제목을 입력해주세요.', 'red']);
     }
 
     for (let problem of data.problems) {
       if (problem.question === '') {
-        return console.log('문제를 입력해주세요');
+        return setMessage(['문제를 입력해주세요.', 'red']);
       }
 
       if (problem.answer === '') {
-        return console.log('답을 정해주세요');
+        return setMessage(['모든 문제의 답을 정해주세요.', 'red']);
       }
     }
-
-    return axios.post(`${process.env.SERVER_URL}sets`, data, {
-      withCredentials: true,
-    });
+    return axios
+      .post(`${process.env.SERVER_URL}sets`, data, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        window.location.href = `/solve/${res.data.setId}`;
+      });
   };
 
   const handleNav = (e) => {
@@ -271,6 +290,8 @@ const Edit = () => {
   };
 
   const [versionOn, setVersionOn] = useState(false);
+
+  const [message, setMessage] = useState(['+ 버튼을 눌러 문제를 추가해보세요.', '']);
 
   return (
     <MakeContainer onScroll={handleScroll} ref={makeRef}>
@@ -332,6 +353,9 @@ const Edit = () => {
       ))}
       <ButtonContainer>
         <FaPlusSquare onClick={addProblem} />
+        <Message color={message[1]}>
+          <p>{message[0]}</p>
+        </Message>
         <FaSave onClick={handleSave} />
       </ButtonContainer>
     </MakeContainer>
