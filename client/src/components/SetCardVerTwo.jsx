@@ -18,6 +18,7 @@ import { VscOutput } from 'react-icons/vsc';
 import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useNavigate } from 'react-router-dom';
+import { deleteSets } from '../api/SearchSetAPI';
 
 const CardContainer = styled.div`
   position: relative;
@@ -168,14 +169,21 @@ const SetCardVerTwo = ({
   title,
   updatedAt,
   isMade,
+  collectionId,
   recordId,
 }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   const [isHidden, setIsHidden] = useState(false);
-  const handleHidden = () => {
+  const handleDelete = () => {
     setIsHidden(true);
-    // ! 삭제 api
+    deleteSets(collectionId)
+      .then(() => {
+        // console.log('삭제 성공');
+      })
+      .catch((err) => {
+        // console.log('캐치에러', err)
+      });
   };
 
   const [isShare, setIsShare] = useState(false);
@@ -184,7 +192,8 @@ const SetCardVerTwo = ({
   };
 
   // TODO : 동작은 하는데 알림이 없음 ex)클립보드에 저장 완료 메시지
-  const solveUrl = `http://localhost:9000/solve/${id}`;
+  const solveUrl = `https://solutionist.site/solve/${id}`;
+  // console.log('solve$id', solveUrl);
 
   // * 카카오 공유하기
   useEffect(() => {
@@ -199,18 +208,18 @@ const SetCardVerTwo = ({
       objectType: 'feed',
       content: {
         title: `${title} 문제 풀기`,
-        description: `${creator}님이 공유하신 문제로 이동합니다.`,
+        description: `문제 풀러 가볼까요?`,
         imageUrl:
           'https://user-images.githubusercontent.com/73838733/150278687-d065323b-f6db-4197-b97c-7b84293a9fcf.png',
         link: {
-          mobileWebUrl: `https://solutionist.site/solve/${id}`,
+          mobileWebUrl: 'https://solutionist.site/solve/' + id,
         },
       },
       buttons: [
         {
           title: '웹으로 이동',
           link: {
-            mobileWebUrl: `https://solutionist.site/solve/${id}`,
+            mobileWebUrl: 'https://solutionist.site/solve/' + id,
           },
         },
       ],
@@ -348,7 +357,7 @@ const SetCardVerTwo = ({
                   {/* // TODO : 클립보드 & 카카오 공유 선택 */}
                 </Menu>
                 {isMade && (
-                  <Menu onClick={handleHidden}>
+                  <Menu onClick={handleDelete}>
                     <TrashIcon fill="white" /> 삭제
                     {/* // TODO : display:none? 안보이게 처리 */}
                   </Menu>

@@ -95,6 +95,41 @@ const Icon = styled.div`
       fill: var(--orangey-yellow);
     }
   }
+
+  .arrow_box {
+    display: none;
+    position: relative;
+    width: 100px;
+    padding: 10px;
+    left: -50px;
+    top: -70px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    background: var(--black);
+    color: var(--butterscotch);
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  /* .arrow_box:after {
+    position: relative;
+    bottom: 100%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin-left: -10px;
+    border: solid transparent;
+    border-color: rgba(51, 51, 51, 0);
+    border-bottom-color: #666;
+    border-width: 10px;
+    pointer-events: none;
+    content: ' ';
+  } */
+
+  svg:hover + p.arrow_box {
+    display: block;
+  }
 `;
 const ChoicesContainer = styled.ol`
   grid-area: choice;
@@ -362,6 +397,7 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
             </Icon>
             <Icon onClick={handleToggle}>
               <OxIcon fill="var(--warm-grey)" />
+              {/* <p className="arrow_box">OX퀴즈 만들기</p> */}
             </Icon>
             <Icon onClick={handleClick} id="trash">
               <TrashIcon fill="var(--warm-grey)" />
