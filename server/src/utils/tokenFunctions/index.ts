@@ -1,6 +1,5 @@
 import 'dotenv/config';
-import { access } from 'fs';
-import { sign, verify, Secret } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 
 const jwtToken = {
   accessToken: (data: any) => {
@@ -25,7 +24,7 @@ const jwtToken = {
   sendAccessToken: (res, accessToken: any) => {
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      sameSite: 'Lax',
+      sameSite: 'none',
       secure: true,
       domain: process.env.DOMAIN,
       maxAge: 1000 * 60 * 60,

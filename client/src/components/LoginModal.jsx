@@ -210,6 +210,8 @@ const boxFade = keyframes`
 
 const StyledWrapper = styled.div`
   animation: ${boxFade} 1s normal;
+  z-index: 10;
+  position: absolute;
 `;
 
 // 사라지는 애니메이션

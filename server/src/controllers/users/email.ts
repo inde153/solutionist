@@ -19,4 +19,12 @@ const email = async (req: Request, res: Response) => {
     return res.status(500).send('internal server error');
   }
 };
-export = email;
+
+const nodemailer = async (req: Request, res: Response) => {
+  try {
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send('internal server error');
+  }
+};
+export { email, nodemailer };

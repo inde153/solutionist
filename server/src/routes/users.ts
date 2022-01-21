@@ -4,7 +4,7 @@ import { login, kakaoOauth, googleOauth } from '../controllers/users/login';
 import { blockUnauthorized } from '../middleware/checkauth';
 import signout from '../controllers/users/signout';
 import logout from '../controllers/users/logout';
-import email from '../controllers/users/email';
+import { email } from '../controllers/users/email';
 import { upload } from '../middleware/multer';
 import image from '../controllers/myPage/profileImage';
 import modifyUsername from '../controllers/myPage/username';
