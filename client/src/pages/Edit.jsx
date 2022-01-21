@@ -11,6 +11,8 @@ const MakeContainer = styled.div`
   position: relative;
   height: calc(100% - 4rem - 70px);
   padding: 1rem 0 2rem;
+  max-width: 1216px;
+  margin: 0 auto;
 
   *::placeholder {
     opacity: 0.5;
@@ -289,10 +291,7 @@ const Edit = () => {
 
   const [versionOn, setVersionOn] = useState(false);
 
-  const [message, setMessage] = useState([
-    '+ 버튼을 눌러 문제를 추가할 수 있습니다.',
-    '',
-  ]);
+  const [message, setMessage] = useState(['+ 버튼을 눌러 문제를 추가해보세요.', '']);
 
   return (
     <MakeContainer onScroll={handleScroll} ref={makeRef}>
